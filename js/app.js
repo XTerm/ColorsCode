@@ -373,13 +373,16 @@ const App = (() => {
   });
 
   /**
-   * Corrige une dominante colorée en calculant des gains R/G/B à partir
-   * d'un point censé être blanc (le fond de la page). Gain plafonné à 3x
-   * pour éviter une correction aberrante si le point tapé n'est pas neutre.
+   * Corrige une dominante colorée à partir d'un point censé être neutre
+   * (le fond de la page). Le gain ne corrige QUE le déséquilibre entre
+   * canaux R/G/B (la dominante), pas l'exposition globale : viser un
+   * blanc "parfait" (ex: 250/255) quel que soit le niveau de lumière
+   * capté boostait artificiellement toute la palette vers le clair,
+   * écrasant les nuances. Le gain reste donc proche de 1.0.
    */
   function calibrateFromSample(rawRgb) {
-    const target = 250;
-    whiteBalance = rawRgb.map(c => c > 5 ? Math.min(3, target / c) : 1);
+    const avg = (rawRgb[0] + rawRgb[1] + rawRgb[2]) / 3;
+    whiteBalance = rawRgb.map(c => c > 5 ? Math.max(0.75, Math.min(1.35, avg / c)) : 1);
   }
 
   function applyWhiteBalance(rawRgb) {

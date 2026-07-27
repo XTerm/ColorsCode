@@ -1,2166 +1,2166 @@
 {
   "id": "guangna-240",
   "nom": "GuangNa 240 Couleurs",
-  "version": 5,
-  "source": "Nuancier réel colorié à la main (encre sur papier). Détection automatique du centre de chaque pastille par différence au fond local (plus robuste qu'une grille fixe). Correction de balance des blancs par zone de référence par page, avec préservation de la teinte en cas de saturation (évite l'écrasement des couleurs pastel en blanc pur). 240/240 codes confirmés.",
+  "version": 6,
+  "source": "Nuancier réel colorié à la main. Correction de balance des blancs limitée à la dominante de couleur entre canaux (gains proches de 1.0), sans boost artificiel de l'exposition globale qui éclaircissait excessivement la palette.",
   "feutres": [
     {
       "ref": "730",
       "rgb": [
-        245,
-        249,
-        215
+        170,
+        173,
+        149
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "700",
       "rgb": [
-        247,
-        231,
-        145
+        171,
+        160,
+        101
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "648",
       "rgb": [
-        231,
-        225,
-        123
+        160,
+        156,
+        85
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "727",
       "rgb": [
-        214,
-        203,
-        76
+        148,
+        141,
+        53
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "647",
       "rgb": [
-        198,
-        183,
-        57
+        137,
+        127,
+        40
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "657",
       "rgb": [
-        188,
-        178,
-        53
+        130,
+        123,
+        37
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "687",
       "rgb": [
-        133,
-        191,
-        53
+        92,
+        132,
+        37
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "665",
       "rgb": [
-        112,
-        183,
-        84
+        77,
+        127,
+        58
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "740",
       "rgb": [
-        64,
-        181,
-        88
+        45,
+        125,
+        61
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "634",
       "rgb": [
-        118,
-        159,
-        78
+        81,
+        110,
+        54
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "676",
       "rgb": [
-        76,
-        159,
-        73
+        53,
+        110,
+        51
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "794",
       "rgb": [
-        30,
-        143,
-        63
+        21,
+        99,
+        44
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "796",
       "rgb": [
-        63,
-        102,
-        82
+        44,
+        70,
+        57
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "795",
       "rgb": [
-        40,
-        72,
-        54
+        28,
+        50,
+        38
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "809",
       "rgb": [
-        218,
-        245,
-        223
+        151,
+        170,
+        154
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "627",
       "rgb": [
-        202,
-        238,
-        211
+        140,
+        165,
+        146
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "685",
       "rgb": [
-        138,
-        218,
-        183
+        95,
+        151,
+        127
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "735",
       "rgb": [
-        205,
-        218,
-        142
+        142,
+        151,
+        98
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "669",
       "rgb": [
-        183,
-        228,
-        150
+        127,
+        158,
+        104
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "614",
       "rgb": [
-        129,
-        215,
-        141
+        89,
+        149,
+        97
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "668",
       "rgb": [
-        85,
-        211,
-        145
+        59,
+        146,
+        101
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "728",
       "rgb": [
-        46,
-        185,
-        141
+        32,
+        128,
+        97
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "609",
       "rgb": [
-        23,
-        173,
-        167
+        16,
+        120,
+        116
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "800",
       "rgb": [
-        43,
-        146,
-        145
+        30,
+        101,
+        101
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "797",
       "rgb": [
-        37,
-        87,
-        95
+        26,
+        61,
+        66
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "707",
       "rgb": [
-        232,
-        224,
-        196
+        161,
+        155,
+        136
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "775",
       "rgb": [
-        204,
-        215,
-        186
+        141,
+        149,
+        129
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "696",
       "rgb": [
-        159,
-        192,
-        154
+        110,
+        133,
+        107
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "641",
       "rgb": [
-        163,
-        198,
-        182
+        113,
+        137,
+        126
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "741",
       "rgb": [
-        153,
-        163,
-        107
+        106,
+        113,
+        74
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "682",
       "rgb": [
-        140,
-        171,
-        92
+        97,
+        118,
+        64
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "792",
       "rgb": [
-        120,
-        153,
-        119
+        83,
+        106,
+        82
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "697",
       "rgb": [
-        77,
-        96,
-        60
+        54,
+        67,
+        42
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "791",
       "rgb": [
-        64,
-        80,
-        59
+        45,
+        56,
+        41
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "626",
       "rgb": [
-        255,
-        235,
-        197
+        194,
+        179,
+        149
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "729",
       "rgb": [
-        255,
-        226,
-        158
+        186,
+        165,
+        115
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "652",
       "rgb": [
-        238,
-        203,
-        141
+        165,
+        141,
+        97
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "787",
       "rgb": [
-        235,
-        198,
-        78
+        163,
+        137,
+        54
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "640",
       "rgb": [
-        195,
-        175,
-        107
+        135,
+        121,
+        74
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "637",
       "rgb": [
-        185,
-        162,
-        117
+        128,
+        112,
+        81
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "788",
       "rgb": [
-        192,
-        159,
-        84
+        133,
+        110,
+        58
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "793",
       "rgb": [
-        140,
-        130,
-        53
+        97,
+        90,
+        37
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "790",
       "rgb": [
-        118,
-        99,
-        50
+        81,
+        68,
+        35
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "789",
       "rgb": [
-        113,
-        96,
-        66
+        78,
+        67,
+        46
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "810",
       "rgb": [
-        247,
-        216,
-        155
+        171,
+        150,
+        108
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "811",
       "rgb": [
-        228,
-        188,
-        122
+        158,
+        130,
+        84
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "812",
       "rgb": [
-        218,
-        178,
-        111
+        151,
+        123,
+        77
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "813",
       "rgb": [
-        255,
-        175,
-        38
+        183,
+        125,
+        27
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "814",
       "rgb": [
-        251,
-        181,
-        103
+        174,
+        125,
+        71
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "815",
       "rgb": [
-        222,
-        152,
-        54
+        154,
+        105,
+        38
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "816",
       "rgb": [
-        198,
-        135,
-        69
+        137,
+        93,
+        48
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "817",
       "rgb": [
-        238,
-        143,
-        38
+        165,
+        99,
+        26
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "737",
       "rgb": [
-        188,
-        239,
-        224
+        130,
+        166,
+        155
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "602",
       "rgb": [
-        67,
-        219,
-        207
+        47,
+        152,
+        143
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "653",
       "rgb": [
-        47,
-        205,
-        205
+        33,
+        142,
+        142
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "722",
       "rgb": [
-        43,
-        198,
-        217
+        30,
+        137,
+        150
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "799",
       "rgb": [
-        19,
-        183,
-        198
+        13,
+        127,
+        137
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "690",
       "rgb": [
-        149,
-        182,
-        171
+        103,
+        126,
+        119
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "622",
       "rgb": [
-        103,
-        176,
-        158
+        71,
+        122,
+        110
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "695",
       "rgb": [
-        40,
-        163,
-        169
+        28,
+        113,
+        117
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "768",
       "rgb": [
-        175,
-        212,
-        213
+        121,
+        147,
+        147
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "767",
       "rgb": [
-        103,
-        165,
-        179
+        71,
+        114,
+        124
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "748",
       "rgb": [
-        85,
-        159,
-        183
+        59,
+        110,
+        127
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "694",
       "rgb": [
-        66,
-        126,
-        150
+        46,
+        87,
+        104
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "818",
       "rgb": [
-        206,
-        239,
-        233
+        143,
+        166,
+        161
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "819",
       "rgb": [
-        119,
-        226,
-        239
+        82,
+        157,
+        165
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "820",
       "rgb": [
-        69,
-        206,
-        232
+        48,
+        143,
+        160
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "823",
       "rgb": [
-        62,
-        168,
-        208
+        43,
+        116,
+        144
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "616",
       "rgb": [
-        29,
-        169,
-        210
+        20,
+        117,
+        145
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "798",
       "rgb": [
-        27,
-        123,
-        169
+        19,
+        85,
+        117
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "636",
       "rgb": [
-        39,
-        126,
-        174
+        27,
+        87,
+        121
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "774",
       "rgb": [
-        46,
-        126,
-        154
+        32,
+        87,
+        107
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "688",
       "rgb": [
-        46,
-        76,
-        108
+        32,
+        53,
+        75
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "706",
       "rgb": [
-        245,
-        249,
-        245
+        170,
+        173,
+        170
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "821",
       "rgb": [
-        193,
-        238,
-        248
+        134,
+        165,
+        172
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "628",
       "rgb": [
-        183,
-        235,
-        240
+        127,
+        163,
+        166
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "822",
       "rgb": [
-        128,
-        222,
-        251
+        88,
+        154,
+        174
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "601",
       "rgb": [
-        72,
-        192,
-        249
+        50,
+        133,
+        173
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "650",
       "rgb": [
-        69,
-        159,
-        226
+        48,
+        110,
+        156
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "621",
       "rgb": [
-        39,
-        143,
-        213
+        27,
+        99,
+        147
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "659",
       "rgb": [
-        44,
-        120,
-        199
+        31,
+        83,
+        138
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "617",
       "rgb": [
-        67,
-        109,
-        158
+        47,
+        75,
+        110
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "746",
       "rgb": [
-        66,
-        76,
-        120
+        46,
+        53,
+        83
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "824",
       "rgb": [
-        42,
-        80,
-        122
+        29,
+        56,
+        84
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "608",
       "rgb": [
-        60,
-        103,
-        179
+        42,
+        71,
+        124
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "673",
       "rgb": [
-        52,
-        67,
-        136
+        36,
+        47,
+        94
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "736",
       "rgb": [
-        232,
-        234,
-        232
+        161,
+        162,
+        160
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "689",
       "rgb": [
-        146,
-        199,
-        232
+        101,
+        138,
+        160
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "681",
       "rgb": [
-        155,
-        198,
-        217
+        107,
+        137,
+        150
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "749",
       "rgb": [
-        125,
-        153,
-        192
+        86,
+        106,
+        133
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "745",
       "rgb": [
-        156,
-        183,
-        232
+        108,
+        127,
+        160
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "670",
       "rgb": [
-        143,
-        173,
-        223
+        99,
+        120,
+        154
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "825",
       "rgb": [
-        222,
-        214,
-        221
+        154,
+        148,
+        153
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "826",
       "rgb": [
-        193,
-        189,
-        210
+        134,
+        131,
+        145
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "773",
       "rgb": [
-        195,
-        179,
-        192
+        135,
+        124,
+        133
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "827",
       "rgb": [
-        163,
-        166,
-        192
+        113,
+        115,
+        133
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "734",
       "rgb": [
-        241,
-        239,
-        242
+        167,
+        166,
+        168
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "744",
       "rgb": [
-        239,
-        238,
-        237
+        166,
+        165,
+        164
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "698",
       "rgb": [
-        236,
-        236,
-        239
+        164,
+        164,
+        165
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "635",
       "rgb": [
-        199,
-        179,
-        221
+        138,
+        124,
+        153
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "623",
       "rgb": [
-        232,
-        231,
-        230
+        161,
+        160,
+        159
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "699",
       "rgb": [
-        188,
-        159,
-        199
+        130,
+        110,
+        138
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "833",
       "rgb": [
-        195,
-        107,
-        171
+        135,
+        74,
+        119
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "832",
       "rgb": [
-        145,
-        79,
-        150
+        100,
+        55,
+        104
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "613",
       "rgb": [
-        109,
-        77,
-        132
+        75,
+        54,
+        91
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "778",
       "rgb": [
-        153,
-        73,
-        144
+        106,
+        51,
+        99
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "629",
       "rgb": [
-        219,
-        218,
-        232
+        152,
+        151,
+        160
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "651",
       "rgb": [
-        152,
-        161,
-        211
+        105,
+        111,
+        146
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "828",
       "rgb": [
-        234,
-        236,
-        237
+        162,
+        164,
+        164
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "742",
       "rgb": [
-        231,
-        231,
-        233
+        160,
+        160,
+        161
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "743",
       "rgb": [
-        232,
-        231,
-        230
+        161,
+        160,
+        159
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "607",
       "rgb": [
-        229,
-        228,
-        227
+        159,
+        158,
+        157
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "678",
       "rgb": [
-        225,
-        224,
-        223
+        156,
+        155,
+        154
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "764",
       "rgb": [
-        43,
-        43,
-        59
+        30,
+        30,
+        41
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "837",
       "rgb": [
-        238,
-        216,
-        211
+        165,
+        150,
+        146
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "721",
       "rgb": [
-        235,
-        221,
-        213
+        163,
+        153,
+        147
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "703",
       "rgb": [
-        248,
-        222,
-        207
+        172,
+        154,
+        143
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "624",
       "rgb": [
-        242,
-        214,
-        208
+        168,
+        148,
+        144
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "625",
       "rgb": [
-        249,
-        203,
-        177
+        173,
+        141,
+        123
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "704",
       "rgb": [
-        255,
-        194,
-        175
+        178,
+        135,
+        122
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "691",
       "rgb": [
-        255,
-        176,
-        170
+        205,
+        141,
+        136
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "667",
       "rgb": [
-        255,
-        160,
-        153
+        205,
+        128,
+        123
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "605",
       "rgb": [
-        255,
-        121,
-        133
+        204,
+        97,
+        107
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "674",
       "rgb": [
-        242,
-        127,
-        143
+        175,
+        92,
+        104
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "664",
       "rgb": [
-        255,
-        74,
-        90
+        200,
+        58,
+        71
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "781",
       "rgb": [
-        255,
-        74,
-        109
+        186,
+        54,
+        80
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "872",
       "rgb": [
-        255,
-        236,
-        236
+        216,
+        200,
+        200
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "716",
       "rgb": [
-        255,
-        223,
-        232
+        213,
+        186,
+        194
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "677",
       "rgb": [
-        255,
-        183,
-        189
+        215,
+        154,
+        159
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "692",
       "rgb": [
-        255,
-        173,
-        192
+        213,
+        144,
+        160
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "761",
       "rgb": [
-        255,
-        153,
-        179
+        209,
+        125,
+        147
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "711",
       "rgb": [
-        255,
-        143,
-        170
+        184,
+        103,
+        123
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "710",
       "rgb": [
-        255,
-        135,
-        153
+        209,
+        110,
+        125
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "713",
       "rgb": [
-        255,
-        133,
-        162
+        215,
+        112,
+        136
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "714",
       "rgb": [
-        255,
-        92,
-        137
+        206,
+        75,
+        111
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "715",
       "rgb": [
-        255,
-        80,
-        93
+        209,
+        66,
+        76
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "760",
       "rgb": [
-        255,
-        51,
-        57
+        208,
+        42,
+        46
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "836",
       "rgb": [
-        250,
-        252,
-        255
+        207,
+        209,
+        211
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "723",
       "rgb": [
-        255,
-        238,
-        255
+        211,
+        197,
+        211
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "873",
       "rgb": [
-        255,
-        223,
-        239
+        218,
+        190,
+        204
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "658",
       "rgb": [
-        255,
-        232,
-        255
+        212,
+        193,
+        212
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "655",
       "rgb": [
-        255,
-        192,
-        234
+        214,
+        161,
+        196
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "612",
       "rgb": [
-        255,
-        193,
-        219
+        207,
+        156,
+        177
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "606",
       "rgb": [
-        255,
-        165,
-        230
+        191,
+        123,
+        172
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "666",
       "rgb": [
-        255,
-        139,
-        203
+        193,
+        105,
+        154
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "671",
       "rgb": [
-        255,
-        192,
-        218
+        206,
+        155,
+        176
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "726",
       "rgb": [
-        218,
-        116,
-        184
+        158,
+        84,
+        133
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "719",
       "rgb": [
-        255,
-        242,
-        217
+        213,
+        202,
+        181
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "701",
       "rgb": [
-        255,
-        237,
-        220
+        212,
+        197,
+        182
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "720",
       "rgb": [
-        255,
-        243,
-        227
+        213,
+        203,
+        190
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "702",
       "rgb": [
-        255,
-        219,
-        179
+        215,
+        184,
+        151
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "649",
       "rgb": [
-        255,
-        208,
-        164
+        217,
+        177,
+        139
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "604",
       "rgb": [
-        255,
-        170,
-        87
+        223,
+        148,
+        76
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "725",
       "rgb": [
-        255,
-        167,
-        98
+        217,
+        142,
+        83
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "631",
       "rgb": [
-        255,
-        149,
-        88
+        209,
+        122,
+        72
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "785",
       "rgb": [
-        255,
-        127,
-        75
+        199,
+        100,
+        58
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "724",
       "rgb": [
-        255,
-        239,
-        227
+        203,
+        190,
+        180
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "683",
       "rgb": [
-        255,
-        235,
-        200
+        205,
+        189,
+        161
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "656",
       "rgb": [
-        255,
-        211,
-        143
+        214,
+        177,
+        120
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "684",
       "rgb": [
-        255,
-        212,
-        169
+        214,
+        178,
+        141
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "802",
       "rgb": [
-        255,
-        191,
-        101
+        220,
+        164,
+        87
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "786",
       "rgb": [
-        255,
-        168,
-        49
+        230,
+        152,
+        44
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "618",
       "rgb": [
-        255,
-        186,
-        121
+        212,
+        154,
+        100
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "766",
       "rgb": [
-        255,
-        248,
-        172
+        217,
+        211,
+        147
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "732",
       "rgb": [
-        255,
-        249,
-        212
+        215,
+        210,
+        178
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "733",
       "rgb": [
-        255,
-        234,
-        176
+        219,
+        201,
+        151
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "777",
       "rgb": [
-        255,
-        232,
-        116
+        217,
+        197,
+        98
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "603",
       "rgb": [
-        255,
         214,
-        89
+        179,
+        75
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "615",
       "rgb": [
-        255,
-        190,
-        46
+        215,
+        160,
+        39
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "663",
       "rgb": [
-        255,
-        145,
-        106
+        209,
+        118,
+        87
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "783",
       "rgb": [
-        255,
-        130,
-        96
+        207,
+        105,
+        78
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "782",
       "rgb": [
-        255,
-        99,
-        82
+        216,
+        84,
+        70
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "632",
       "rgb": [
-        255,
-        123,
-        97
+        204,
+        99,
+        78
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "784",
       "rgb": [
-        255,
-        99,
-        86
-      ],
-      "source": "encre_reelle"
-    },
-    {
-      "ref": "630",
-      "rgb": [
-        255,
-        236,
-        225
-      ],
-      "source": "encre_reelle"
-    },
-    {
-      "ref": "754",
-      "rgb": [
-        255,
-        231,
-        224
-      ],
-      "source": "encre_reelle"
-    },
-    {
-      "ref": "755",
-      "rgb": [
-        255,
-        200,
-        186
-      ],
-      "source": "encre_reelle"
-    },
-    {
-      "ref": "756",
-      "rgb": [
-        255,
-        203,
-        201
-      ],
-      "source": "encre_reelle"
-    },
-    {
-      "ref": "619",
-      "rgb": [
-        255,
-        176,
-        179
-      ],
-      "source": "encre_reelle"
-    },
-    {
-      "ref": "869",
-      "rgb": [
-        208,
-        145,
-        129
-      ],
-      "source": "encre_reelle"
-    },
-    {
-      "ref": "672",
-      "rgb": [
-        193,
-        103,
-        94
-      ],
-      "source": "encre_reelle"
-    },
-    {
-      "ref": "780",
-      "rgb": [
-        161,
+        197,
         77,
         67
       ],
       "source": "encre_reelle"
     },
     {
+      "ref": "630",
+      "rgb": [
+        202,
+        187,
+        178
+      ],
+      "source": "encre_reelle"
+    },
+    {
+      "ref": "754",
+      "rgb": [
+        201,
+        182,
+        176
+      ],
+      "source": "encre_reelle"
+    },
+    {
+      "ref": "755",
+      "rgb": [
+        199,
+        156,
+        146
+      ],
+      "source": "encre_reelle"
+    },
+    {
+      "ref": "756",
+      "rgb": [
+        187,
+        149,
+        148
+      ],
+      "source": "encre_reelle"
+    },
+    {
+      "ref": "619",
+      "rgb": [
+        199,
+        137,
+        139
+      ],
+      "source": "encre_reelle"
+    },
+    {
+      "ref": "869",
+      "rgb": [
+        150,
+        104,
+        93
+      ],
+      "source": "encre_reelle"
+    },
+    {
+      "ref": "672",
+      "rgb": [
+        139,
+        75,
+        68
+      ],
+      "source": "encre_reelle"
+    },
+    {
+      "ref": "780",
+      "rgb": [
+        117,
+        56,
+        48
+      ],
+      "source": "encre_reelle"
+    },
+    {
       "ref": "772",
       "rgb": [
-        252,
-        179,
-        186
+        182,
+        129,
+        134
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "739",
       "rgb": [
-        206,
-        128,
-        163
+        149,
+        93,
+        118
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "675",
       "rgb": [
-        199,
-        125,
-        165
+        144,
+        91,
+        119
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "705",
       "rgb": [
-        223,
-        127,
-        159
+        161,
+        92,
+        115
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "738",
       "rgb": [
-        255,
-        248,
-        244
+        206,
+        200,
+        197
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "752",
       "rgb": [
-        255,
-        246,
-        251
+        200,
+        193,
+        197
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "771",
       "rgb": [
-        255,
-        246,
-        251
+        197,
+        190,
+        194
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "770",
       "rgb": [
-        227,
-        201,
-        217
+        164,
+        145,
+        157
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "769",
       "rgb": [
-        178,
-        127,
-        138
+        128,
+        92,
+        99
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "779",
       "rgb": [
-        133,
-        78,
-        89
+        96,
+        57,
+        65
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "808",
       "rgb": [
-        91,
-        63,
-        72
+        66,
+        46,
+        52
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "776",
       "rgb": [
-        113,
-        74,
-        71
-      ],
-      "source": "encre_reelle"
-    },
-    {
-      "ref": "717",
-      "rgb": [
-        255,
-        215,
-        168
-      ],
-      "source": "encre_reelle"
-    },
-    {
-      "ref": "654",
-      "rgb": [
-        255,
-        216,
-        187
-      ],
-      "source": "encre_reelle"
-    },
-    {
-      "ref": "644",
-      "rgb": [
-        255,
-        186,
-        129
-      ],
-      "source": "encre_reelle"
-    },
-    {
-      "ref": "639",
-      "rgb": [
-        233,
-        173,
-        146
-      ],
-      "source": "encre_reelle"
-    },
-    {
-      "ref": "620",
-      "rgb": [
-        199,
-        156,
-        148
-      ],
-      "source": "encre_reelle"
-    },
-    {
-      "ref": "679",
-      "rgb": [
-        168,
-        154,
-        142
-      ],
-      "source": "encre_reelle"
-    },
-    {
-      "ref": "759",
-      "rgb": [
-        191,
-        180,
-        184
-      ],
-      "source": "encre_reelle"
-    },
-    {
-      "ref": "708",
-      "rgb": [
-        178,
-        157,
-        150
-      ],
-      "source": "encre_reelle"
-    },
-    {
-      "ref": "709",
-      "rgb": [
-        141,
-        138,
-        138
-      ],
-      "source": "encre_reelle"
-    },
-    {
-      "ref": "646",
-      "rgb": [
-        255,
-        255,
-        243
-      ],
-      "source": "encre_reelle"
-    },
-    {
-      "ref": "638",
-      "rgb": [
-        227,
-        191,
-        142
-      ],
-      "source": "encre_reelle"
-    },
-    {
-      "ref": "751",
-      "rgb": [
-        221,
-        207,
-        186
-      ],
-      "source": "encre_reelle"
-    },
-    {
-      "ref": "753",
-      "rgb": [
-        217,
-        198,
-        183
-      ],
-      "source": "encre_reelle"
-    },
-    {
-      "ref": "645",
-      "rgb": [
-        242,
-        201,
-        153
-      ],
-      "source": "encre_reelle"
-    },
-    {
-      "ref": "731",
-      "rgb": [
-        236,
-        207,
-        179
-      ],
-      "source": "encre_reelle"
-    },
-    {
-      "ref": "757",
-      "rgb": [
-        214,
-        176,
-        142
-      ],
-      "source": "encre_reelle"
-    },
-    {
-      "ref": "758",
-      "rgb": [
-        210,
-        189,
-        177
-      ],
-      "source": "encre_reelle"
-    },
-    {
-      "ref": "643",
-      "rgb": [
-        179,
-        149,
-        116
-      ],
-      "source": "encre_reelle"
-    },
-    {
-      "ref": "642",
-      "rgb": [
-        166,
-        179,
-        163
-      ],
-      "source": "encre_reelle"
-    },
-    {
-      "ref": "633",
-      "rgb": [
-        194,
-        237,
-        252
-      ],
-      "source": "encre_reelle"
-    },
-    {
-      "ref": "750",
-      "rgb": [
-        174,
-        223,
-        247
-      ],
-      "source": "encre_reelle"
-    },
-    {
-      "ref": "747",
-      "rgb": [
-        159,
-        191,
-        231
-      ],
-      "source": "encre_reelle"
-    },
-    {
-      "ref": "693",
-      "rgb": [
-        66,
-        91,
-        105
-      ],
-      "source": "encre_reelle"
-    },
-    {
-      "ref": "806",
-      "rgb": [
-        58,
-        69,
-        85
-      ],
-      "source": "encre_reelle"
-    },
-    {
-      "ref": "763",
-      "rgb": [
-        46,
-        50,
-        68
-      ],
-      "source": "encre_reelle"
-    },
-    {
-      "ref": "600",
-      "rgb": [
-        235,
-        231,
-        230
-      ],
-      "source": "encre_reelle"
-    },
-    {
-      "ref": "801",
-      "rgb": [
-        224,
-        223,
-        217
-      ],
-      "source": "encre_reelle"
-    },
-    {
-      "ref": "803",
-      "rgb": [
-        224,
-        227,
-        223
-      ],
-      "source": "encre_reelle"
-    },
-    {
-      "ref": "804",
-      "rgb": [
-        229,
-        235,
-        241
-      ],
-      "source": "encre_reelle"
-    },
-    {
-      "ref": "853",
-      "rgb": [
-        242,
-        242,
-        233
-      ],
-      "source": "encre_reelle"
-    },
-    {
-      "ref": "686",
-      "rgb": [
-        245,
-        252,
-        255
-      ],
-      "source": "encre_reelle"
-    },
-    {
-      "ref": "610",
-      "rgb": [
-        212,
-        234,
-        241
-      ],
-      "source": "encre_reelle"
-    },
-    {
-      "ref": "805",
-      "rgb": [
-        190,
-        204,
-        213
-      ],
-      "source": "encre_reelle"
-    },
-    {
-      "ref": "680",
-      "rgb": [
-        121,
-        129,
-        128
-      ],
-      "source": "encre_reelle"
-    },
-    {
-      "ref": "807",
-      "rgb": [
-        58,
+        81,
         54,
         51
       ],
       "source": "encre_reelle"
     },
     {
+      "ref": "717",
+      "rgb": [
+        185,
+        156,
+        122
+      ],
+      "source": "encre_reelle"
+    },
+    {
+      "ref": "654",
+      "rgb": [
+        188,
+        159,
+        138
+      ],
+      "source": "encre_reelle"
+    },
+    {
+      "ref": "644",
+      "rgb": [
+        184,
+        134,
+        93
+      ],
+      "source": "encre_reelle"
+    },
+    {
+      "ref": "639",
+      "rgb": [
+        169,
+        125,
+        106
+      ],
+      "source": "encre_reelle"
+    },
+    {
+      "ref": "620",
+      "rgb": [
+        144,
+        112,
+        107
+      ],
+      "source": "encre_reelle"
+    },
+    {
+      "ref": "679",
+      "rgb": [
+        122,
+        111,
+        103
+      ],
+      "source": "encre_reelle"
+    },
+    {
+      "ref": "759",
+      "rgb": [
+        138,
+        130,
+        133
+      ],
+      "source": "encre_reelle"
+    },
+    {
+      "ref": "708",
+      "rgb": [
+        128,
+        113,
+        109
+      ],
+      "source": "encre_reelle"
+    },
+    {
+      "ref": "709",
+      "rgb": [
+        102,
+        100,
+        99
+      ],
+      "source": "encre_reelle"
+    },
+    {
+      "ref": "646",
+      "rgb": [
+        199,
+        199,
+        190
+      ],
+      "source": "encre_reelle"
+    },
+    {
+      "ref": "638",
+      "rgb": [
+        164,
+        138,
+        103
+      ],
+      "source": "encre_reelle"
+    },
+    {
+      "ref": "751",
+      "rgb": [
+        160,
+        149,
+        134
+      ],
+      "source": "encre_reelle"
+    },
+    {
+      "ref": "753",
+      "rgb": [
+        157,
+        143,
+        132
+      ],
+      "source": "encre_reelle"
+    },
+    {
+      "ref": "645",
+      "rgb": [
+        175,
+        145,
+        111
+      ],
+      "source": "encre_reelle"
+    },
+    {
+      "ref": "731",
+      "rgb": [
+        171,
+        149,
+        129
+      ],
+      "source": "encre_reelle"
+    },
+    {
+      "ref": "757",
+      "rgb": [
+        155,
+        127,
+        103
+      ],
+      "source": "encre_reelle"
+    },
+    {
+      "ref": "758",
+      "rgb": [
+        152,
+        136,
+        128
+      ],
+      "source": "encre_reelle"
+    },
+    {
+      "ref": "643",
+      "rgb": [
+        129,
+        107,
+        84
+      ],
+      "source": "encre_reelle"
+    },
+    {
+      "ref": "642",
+      "rgb": [
+        120,
+        129,
+        118
+      ],
+      "source": "encre_reelle"
+    },
+    {
+      "ref": "633",
+      "rgb": [
+        140,
+        171,
+        182
+      ],
+      "source": "encre_reelle"
+    },
+    {
+      "ref": "750",
+      "rgb": [
+        126,
+        161,
+        178
+      ],
+      "source": "encre_reelle"
+    },
+    {
+      "ref": "747",
+      "rgb": [
+        115,
+        138,
+        167
+      ],
+      "source": "encre_reelle"
+    },
+    {
+      "ref": "693",
+      "rgb": [
+        48,
+        66,
+        76
+      ],
+      "source": "encre_reelle"
+    },
+    {
+      "ref": "806",
+      "rgb": [
+        42,
+        50,
+        62
+      ],
+      "source": "encre_reelle"
+    },
+    {
+      "ref": "763",
+      "rgb": [
+        33,
+        36,
+        49
+      ],
+      "source": "encre_reelle"
+    },
+    {
+      "ref": "600",
+      "rgb": [
+        170,
+        167,
+        166
+      ],
+      "source": "encre_reelle"
+    },
+    {
+      "ref": "801",
+      "rgb": [
+        162,
+        161,
+        157
+      ],
+      "source": "encre_reelle"
+    },
+    {
+      "ref": "803",
+      "rgb": [
+        162,
+        164,
+        161
+      ],
+      "source": "encre_reelle"
+    },
+    {
+      "ref": "804",
+      "rgb": [
+        166,
+        170,
+        174
+      ],
+      "source": "encre_reelle"
+    },
+    {
+      "ref": "853",
+      "rgb": [
+        175,
+        175,
+        168
+      ],
+      "source": "encre_reelle"
+    },
+    {
+      "ref": "686",
+      "rgb": [
+        182,
+        187,
+        190
+      ],
+      "source": "encre_reelle"
+    },
+    {
+      "ref": "610",
+      "rgb": [
+        153,
+        169,
+        174
+      ],
+      "source": "encre_reelle"
+    },
+    {
+      "ref": "805",
+      "rgb": [
+        137,
+        147,
+        154
+      ],
+      "source": "encre_reelle"
+    },
+    {
+      "ref": "680",
+      "rgb": [
+        87,
+        94,
+        92
+      ],
+      "source": "encre_reelle"
+    },
+    {
+      "ref": "807",
+      "rgb": [
+        42,
+        39,
+        37
+      ],
+      "source": "encre_reelle"
+    },
+    {
       "ref": "611",
       "rgb": [
-        54,
-        55,
-        54
+        39,
+        40,
+        39
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "855",
       "rgb": [
-        232,
-        215,
-        143
+        168,
+        155,
+        104
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "856",
       "rgb": [
-        194,
-        237,
-        150
+        140,
+        171,
+        109
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "662",
       "rgb": [
-        123,
-        224,
-        128
+        89,
+        162,
+        92
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "859",
       "rgb": [
-        255,
-        173,
-        144
+        198,
+        134,
+        112
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "661",
       "rgb": [
-        255,
-        135,
-        114
+        199,
+        105,
+        89
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "854",
       "rgb": [
-        255,
-        175,
-        172
+        210,
+        144,
+        141
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "712",
       "rgb": [
-        255,
-        162,
-        206
+        220,
+        139,
+        177
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "762",
       "rgb": [
-        255,
-        199,
-        217
+        225,
+        175,
+        191
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "660",
       "rgb": [
-        255,
-        172,
-        202
+        229,
+        154,
+        181
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "765",
       "rgb": [
-        255,
-        248,
-        144
+        222,
+        216,
+        125
       ],
       "source": "encre_reelle"
     }

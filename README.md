@@ -69,6 +69,14 @@ sur un serveur.
 
 ## Historique des versions
 
+- **v1.8** : correction d'un bug de fond dans l'étalonnage (base de données
+  ET fonction en direct dans le scanner) : la correction visait un blanc
+  de référence fixe (~245-250/255) quel que soit le niveau de lumière
+  réel capté par la photo, ce qui boostait l'exposition globale en plus
+  de corriger la dominante — résultat : toute la palette semblait trop
+  claire/pâle par rapport à la réalité. Désormais, seule la dominante
+  entre canaux R/G/B est corrigée (gains proches de 1.0), sans toucher à
+  l'exposition globale. Base de couleurs regénérée (version 6).
 - **v1.7** : correction majeure de l'extraction du nuancier réel. Deux bugs
   identifiés : (1) la grille de positions dérivait sur certaines lignes,
   faisant échantillonner le fond blanc au lieu du cercle (ex : toute la
