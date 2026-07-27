@@ -3,7 +3,7 @@
  * Stratégie : cache-first pour les fichiers de l'app, avec repli réseau.
  */
 
-const CACHE_NAME = 'colorscode-v9'; // incrémenté : correction du bug de boost d'exposition dans l'étalonnage
+const CACHE_NAME = 'colorscode-v10'; // incrémenté : étalonnage en 2 temps (auto + réglage fin) + alternatives sélectionnables
 const APP_SHELL = [
   './',
   './index.html',

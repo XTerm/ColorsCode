@@ -69,6 +69,14 @@ sur un serveur.
 
 ## Historique des versions
 
+- **v1.9** : deux idées reprises de l'outil Révélo. (1) Étalonnage en deux
+  temps : après le tap sur une zone blanche (auto), deux curseurs
+  "Luminosité" et "Température" permettent un ajustement manuel fin, avec
+  recalcul en direct des correspondances. (2) Chaque résultat peut se
+  déplier pour voir jusqu'à 5 correspondances alternatives proches ; on
+  peut en choisir une manuellement (étiquette "✓ manuel", réversible d'un
+  tap) — ce choix est alors respecté lors de la résolution des doublons
+  entre numéros.
 - **v1.8** : correction d'un bug de fond dans l'étalonnage (base de données
   ET fonction en direct dans le scanner) : la correction visait un blanc
   de référence fixe (~245-250/255) quel que soit le niveau de lumière

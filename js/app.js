@@ -6,10 +6,13 @@ const App = (() => {
 
   // ---- État en mémoire du scan en cours ----
   let currentImage = null;   // HTMLImageElement
-  // Chaque point : {numero, x, y, rawRgb, match:{feutre,distance}, wasAlternative, conflictRank}
+  // Chaque point : {numero, x, y, rawRgb, match:{feutre,distance}, wasAlternative,
+  //                 conflictRank, ranked:[...], manualOverride:bool}
   let currentPoints = [];
   let nextNumero = 1;
-  let whiteBalance = [1, 1, 1]; // gains R,G,B appliqués aux couleurs lues
+  let whiteBalance = [1, 1, 1]; // gains R,G,B issus de l'échantillon blanc (dominante)
+  let wbLuminosite = 0;         // réglage fin manuel, -50..50
+  let wbTemperature = 0;        // réglage fin manuel, -50..50 (négatif=froid, positif=chaud)
   let calibrating = false;      // true = le prochain tap sert à étalonner, pas à ajouter une pastille
 
   // ---- Références DOM ----
@@ -38,6 +41,10 @@ const App = (() => {
   const btnSaveScan = $('#btn-save-scan');
   const btnCalibrate = $('#btn-calibrate');
   const calibrationStatus = $('#calibration-status');
+  const fineTunePanel = $('#fine-tune-panel');
+  const sliderLumin = $('#slider-luminosite');
+  const sliderTemp = $('#slider-temperature');
+  const btnResetFineTune = $('#btn-reset-finetune');
 
   const setsList = $('#sets-list');
   const historyList = $('#history-list');
@@ -304,7 +311,12 @@ const App = (() => {
     currentPoints = [];
     nextNumero = 1;
     whiteBalance = [1, 1, 1];
+    wbLuminosite = 0;
+    wbTemperature = 0;
     calibrating = false;
+    sliderLumin.value = 0;
+    sliderTemp.value = 0;
+    fineTunePanel.hidden = true;
     updateCalibrationStatus();
     renderResults();
   }
@@ -353,10 +365,11 @@ const App = (() => {
     if (calibrating) {
       calibrateFromSample(rawRgb);
       calibrating = false;
+      fineTunePanel.hidden = false;
       updateCalibrationStatus();
       recomputeAllMatches();
       renderResults();
-      toast('Étalonnage appliqué à cette photo.');
+      toast('Étalonnage appliqué. Ajuste finement si besoin.');
       return;
     }
 
@@ -386,8 +399,38 @@ const App = (() => {
   }
 
   function applyWhiteBalance(rawRgb) {
-    return rawRgb.map((c, i) => Math.max(0, Math.min(255, Math.round(c * whiteBalance[i]))));
+    // Combine le gain auto (dominante) avec les réglages fins manuels
+    const luminFactor = 1 + wbLuminosite / 100;         // 0.5x .. 1.5x
+    const tempFactor = [                                  // décale chaud/froid sur R et B
+      1 + wbTemperature / 150,
+      1,
+      1 - wbTemperature / 150
+    ];
+    const gains = whiteBalance.map((g, i) => g * luminFactor * tempFactor[i]);
+    let corrected = rawRgb.map((c, i) => c * gains[i]);
+    const m = Math.max(...corrected);
+    if (m > 255) corrected = corrected.map(c => c * 255 / m); // préserve la teinte au lieu d'écrêter par canal
+    return corrected.map(c => Math.max(0, Math.min(255, Math.round(c))));
   }
+
+  sliderLumin.addEventListener('input', () => {
+    wbLuminosite = parseInt(sliderLumin.value, 10);
+    recomputeAllMatches();
+    renderResults();
+  });
+  sliderTemp.addEventListener('input', () => {
+    wbTemperature = parseInt(sliderTemp.value, 10);
+    recomputeAllMatches();
+    renderResults();
+  });
+  btnResetFineTune.addEventListener('click', () => {
+    wbLuminosite = 0;
+    wbTemperature = 0;
+    sliderLumin.value = 0;
+    sliderTemp.value = 0;
+    recomputeAllMatches();
+    renderResults();
+  });
 
   /**
    * Recalcule les correspondances de TOUTES les pastilles ensemble, en
@@ -405,19 +448,46 @@ const App = (() => {
       ranked: ColorMath.rankAll(applyWhiteBalance(p.rawRgb), activeSet.feutres)
     }));
 
-    // Priorité aux matches les plus nets pour "réclamer" leur meilleur feutre en premier
-    const order = [...entries].sort((a, b) => a.ranked[0].distance - b.ranked[0].distance);
+    // Les points en choix manuel réservent leur feutre et ne sont pas réattribués
     const used = new Set();
+    entries.forEach(e => {
+      e.point.ranked = e.ranked;
+      if (e.point.manualOverride && e.point.match) {
+        used.add(e.point.match.feutre.ref);
+      }
+    });
+
+    const free = entries.filter(e => !e.point.manualOverride);
+    const order = [...free].sort((a, b) => a.ranked[0].distance - b.ranked[0].distance);
 
     order.forEach(entry => {
       let rank = entry.ranked.findIndex(c => !used.has(c.feutre.ref));
-      if (rank === -1) rank = 0; // repli improbable : jeu de feutres trop petit
+      if (rank === -1) rank = 0;
       const chosen = entry.ranked[rank];
       used.add(chosen.feutre.ref);
       entry.point.match = { feutre: chosen.feutre, distance: chosen.distance };
       entry.point.wasAlternative = rank > 0;
       entry.point.conflictRank = rank;
     });
+  }
+
+  /** Sélectionne manuellement une alternative pour un point donné. */
+  function chooseAlternative(point, feutreRef) {
+    const activeSet = DB.getSet(DB.getActiveSetId());
+    if (!activeSet) return;
+    const entry = point.ranked.find(c => c.feutre.ref === feutreRef);
+    if (!entry) return;
+    point.match = { feutre: entry.feutre, distance: entry.distance };
+    point.manualOverride = true;
+    point.wasAlternative = false;
+    recomputeAllMatches();
+    renderResults();
+  }
+
+  function resetToAutomatic(point) {
+    point.manualOverride = false;
+    recomputeAllMatches();
+    renderResults();
   }
 
   function sampleColor(x, y) {
@@ -463,21 +533,53 @@ const App = (() => {
     btnSaveScan.disabled = false;
     currentPoints.forEach(p => {
       const row = document.createElement('div');
-      row.className = 'result-row';
+      row.className = 'result-row-wrap';
       const correctedRgb = applyWhiteBalance(p.rawRgb);
       const distanceLabel = distanceToLabel(p.match.distance);
       const altTag = p.wasAlternative
         ? `<span class="conflict-tag" title="Le plus proche était déjà pris par un autre numéro">${p.conflictRank + 1}ᵉ choix</span>`
         : '';
-      row.innerHTML = `
+      const manualTag = p.manualOverride
+        ? `<button class="manual-tag" title="Choisi manuellement — toucher pour revenir à l'automatique">✓ manuel ↺</button>`
+        : '';
+      const main = document.createElement('div');
+      main.className = 'result-row';
+      main.innerHTML = `
         <span class="numero-badge">${escapeHtml(p.numero)}</span>
         <span class="hex-chip" style="background:${ColorMath.rgbToHex(correctedRgb)}" title="Couleur lue"></span>
         <span class="arrow">→</span>
         <span class="hex-chip" style="background:${ColorMath.rgbToHex(p.match.feutre.rgb)}" title="Feutre proposé"></span>
         <span class="feutre-ref mono">${escapeHtml(p.match.feutre.ref)}</span>
-        ${altTag}
+        ${altTag}${manualTag}
         <span class="confidence ${distanceLabel.cls}">${distanceLabel.text}</span>
+        <button class="alt-toggle" title="Voir d'autres correspondances proches">▾</button>
       `;
+      row.appendChild(main);
+
+      const altPanel = document.createElement('div');
+      altPanel.className = 'alt-panel';
+      altPanel.hidden = true;
+      const alternatives = (p.ranked || []).filter(c => c.feutre.ref !== p.match.feutre.ref).slice(0, 5);
+      alternatives.forEach(alt => {
+        const chip = document.createElement('button');
+        chip.className = 'alt-chip';
+        chip.innerHTML = `
+          <span class="hex-chip small" style="background:${ColorMath.rgbToHex(alt.feutre.rgb)}"></span>
+          <span class="mono">${escapeHtml(alt.feutre.ref)}</span>
+        `;
+        chip.addEventListener('click', () => chooseAlternative(p, alt.feutre.ref));
+        altPanel.appendChild(chip);
+      });
+      row.appendChild(altPanel);
+
+      main.querySelector('.alt-toggle').addEventListener('click', () => {
+        altPanel.hidden = !altPanel.hidden;
+        main.querySelector('.alt-toggle').classList.toggle('open', !altPanel.hidden);
+      });
+      if (p.manualOverride) {
+        main.querySelector('.manual-tag').addEventListener('click', () => resetToAutomatic(p));
+      }
+
       resultsList.appendChild(row);
     });
   }
