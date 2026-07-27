@@ -69,6 +69,10 @@ sur un serveur.
 
 ## Historique des versions
 
+- **v1.2** : historique cliquable — chaque scan affiche désormais les codes
+  feutre directement dans l'aperçu, et un tap ouvre le détail complet
+  (mêmes infos que dans le scanner) avec l'option de suppression déplacée
+  dans ce détail.
 - **v1.1** : étalonnage manuel de la balance des blancs (tap sur une zone
   blanche de la page) + garantie qu'un même feutre n'est jamais assigné à
   deux numéros différents de la légende (résolution globale des conflits,

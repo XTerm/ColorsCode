@@ -281,13 +281,32 @@ button:disabled { opacity: 0.45; cursor: default; }
   border-radius: var(--radius);
   padding: 14px;
   margin-bottom: 12px;
+  cursor: pointer;
+  transition: border-color .15s ease, transform .08s ease;
 }
+.history-card:hover { border-color: var(--accent); }
+.history-card:active { transform: scale(0.99); }
 .history-header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
 }
 .history-header h3 { font-size: 0.98rem; }
+
+.mini-swatch-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 12px;
+}
+.mini-swatch {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  width: 52px;
+}
+.mini-swatch .tiny { font-size: 0.62rem; color: var(--ink-muted); text-align: center; line-height: 1.1; }
 
 /* ---------- Navigation basse ---------- */
 .bottom-nav {
@@ -325,6 +344,28 @@ dialog#set-editor-dialog {
   font-family: var(--font-body);
 }
 dialog::backdrop { background: rgba(38,34,32,0.5); }
+
+dialog#scan-detail-dialog {
+  border: none;
+  border-radius: var(--radius);
+  padding: 18px;
+  width: min(92vw, 480px);
+  max-height: 80vh;
+  overflow-y: auto;
+  font-family: var(--font-body);
+}
+#detail-meta { margin: 2px 0 14px; }
+#detail-list .result-row { flex-wrap: wrap; }
+.dialog-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--hairline);
+}
+.btn-ghost.danger-text { color: var(--low); border-color: transparent; padding-left: 0; }
 .editor-add-row {
   display: flex;
   gap: 8px;

@@ -506,6 +506,8 @@ const App = (() => {
     history.forEach(scan => {
       const card = document.createElement('div');
       card.className = 'history-card';
+      card.tabIndex = 0;
+      card.setAttribute('role', 'button');
       const date = new Date(scan.date).toLocaleDateString('fr-FR', { day: '2-digit', month: 'short', year: 'numeric' });
       card.innerHTML = `
         <div class="history-header">
@@ -513,27 +515,64 @@ const App = (() => {
             <h3>${escapeHtml(scan.livre || 'Sans titre')}${scan.page ? ' — p.' + escapeHtml(scan.page) : ''}</h3>
             <span class="muted small">${date} · ${escapeHtml(scan.jeuNom)} · ${scan.resultats.length} couleurs</span>
           </div>
-          <button class="icon-btn danger" title="Supprimer">✕</button>
         </div>
-        <div class="swatch-grid"></div>
+        <div class="mini-swatch-grid"></div>
       `;
-      const grid = card.querySelector('.swatch-grid');
+      const grid = card.querySelector('.mini-swatch-grid');
       scan.resultats.forEach(r => {
-        const chip = document.createElement('div');
-        chip.className = 'hex-chip';
-        chip.style.background = ColorMath.rgbToHex(r.rgbFeutre);
-        chip.title = `${r.numero} → ${r.refFeutre}`;
-        grid.appendChild(chip);
+        const item = document.createElement('div');
+        item.className = 'mini-swatch';
+        item.innerHTML = `
+          <span class="hex-chip small" style="background:${ColorMath.rgbToHex(r.rgbFeutre)}"></span>
+          <span class="mono tiny">${escapeHtml(r.numero)}·${escapeHtml(r.refFeutre)}</span>
+        `;
+        grid.appendChild(item);
       });
-      card.querySelector('.icon-btn.danger').addEventListener('click', () => {
-        if (confirm('Supprimer ce scan de l’historique ?')) {
-          DB.deleteScan(scan.id);
-          renderHistory();
-        }
+      card.addEventListener('click', () => openScanDetail(scan));
+      card.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openScanDetail(scan); }
       });
       historyList.appendChild(card);
     });
   }
+
+  function openScanDetail(scan) {
+    $('#detail-title').textContent = scan.livre || 'Sans titre';
+    const date = new Date(scan.date).toLocaleDateString('fr-FR', { day: '2-digit', month: 'short', year: 'numeric' });
+    $('#detail-meta').textContent = `${scan.page ? 'Page ' + scan.page + ' · ' : ''}${date} · ${scan.jeuNom}`;
+
+    const list = $('#detail-list');
+    list.innerHTML = '';
+    scan.resultats.forEach(r => {
+      const row = document.createElement('div');
+      row.className = 'result-row';
+      const hasDistance = typeof r.distance === 'number';
+      const distanceLabel = hasDistance ? distanceToLabel(r.distance) : null;
+      const altTag = r.choixAlternatif
+        ? `<span class="conflict-tag" title="Le plus proche était déjà pris par un autre numéro">2ᵉ choix</span>`
+        : '';
+      row.innerHTML = `
+        <span class="numero-badge">${escapeHtml(r.numero)}</span>
+        <span class="hex-chip" style="background:${ColorMath.rgbToHex(r.rgbFeutre)}"></span>
+        <span class="feutre-ref mono">${escapeHtml(r.refFeutre)}</span>
+        ${altTag}
+        ${distanceLabel ? `<span class="confidence ${distanceLabel.cls}">${distanceLabel.text}</span>` : ''}
+      `;
+      list.appendChild(row);
+    });
+
+    const deleteBtn = $('#detail-delete');
+    deleteBtn.onclick = () => {
+      if (confirm('Supprimer ce scan de l’historique ?')) {
+        DB.deleteScan(scan.id);
+        $('#scan-detail-dialog').close();
+        renderHistory();
+      }
+    };
+    $('#scan-detail-dialog').showModal();
+  }
+
+  $('#detail-close').addEventListener('click', () => $('#scan-detail-dialog').close());
 
   // ==================================================
   // Utilitaires
