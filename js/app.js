@@ -6,6 +6,7 @@ const App = (() => {
 
   // ---- État en mémoire du scan en cours ----
   let currentImage = null;   // HTMLImageElement
+  let originalImageData = null; // ImageData brute (jamais modifiée), source de l'échantillonnage
   // Chaque point : {numero, x, y, rawRgb, match:{feutre,distance}, wasAlternative,
   //                 conflictRank, ranked:[...], manualOverride:bool}
   let currentPoints = [];
@@ -287,11 +288,13 @@ const App = (() => {
       img.onload = () => {
         currentImage = img;
         drawImageToCanvas(img);
+        originalImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
         resetPoints();
         updateCalibrationStatus();
         emptyState.hidden = true;
         canvasWrap.hidden = false;
         resultsSection.hidden = false;
+        renderCanvas();
       };
       img.src = ev.target.result;
     };
@@ -333,7 +336,7 @@ const App = (() => {
   btnUndo.addEventListener('click', () => {
     currentPoints.pop();
     recomputeAllMatches();
-    redrawMarkers();
+    renderCanvas();
     renderResults();
   });
 
@@ -368,6 +371,7 @@ const App = (() => {
       fineTunePanel.hidden = false;
       updateCalibrationStatus();
       recomputeAllMatches();
+      renderCanvas();
       renderResults();
       toast('Étalonnage appliqué. Ajuste finement si besoin.');
       return;
@@ -381,7 +385,7 @@ const App = (() => {
     nextNumero = (parseInt(numero, 10) || nextNumero) + 1;
 
     recomputeAllMatches();
-    redrawMarkers();
+    renderCanvas();
     renderResults();
   });
 
@@ -416,11 +420,13 @@ const App = (() => {
   sliderLumin.addEventListener('input', () => {
     wbLuminosite = parseInt(sliderLumin.value, 10);
     recomputeAllMatches();
+    renderCanvas();
     renderResults();
   });
   sliderTemp.addEventListener('input', () => {
     wbTemperature = parseInt(sliderTemp.value, 10);
     recomputeAllMatches();
+    renderCanvas();
     renderResults();
   });
   btnResetFineTune.addEventListener('click', () => {
@@ -429,6 +435,7 @@ const App = (() => {
     sliderLumin.value = 0;
     sliderTemp.value = 0;
     recomputeAllMatches();
+    renderCanvas();
     renderResults();
   });
 
@@ -491,23 +498,87 @@ const App = (() => {
   }
 
   function sampleColor(x, y) {
-    // Moyenne sur une petite zone pour limiter le bruit / compression JPEG
-    const radius = 6;
+    // Moyenne sur une petite zone pour limiter le bruit / compression JPEG,
+    // en excluant les pixels quasi blancs ou quasi noirs (contour et chiffre
+    // imprimés au centre de la pastille) pour ne garder que le vrai remplissage.
+    const radius = 7;
     const x0 = Math.max(0, x - radius), y0 = Math.max(0, y - radius);
-    const w = Math.min(canvas.width - x0, radius * 2);
-    const h = Math.min(canvas.height - y0, radius * 2);
-    const data = ctx.getImageData(x0, y0, w, h).data;
-    let r = 0, g = 0, b = 0, n = 0;
+    const w = Math.min(originalImageData.width - x0, radius * 2);
+    const h = Math.min(originalImageData.height - y0, radius * 2);
+    const data = getOriginalPixels(x0, y0, w, h);
+
+    const kept = [];
     for (let i = 0; i < data.length; i += 4) {
-      r += data[i]; g += data[i + 1]; b += data[i + 2]; n++;
+      const r = data[i], g = data[i + 1], b = data[i + 2];
+      const isExtreme = (r > 235 && g > 235 && b > 235) || (r < 40 && g < 40 && b < 40);
+      if (!isExtreme) kept.push([r, g, b]);
     }
-    return [Math.round(r / n), Math.round(g / n), Math.round(b / n)];
+    const pool = kept.length >= 6 ? kept : (() => {
+      // repli : si presque tout a été exclu (pastille très claire ou très
+      // sombre), on revient à l'ensemble complet plutôt que de renvoyer du bruit
+      const all = [];
+      for (let i = 0; i < data.length; i += 4) all.push([data[i], data[i+1], data[i+2]]);
+      return all;
+    })();
+
+    // Médiane par canal : robuste face à une minorité de pixels aberrants
+    const median = arr => {
+      const s = arr.slice().sort((a,b)=>a-b);
+      return s[Math.floor(s.length/2)];
+    };
+    return [
+      median(pool.map(p=>p[0])),
+      median(pool.map(p=>p[1])),
+      median(pool.map(p=>p[2]))
+    ];
   }
 
-  function redrawMarkers() {
-    if (!currentImage) return;
-    drawImageToCanvas(currentImage);
-    currentPoints.forEach((p, i) => {
+  function getOriginalPixels(x0, y0, w, h) {
+    const out = new Uint8ClampedArray(w*h*4);
+    let idx = 0;
+    for (let yy = y0; yy < y0+h; yy++) {
+      for (let xx = x0; xx < x0+w; xx++) {
+        const srcIdx = (yy*originalImageData.width + xx)*4;
+        out[idx++] = originalImageData.data[srcIdx];
+        out[idx++] = originalImageData.data[srcIdx+1];
+        out[idx++] = originalImageData.data[srcIdx+2];
+        out[idx++] = originalImageData.data[srcIdx+3];
+      }
+    }
+    return out;
+  }
+
+  function renderCanvas() {
+    if (!originalImageData) return;
+
+    const isCorrected = whiteBalance.some(g => Math.abs(g-1) > 0.005) || wbLuminosite !== 0 || wbTemperature !== 0;
+
+    if (!isCorrected) {
+      ctx.putImageData(originalImageData, 0, 0);
+    } else {
+      const luminFactor = 1 + wbLuminosite / 100;
+      const tempFactor = [1 + wbTemperature / 150, 1, 1 - wbTemperature / 150];
+      const gains = whiteBalance.map((g, i) => g * luminFactor * tempFactor[i]);
+
+      const src = originalImageData.data;
+      const out = ctx.createImageData(originalImageData.width, originalImageData.height);
+      const dst = out.data;
+      for (let i = 0; i < src.length; i += 4) {
+        let r = src[i] * gains[0];
+        let g = src[i+1] * gains[1];
+        let b = src[i+2] * gains[2];
+        const m = Math.max(r, g, b);
+        if (m > 255) { const f = 255/m; r*=f; g*=f; b*=f; } // préserve la teinte, pas d'écrêtage par canal
+        dst[i]   = Math.max(0, Math.min(255, Math.round(r)));
+        dst[i+1] = Math.max(0, Math.min(255, Math.round(g)));
+        dst[i+2] = Math.max(0, Math.min(255, Math.round(b)));
+        dst[i+3] = src[i+3];
+      }
+      ctx.putImageData(out, 0, 0);
+    }
+
+    // Repères des pastilles déjà pointées, par-dessus l'image (corrigée ou non)
+    currentPoints.forEach((p) => {
       ctx.beginPath();
       ctx.arc(p.x, p.y, 12, 0, Math.PI * 2);
       ctx.fillStyle = 'rgba(228,84,63,0.9)';

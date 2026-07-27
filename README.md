@@ -69,6 +69,15 @@ sur un serveur.
 
 ## Historique des versions
 
+- **v1.10** : deux corrections importantes sur l'étalonnage. (1) L'image
+  affichée dans le scanner est désormais réellement recolorée en direct
+  quand on bouge les curseurs Luminosité/Température (avant, seuls les
+  résultats changeaient en interne — impossible de comparer visuellement
+  avec le livre, ce qui rendait le réglage fin inutilisable). (2)
+  L'échantillonnage d'une pastille exclut maintenant les pixels quasi
+  blancs/noirs (le chiffre imprimé et son contour) avant de calculer la
+  couleur, et utilise une médiane plutôt qu'une moyenne brute — évite que
+  le chiffre au centre d'une case fausse la lecture.
 - **v1.9** : deux idées reprises de l'outil Révélo. (1) Étalonnage en deux
   temps : après le tap sur une zone blanche (auto), deux curseurs
   "Luminosité" et "Température" permettent un ajustement manuel fin, avec
