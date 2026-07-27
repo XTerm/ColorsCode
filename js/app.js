@@ -6,8 +6,11 @@ const App = (() => {
 
   // ---- État en mémoire du scan en cours ----
   let currentImage = null;   // HTMLImageElement
-  let currentPoints = [];    // [{numero, x, y, rgb, match:{feutre,distance}}]
+  // Chaque point : {numero, x, y, rawRgb, match:{feutre,distance}, wasAlternative, conflictRank}
+  let currentPoints = [];
   let nextNumero = 1;
+  let whiteBalance = [1, 1, 1]; // gains R,G,B appliqués aux couleurs lues
+  let calibrating = false;      // true = le prochain tap sert à étalonner, pas à ajouter une pastille
 
   // ---- Références DOM ----
   const $ = sel => document.querySelector(sel);
@@ -32,6 +35,8 @@ const App = (() => {
   const btnUndo = $('#btn-undo');
   const btnReset = $('#btn-reset');
   const btnSaveScan = $('#btn-save-scan');
+  const btnCalibrate = $('#btn-calibrate');
+  const calibrationStatus = $('#calibration-status');
 
   const setsList = $('#sets-list');
   const historyList = $('#history-list');
@@ -261,6 +266,7 @@ const App = (() => {
         currentImage = img;
         drawImageToCanvas(img);
         resetPoints();
+        updateCalibrationStatus();
         emptyState.hidden = true;
         canvasWrap.hidden = false;
         resultsSection.hidden = false;
@@ -282,6 +288,9 @@ const App = (() => {
   function resetPoints() {
     currentPoints = [];
     nextNumero = 1;
+    whiteBalance = [1, 1, 1];
+    calibrating = false;
+    updateCalibrationStatus();
     renderResults();
   }
 
@@ -296,9 +305,24 @@ const App = (() => {
 
   btnUndo.addEventListener('click', () => {
     currentPoints.pop();
+    recomputeAllMatches();
     redrawMarkers();
     renderResults();
   });
+
+  btnCalibrate.addEventListener('click', () => {
+    calibrating = true;
+    calibrationStatus.textContent = 'Touche une zone blanche du fond de la page…';
+    calibrationStatus.classList.add('active');
+  });
+
+  function updateCalibrationStatus() {
+    const isCalibrated = whiteBalance.some(g => Math.abs(g - 1) > 0.01);
+    calibrationStatus.classList.remove('active');
+    calibrationStatus.textContent = isCalibrated
+      ? '✓ Couleurs étalonnées sur cette photo'
+      : 'Pas encore étalonné';
+  }
 
   canvas.addEventListener('click', (e) => {
     const activeSet = DB.getSet(DB.getActiveSetId());
@@ -309,19 +333,74 @@ const App = (() => {
     const rect = canvas.getBoundingClientRect();
     const x = Math.round((e.clientX - rect.left) * (canvas.width / rect.width));
     const y = Math.round((e.clientY - rect.top) * (canvas.height / rect.height));
+    const rawRgb = sampleColor(x, y);
 
-    const rgb = sampleColor(x, y);
+    if (calibrating) {
+      calibrateFromSample(rawRgb);
+      calibrating = false;
+      updateCalibrationStatus();
+      recomputeAllMatches();
+      renderResults();
+      toast('Étalonnage appliqué à cette photo.');
+      return;
+    }
+
     const numeroInput = prompt('Numéro de la légende pour cette pastille :', String(nextNumero));
     if (numeroInput === null) return; // annulé
     const numero = numeroInput.trim() || String(nextNumero);
 
-    const match = ColorMath.findClosest(rgb, activeSet.feutres);
-    currentPoints.push({ numero, x, y, rgb, match });
+    currentPoints.push({ numero, x, y, rawRgb });
     nextNumero = (parseInt(numero, 10) || nextNumero) + 1;
 
+    recomputeAllMatches();
     redrawMarkers();
     renderResults();
   });
+
+  /**
+   * Corrige une dominante colorée en calculant des gains R/G/B à partir
+   * d'un point censé être blanc (le fond de la page). Gain plafonné à 3x
+   * pour éviter une correction aberrante si le point tapé n'est pas neutre.
+   */
+  function calibrateFromSample(rawRgb) {
+    const target = 250;
+    whiteBalance = rawRgb.map(c => c > 5 ? Math.min(3, target / c) : 1);
+  }
+
+  function applyWhiteBalance(rawRgb) {
+    return rawRgb.map((c, i) => Math.max(0, Math.min(255, Math.round(c * whiteBalance[i]))));
+  }
+
+  /**
+   * Recalcule les correspondances de TOUTES les pastilles ensemble, en
+   * garantissant qu'un même feutre n'est jamais attribué à deux numéros
+   * différents. Les pastilles dont le meilleur match est le plus net
+   * (distance la plus faible) ont priorité ; en cas de conflit, l'autre
+   * pastille reçoit son meilleur choix encore disponible.
+   */
+  function recomputeAllMatches() {
+    const activeSet = DB.getSet(DB.getActiveSetId());
+    if (!activeSet || currentPoints.length === 0) return;
+
+    const entries = currentPoints.map(p => ({
+      point: p,
+      ranked: ColorMath.rankAll(applyWhiteBalance(p.rawRgb), activeSet.feutres)
+    }));
+
+    // Priorité aux matches les plus nets pour "réclamer" leur meilleur feutre en premier
+    const order = [...entries].sort((a, b) => a.ranked[0].distance - b.ranked[0].distance);
+    const used = new Set();
+
+    order.forEach(entry => {
+      let rank = entry.ranked.findIndex(c => !used.has(c.feutre.ref));
+      if (rank === -1) rank = 0; // repli improbable : jeu de feutres trop petit
+      const chosen = entry.ranked[rank];
+      used.add(chosen.feutre.ref);
+      entry.point.match = { feutre: chosen.feutre, distance: chosen.distance };
+      entry.point.wasAlternative = rank > 0;
+      entry.point.conflictRank = rank;
+    });
+  }
 
   function sampleColor(x, y) {
     // Moyenne sur une petite zone pour limiter le bruit / compression JPEG
@@ -367,13 +446,18 @@ const App = (() => {
     currentPoints.forEach(p => {
       const row = document.createElement('div');
       row.className = 'result-row';
+      const correctedRgb = applyWhiteBalance(p.rawRgb);
       const distanceLabel = distanceToLabel(p.match.distance);
+      const altTag = p.wasAlternative
+        ? `<span class="conflict-tag" title="Le plus proche était déjà pris par un autre numéro">${p.conflictRank + 1}ᵉ choix</span>`
+        : '';
       row.innerHTML = `
         <span class="numero-badge">${escapeHtml(p.numero)}</span>
-        <span class="hex-chip" style="background:${ColorMath.rgbToHex(p.rgb)}" title="Couleur lue"></span>
+        <span class="hex-chip" style="background:${ColorMath.rgbToHex(correctedRgb)}" title="Couleur lue"></span>
         <span class="arrow">→</span>
         <span class="hex-chip" style="background:${ColorMath.rgbToHex(p.match.feutre.rgb)}" title="Feutre proposé"></span>
         <span class="feutre-ref mono">${escapeHtml(p.match.feutre.ref)}</span>
+        ${altTag}
         <span class="confidence ${distanceLabel.cls}">${distanceLabel.text}</span>
       `;
       resultsList.appendChild(row);
@@ -400,7 +484,9 @@ const App = (() => {
       resultats: currentPoints.map(p => ({
         numero: p.numero,
         refFeutre: p.match.feutre.ref,
-        rgbFeutre: p.match.feutre.rgb
+        rgbFeutre: p.match.feutre.rgb,
+        distance: Math.round(p.match.distance * 10) / 10,
+        choixAlternatif: !!p.wasAlternative
       }))
     };
     DB.saveScan(scan);

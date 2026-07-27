@@ -3,7 +3,7 @@
  * Stratégie : cache-first pour les fichiers de l'app, avec repli réseau.
  */
 
-const CACHE_NAME = 'colorscode-v1';
+const CACHE_NAME = 'colorscode-v2'; // incrémenté : étalonnage + correspondances uniques
 const APP_SHELL = [
   './',
   './index.html',

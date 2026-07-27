@@ -119,18 +119,27 @@ const ColorMath = (() => {
   }
 
   /**
-   * Trouve le feutre le plus proche d'une couleur cible dans une liste.
-   * @param {number[]} targetRgb - [r,g,b]
-   * @param {Array<{ref:string, rgb:number[]}>} feutres
-   * @returns {{feutre: object, distance: number, alternatives: Array}}
+   * Classe tous les feutres d'un jeu par proximité avec une couleur cible.
+   * @returns {Array<{feutre: object, distance: number}>} trié du plus proche au plus loin
    */
-  function findClosest(targetRgb, feutres) {
+  function rankAll(targetRgb, feutres) {
     const targetLab = rgbToLab(targetRgb);
     const scored = feutres.map(f => ({
       feutre: f,
       distance: deltaE00(targetLab, rgbToLab(f.rgb))
     }));
     scored.sort((a, b) => a.distance - b.distance);
+    return scored;
+  }
+
+  /**
+   * Trouve le feutre le plus proche d'une couleur cible dans une liste.
+   * @param {number[]} targetRgb - [r,g,b]
+   * @param {Array<{ref:string, rgb:number[]}>} feutres
+   * @returns {{feutre: object, distance: number, alternatives: Array}}
+   */
+  function findClosest(targetRgb, feutres) {
+    const scored = rankAll(targetRgb, feutres);
     return {
       feutre: scored[0].feutre,
       distance: scored[0].distance,
@@ -142,5 +151,5 @@ const ColorMath = (() => {
     return '#' + [r, g, b].map(v => v.toString(16).padStart(2, '0')).join('').toUpperCase();
   }
 
-  return { rgbToLab, deltaE00, rgbDistance, findClosest, rgbToHex };
+  return { rgbToLab, deltaE00, rgbDistance, findClosest, rankAll, rgbToHex };
 })();

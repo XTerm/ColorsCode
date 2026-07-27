@@ -38,7 +38,12 @@
     </div>
 
     <div id="canvas-wrap" hidden>
-      <p class="hint">Touche chaque pastille de la légende, dans l’ordre que tu veux. On te demandera son numéro à chaque fois.</p>
+      <div class="calibration-bar">
+        <button id="btn-calibrate" class="btn-secondary">🎯 Étalonner les couleurs</button>
+        <span id="calibration-status" class="muted small">Pas encore étalonné</span>
+      </div>
+      <p class="hint">Étape 1 (recommandé) : touche une zone <strong>blanche du fond de page</strong> pour corriger la dominante de couleur due à la lumière/au flash.<br>
+      Étape 2 : touche chaque pastille de la légende — on te demandera son numéro à chaque fois.</p>
       <div class="canvas-scroll">
         <canvas id="capture-canvas"></canvas>
       </div>

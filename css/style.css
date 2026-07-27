@@ -154,6 +154,29 @@ button:disabled { opacity: 0.45; cursor: default; }
   margin-bottom: 10px;
 }
 
+.calibration-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+  padding: 10px 12px;
+  background: var(--surface);
+  border-radius: 10px;
+}
+.calibration-bar .btn-secondary { padding: 8px 14px; font-size: 0.85rem; }
+#calibration-status.active { color: var(--accent); font-weight: 600; }
+
+.conflict-tag {
+  font-size: 0.68rem;
+  font-weight: 600;
+  padding: 3px 7px;
+  border-radius: 20px;
+  background: var(--medium-bg);
+  color: #7A5416;
+  white-space: nowrap;
+}
+
 .canvas-scroll {
   border-radius: var(--radius);
   overflow: auto;

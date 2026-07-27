@@ -61,7 +61,16 @@ sur un serveur.
 
 - Sélection des pastilles manuelle (tap un par un), pas de détection
   automatique.
-- Pas de calibration colorimétrique : la fiabilité dépend de l'éclairage au
-  moment de la photo. Conseil affiché nulle part encore dans l'UI — à
-  ajouter si besoin : "photographier à la lumière du jour, sans flash".
+- L'étalonnage (v1.1) corrige une dominante de couleur globale et uniforme.
+  Il ne corrige pas un éclairage inégal sur la photo (ex : un coin plus
+  sombre qu'un autre) — dans ce cas, privilégier une lumière du jour aussi
+  homogène que possible, sans flash.
 - Pas d'export/partage du résultat (V2).
+
+## Historique des versions
+
+- **v1.1** : étalonnage manuel de la balance des blancs (tap sur une zone
+  blanche de la page) + garantie qu'un même feutre n'est jamais assigné à
+  deux numéros différents de la légende (résolution globale des conflits,
+  avec repli automatique sur le meilleur choix encore disponible).
+- **v1.0** : version initiale.
