@@ -3,7 +3,7 @@
  * Stratégie : cache-first pour les fichiers de l'app, avec repli réseau.
  */
 
-const CACHE_NAME = 'colorscode-v3'; // incrémenté : détail de scan cliquable dans l'historique
+const CACHE_NAME = 'colorscode-v5'; // incrémenté : correction de l'assignation 774/772
 const APP_SHELL = [
   './',
   './index.html',

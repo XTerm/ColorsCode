@@ -63,18 +63,24 @@ const App = (() => {
   // Jeux de feutres — chargement / bibliothèque
   // ==================================================
   async function ensureDefaultSet() {
-    const sets = DB.getSets();
-    if (sets.length === 0) {
-      try {
-        const res = await fetch('data/guangna-240.json');
-        const data = await res.json();
-        DB.saveSet(data);
-        DB.setActiveSetId(data.id);
-      } catch (e) {
-        console.error('Impossible de charger le jeu par défaut', e);
+    try {
+      const res = await fetch('data/guangna-240.json');
+      const bundled = await res.json();
+      const existing = DB.getSet(bundled.id);
+      // Met à jour le jeu par défaut si absent ou si une nouvelle version est disponible
+      // (ex : passage du chart digital du fabricant aux couleurs réelles mesurées à
+      // partir d'un nuancier physiquement colorié). Les autres jeux créés par
+      // l'utilisateur ne sont jamais touchés.
+      if (!existing || existing.version !== bundled.version) {
+        DB.saveSet(bundled);
+        if (existing) toast('Base de couleurs GuangNa 240 mise à jour.');
       }
-    } else if (!DB.getActiveSetId()) {
-      DB.setActiveSetId(sets[0].id);
+    } catch (e) {
+      console.error('Impossible de charger/mettre à jour le jeu par défaut', e);
+    }
+    if (!DB.getActiveSetId()) {
+      const sets = DB.getSets();
+      if (sets.length) DB.setActiveSetId(sets[0].id);
     }
   }
 

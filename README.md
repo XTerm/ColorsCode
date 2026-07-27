@@ -69,10 +69,21 @@ sur un serveur.
 
 ## Historique des versions
 
-- **v1.2** : historique cliquable — chaque scan affiche désormais les codes
-  feutre directement dans l'aperçu, et un tap ouvre le détail complet
-  (mêmes infos que dans le scanner) avec l'option de suppression déplacée
-  dans ce détail.
+- **v1.4** : correction du code 774 (confirmé manuellement par l'utilisateur
+  sur le nuancier physique — la confusion d'écriture 2/4 était sur l'autre
+  occurrence que celle supposée en v1.3). Il ne reste plus qu'un seul code
+  à confiance réduite (607) sur 241.
+- **v1.3** : base de couleurs GuangNa 240 remplacée par une mesure sur
+  encre réelle (nuancier physiquement colorié à la main, étalonné par zone
+  blanche de référence), au lieu du chart marketing du fabricant. Écart
+  moyen mesuré entre les deux sources : ΔE ≈ 16.6 (largement perceptible),
+  ce qui confirme que le chart marketing ne représentait pas fidèlement
+  l'encre réelle. Mise à jour automatique du jeu par défaut à l'ouverture
+  de l'app (les jeux personnalisés ne sont pas affectés).
+- **v1.2** : historique cliquable — chaque scan affiche désormais les
+  codes feutre directement dans l'aperçu, et un tap ouvre le détail
+  complet (mêmes infos que dans le scanner) avec l'option de suppression
+  déplacée dans ce détail.
 - **v1.1** : étalonnage manuel de la balance des blancs (tap sur une zone
   blanche de la page) + garantie qu'un même feutre n'est jamais assigné à
   deux numéros différents de la légende (résolution globale des conflits,
