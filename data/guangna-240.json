@@ -1,8 +1,8 @@
 {
   "id": "guangna-240",
   "nom": "GuangNa 240 Couleurs",
-  "version": 3,
-  "source": "Nuancier réel colorié à la main (encre sur papier), étalonné par zone blanche de référence propre à chaque page. Codes 774/772 confirmés manuellement par l'utilisateur. 1 code à confiance réduite (607, absent du chart digital) + 1 code sans lecture réelle disponible (110, secours digital).",
+  "version": 4,
+  "source": "Nuancier réel colorié à la main (encre sur papier), étalonné par zone blanche de référence propre à chaque page. Le code '110' du chart digital du fabricant s'est avéré erroné (confirmé par l'utilisateur, absent du set physique réel) et a été retiré ; '607' (présent uniquement sur le nuancier réel) est confirmé et conservé.",
   "feutres": [
     {
       "ref": "730",
@@ -1010,7 +1010,7 @@
         228,
         227
       ],
-      "source": "encre_reelle_incertain"
+      "source": "encre_reelle"
     },
     {
       "ref": "678",
@@ -2163,15 +2163,6 @@
         173
       ],
       "source": "encre_reelle"
-    },
-    {
-      "ref": "110",
-      "rgb": [
-        117,
-        128,
-        210
-      ],
-      "source": "digital_secours_pas_de_lecture_reelle"
     }
   ]
 }

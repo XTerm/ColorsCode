@@ -3,7 +3,7 @@
  * Stratégie : cache-first pour les fichiers de l'app, avec repli réseau.
  */
 
-const CACHE_NAME = 'colorscode-v6'; // incrémenté : import depuis un fichier (galerie/téléchargements) séparé de la prise de photo
+const CACHE_NAME = 'colorscode-v7'; // incrémenté : retrait du code 110 erroné, 607 confirmé
 const APP_SHELL = [
   './',
   './index.html',

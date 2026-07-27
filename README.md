@@ -69,6 +69,10 @@ sur un serveur.
 
 ## Historique des versions
 
+- **v1.6** : retrait du code "110" (erroné, propre au chart digital du
+  fabricant — confirmé absent du set physique réel par l'utilisateur).
+  "607" est désormais confirmé plutôt que marqué incertain. La base
+  compte maintenant exactement 240 feutres, tous mesurés sur encre réelle.
 - **v1.5** : bouton "Prendre une photo" et bouton "Choisir un fichier"
   séparés. L'attribut `capture` forçait l'ouverture directe de l'appareil
   photo sur Android et empêchait de choisir une image déjà existante
