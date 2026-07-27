@@ -3,7 +3,7 @@
  * Stratégie : cache-first pour les fichiers de l'app, avec repli réseau.
  */
 
-const CACHE_NAME = 'colorscode-v7'; // incrémenté : retrait du code 110 erroné, 607 confirmé
+const CACHE_NAME = 'colorscode-v8'; // incrémenté : correction majeure de l'extraction (dérive de grille + écrasement des pastels)
 const APP_SHELL = [
   './',
   './index.html',

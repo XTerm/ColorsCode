@@ -1,42 +1,42 @@
 {
   "id": "guangna-240",
   "nom": "GuangNa 240 Couleurs",
-  "version": 4,
-  "source": "Nuancier réel colorié à la main (encre sur papier), étalonné par zone blanche de référence propre à chaque page. Le code '110' du chart digital du fabricant s'est avéré erroné (confirmé par l'utilisateur, absent du set physique réel) et a été retiré ; '607' (présent uniquement sur le nuancier réel) est confirmé et conservé.",
+  "version": 5,
+  "source": "Nuancier réel colorié à la main (encre sur papier). Détection automatique du centre de chaque pastille par différence au fond local (plus robuste qu'une grille fixe). Correction de balance des blancs par zone de référence par page, avec préservation de la teinte en cas de saturation (évite l'écrasement des couleurs pastel en blanc pur). 240/240 codes confirmés.",
   "feutres": [
     {
       "ref": "730",
       "rgb": [
-        248,
-        246,
-        246
+        245,
+        249,
+        215
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "700",
       "rgb": [
-        248,
-        246,
-        246
+        247,
+        231,
+        145
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "648",
       "rgb": [
-        245,
-        244,
-        243
+        231,
+        225,
+        123
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "727",
       "rgb": [
-        245,
-        244,
-        246
+        214,
+        203,
+        76
       ],
       "source": "encre_reelle"
     },
@@ -115,9 +115,9 @@
     {
       "ref": "796",
       "rgb": [
-        252,
-        251,
-        251
+        63,
+        102,
+        82
       ],
       "source": "encre_reelle"
     },
@@ -160,9 +160,9 @@
     {
       "ref": "735",
       "rgb": [
-        204,
-        216,
-        141
+        205,
+        218,
+        142
       ],
       "source": "encre_reelle"
     },
@@ -223,9 +223,9 @@
     {
       "ref": "797",
       "rgb": [
-        39,
-        90,
-        92
+        37,
+        87,
+        95
       ],
       "source": "encre_reelle"
     },
@@ -314,8 +314,8 @@
       "ref": "626",
       "rgb": [
         255,
-        255,
-        217
+        235,
+        197
       ],
       "source": "encre_reelle"
     },
@@ -323,8 +323,8 @@
       "ref": "729",
       "rgb": [
         255,
-        238,
-        166
+        226,
+        158
       ],
       "source": "encre_reelle"
     },
@@ -376,8 +376,8 @@
     {
       "ref": "793",
       "rgb": [
-        142,
-        128,
+        140,
+        130,
         53
       ],
       "source": "encre_reelle"
@@ -431,8 +431,8 @@
       "ref": "813",
       "rgb": [
         255,
-        181,
-        40
+        175,
+        38
       ],
       "source": "encre_reelle"
     },
@@ -502,9 +502,9 @@
     {
       "ref": "722",
       "rgb": [
-        37,
-        195,
-        218
+        43,
+        198,
+        217
       ],
       "source": "encre_reelle"
     },
@@ -538,8 +538,8 @@
     {
       "ref": "695",
       "rgb": [
-        42,
-        162,
+        40,
+        163,
         169
       ],
       "source": "encre_reelle"
@@ -574,9 +574,9 @@
     {
       "ref": "694",
       "rgb": [
-        64,
-        125,
-        148
+        66,
+        126,
+        150
       ],
       "source": "encre_reelle"
     },
@@ -637,9 +637,9 @@
     {
       "ref": "636",
       "rgb": [
-        44,
-        125,
-        176
+        39,
+        126,
+        174
       ],
       "source": "encre_reelle"
     },
@@ -673,9 +673,9 @@
     {
       "ref": "821",
       "rgb": [
-        195,
+        193,
         238,
-        246
+        248
       ],
       "source": "encre_reelle"
     },
@@ -691,9 +691,9 @@
     {
       "ref": "822",
       "rgb": [
-        129,
-        224,
-        252
+        128,
+        222,
+        251
       ],
       "source": "encre_reelle"
     },
@@ -790,9 +790,9 @@
     {
       "ref": "689",
       "rgb": [
-        148,
-        201,
-        233
+        146,
+        199,
+        232
       ],
       "source": "encre_reelle"
     },
@@ -808,9 +808,9 @@
     {
       "ref": "749",
       "rgb": [
-        120,
-        161,
-        196
+        125,
+        153,
+        192
       ],
       "source": "encre_reelle"
     },
@@ -835,36 +835,36 @@
     {
       "ref": "825",
       "rgb": [
-        224,
-        215,
-        223
+        222,
+        214,
+        221
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "826",
       "rgb": [
-        198,
+        193,
         189,
-        211
+        210
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "773",
       "rgb": [
-        192,
-        173,
-        188
+        195,
+        179,
+        192
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "827",
       "rgb": [
-        162,
-        165,
-        191
+        163,
+        166,
+        192
       ],
       "source": "encre_reelle"
     },
@@ -898,9 +898,9 @@
     {
       "ref": "635",
       "rgb": [
-        235,
-        232,
-        239
+        199,
+        179,
+        221
       ],
       "source": "encre_reelle"
     },
@@ -916,63 +916,63 @@
     {
       "ref": "699",
       "rgb": [
-        236,
-        235,
-        235
+        188,
+        159,
+        199
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "833",
       "rgb": [
-        234,
-        232,
-        232
+        195,
+        107,
+        171
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "832",
       "rgb": [
-        234,
-        232,
-        232
+        145,
+        79,
+        150
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "613",
       "rgb": [
-        236,
-        235,
-        235
+        109,
+        77,
+        132
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "778",
       "rgb": [
-        241,
-        239,
-        239
+        153,
+        73,
+        144
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "629",
       "rgb": [
-        239,
-        238,
-        237
+        219,
+        218,
+        232
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "651",
       "rgb": [
-        239,
-        238,
-        237
+        152,
+        161,
+        211
       ],
       "source": "encre_reelle"
     },
@@ -981,7 +981,7 @@
       "rgb": [
         234,
         236,
-        240
+        237
       ],
       "source": "encre_reelle"
     },
@@ -1024,63 +1024,63 @@
     {
       "ref": "764",
       "rgb": [
-        229,
-        228,
-        226
+        43,
+        43,
+        59
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "837",
       "rgb": [
-        226,
-        225,
-        224
+        238,
+        216,
+        211
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "721",
       "rgb": [
-        234,
-        228,
-        229
+        235,
+        221,
+        213
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "703",
       "rgb": [
-        239,
-        234,
-        235
+        248,
+        222,
+        207
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "624",
       "rgb": [
-        236,
-        235,
-        235
+        242,
+        214,
+        208
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "625",
       "rgb": [
-        235,
-        234,
-        233
+        249,
+        203,
+        177
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "704",
       "rgb": [
-        238,
-        232,
-        233
+        255,
+        194,
+        175
       ],
       "source": "encre_reelle"
     },
@@ -1088,8 +1088,8 @@
       "ref": "691",
       "rgb": [
         255,
-        196,
-        189
+        176,
+        170
       ],
       "source": "encre_reelle"
     },
@@ -1097,8 +1097,8 @@
       "ref": "667",
       "rgb": [
         255,
-        178,
-        170
+        160,
+        153
       ],
       "source": "encre_reelle"
     },
@@ -1106,8 +1106,8 @@
       "ref": "605",
       "rgb": [
         255,
-        134,
-        148
+        121,
+        133
       ],
       "source": "encre_reelle"
     },
@@ -1124,8 +1124,8 @@
       "ref": "664",
       "rgb": [
         255,
-        80,
-        98
+        74,
+        90
       ],
       "source": "encre_reelle"
     },
@@ -1134,7 +1134,7 @@
       "rgb": [
         255,
         74,
-        111
+        109
       ],
       "source": "encre_reelle"
     },
@@ -1142,8 +1142,8 @@
       "ref": "872",
       "rgb": [
         255,
-        255,
-        255
+        236,
+        236
       ],
       "source": "encre_reelle"
     },
@@ -1151,8 +1151,8 @@
       "ref": "716",
       "rgb": [
         255,
-        255,
-        255
+        223,
+        232
       ],
       "source": "encre_reelle"
     },
@@ -1160,8 +1160,8 @@
       "ref": "677",
       "rgb": [
         255,
-        213,
-        220
+        183,
+        189
       ],
       "source": "encre_reelle"
     },
@@ -1169,8 +1169,8 @@
       "ref": "692",
       "rgb": [
         255,
-        200,
-        221
+        173,
+        192
       ],
       "source": "encre_reelle"
     },
@@ -1178,17 +1178,17 @@
       "ref": "761",
       "rgb": [
         255,
-        173,
-        203
+        153,
+        179
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "711",
       "rgb": [
-        233,
-        240,
-        243
+        255,
+        143,
+        170
       ],
       "source": "encre_reelle"
     },
@@ -1196,8 +1196,8 @@
       "ref": "710",
       "rgb": [
         255,
-        153,
-        173
+        135,
+        153
       ],
       "source": "encre_reelle"
     },
@@ -1205,8 +1205,8 @@
       "ref": "713",
       "rgb": [
         255,
-        156,
-        189
+        133,
+        162
       ],
       "source": "encre_reelle"
     },
@@ -1214,8 +1214,8 @@
       "ref": "714",
       "rgb": [
         255,
-        103,
-        153
+        92,
+        137
       ],
       "source": "encre_reelle"
     },
@@ -1223,8 +1223,8 @@
       "ref": "715",
       "rgb": [
         255,
-        94,
-        108
+        80,
+        93
       ],
       "source": "encre_reelle"
     },
@@ -1232,16 +1232,16 @@
       "ref": "760",
       "rgb": [
         255,
-        58,
-        64
+        51,
+        57
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "836",
       "rgb": [
-        255,
-        255,
+        250,
+        252,
         255
       ],
       "source": "encre_reelle"
@@ -1250,7 +1250,7 @@
       "ref": "723",
       "rgb": [
         255,
-        255,
+        238,
         255
       ],
       "source": "encre_reelle"
@@ -1259,8 +1259,8 @@
       "ref": "873",
       "rgb": [
         255,
-        255,
-        255
+        223,
+        239
       ],
       "source": "encre_reelle"
     },
@@ -1268,7 +1268,7 @@
       "ref": "658",
       "rgb": [
         255,
-        255,
+        232,
         255
       ],
       "source": "encre_reelle"
@@ -1277,8 +1277,8 @@
       "ref": "655",
       "rgb": [
         255,
-        223,
-        255
+        192,
+        234
       ],
       "source": "encre_reelle"
     },
@@ -1286,8 +1286,8 @@
       "ref": "612",
       "rgb": [
         255,
-        216,
-        245
+        193,
+        219
       ],
       "source": "encre_reelle"
     },
@@ -1295,8 +1295,8 @@
       "ref": "606",
       "rgb": [
         255,
-        171,
-        238
+        165,
+        230
       ],
       "source": "encre_reelle"
     },
@@ -1304,8 +1304,8 @@
       "ref": "666",
       "rgb": [
         255,
-        146,
-        213
+        139,
+        203
       ],
       "source": "encre_reelle"
     },
@@ -1313,8 +1313,8 @@
       "ref": "671",
       "rgb": [
         255,
-        216,
-        245
+        192,
+        218
       ],
       "source": "encre_reelle"
     },
@@ -1331,8 +1331,8 @@
       "ref": "719",
       "rgb": [
         255,
-        255,
-        251
+        242,
+        217
       ],
       "source": "encre_reelle"
     },
@@ -1340,8 +1340,8 @@
       "ref": "701",
       "rgb": [
         255,
-        255,
-        252
+        237,
+        220
       ],
       "source": "encre_reelle"
     },
@@ -1349,8 +1349,8 @@
       "ref": "720",
       "rgb": [
         255,
-        255,
-        255
+        243,
+        227
       ],
       "source": "encre_reelle"
     },
@@ -1358,8 +1358,8 @@
       "ref": "702",
       "rgb": [
         255,
-        255,
-        209
+        219,
+        179
       ],
       "source": "encre_reelle"
     },
@@ -1367,8 +1367,8 @@
       "ref": "649",
       "rgb": [
         255,
-        245,
-        193
+        208,
+        164
       ],
       "source": "encre_reelle"
     },
@@ -1376,8 +1376,8 @@
       "ref": "604",
       "rgb": [
         255,
-        205,
-        105
+        170,
+        87
       ],
       "source": "encre_reelle"
     },
@@ -1385,8 +1385,8 @@
       "ref": "725",
       "rgb": [
         255,
-        197,
-        115
+        167,
+        98
       ],
       "source": "encre_reelle"
     },
@@ -1394,8 +1394,8 @@
       "ref": "631",
       "rgb": [
         255,
-        169,
-        99
+        149,
+        88
       ],
       "source": "encre_reelle"
     },
@@ -1403,8 +1403,8 @@
       "ref": "785",
       "rgb": [
         255,
-        139,
-        89
+        127,
+        75
       ],
       "source": "encre_reelle"
     },
@@ -1412,8 +1412,8 @@
       "ref": "724",
       "rgb": [
         255,
-        255,
-        250
+        239,
+        227
       ],
       "source": "encre_reelle"
     },
@@ -1421,8 +1421,8 @@
       "ref": "683",
       "rgb": [
         255,
-        255,
-        223
+        235,
+        200
       ],
       "source": "encre_reelle"
     },
@@ -1430,8 +1430,8 @@
       "ref": "656",
       "rgb": [
         255,
-        244,
-        167
+        211,
+        143
       ],
       "source": "encre_reelle"
     },
@@ -1439,8 +1439,8 @@
       "ref": "684",
       "rgb": [
         255,
-        246,
-        196
+        212,
+        169
       ],
       "source": "encre_reelle"
     },
@@ -1448,8 +1448,8 @@
       "ref": "802",
       "rgb": [
         255,
-        229,
-        123
+        191,
+        101
       ],
       "source": "encre_reelle"
     },
@@ -1457,8 +1457,8 @@
       "ref": "786",
       "rgb": [
         255,
-        211,
-        64
+        168,
+        49
       ],
       "source": "encre_reelle"
     },
@@ -1466,8 +1466,8 @@
       "ref": "618",
       "rgb": [
         255,
-        216,
-        139
+        186,
+        121
       ],
       "source": "encre_reelle"
     },
@@ -1475,8 +1475,8 @@
       "ref": "766",
       "rgb": [
         255,
-        255,
-        203
+        248,
+        172
       ],
       "source": "encre_reelle"
     },
@@ -1484,8 +1484,8 @@
       "ref": "732",
       "rgb": [
         255,
-        255,
-        247
+        249,
+        212
       ],
       "source": "encre_reelle"
     },
@@ -1493,8 +1493,8 @@
       "ref": "733",
       "rgb": [
         255,
-        255,
-        209
+        234,
+        176
       ],
       "source": "encre_reelle"
     },
@@ -1502,8 +1502,8 @@
       "ref": "777",
       "rgb": [
         255,
-        255,
-        136
+        232,
+        116
       ],
       "source": "encre_reelle"
     },
@@ -1511,8 +1511,8 @@
       "ref": "603",
       "rgb": [
         255,
-        242,
-        105
+        214,
+        89
       ],
       "source": "encre_reelle"
     },
@@ -1520,8 +1520,8 @@
       "ref": "615",
       "rgb": [
         255,
-        222,
-        54
+        190,
+        46
       ],
       "source": "encre_reelle"
     },
@@ -1529,8 +1529,8 @@
       "ref": "663",
       "rgb": [
         255,
-        164,
-        121
+        145,
+        106
       ],
       "source": "encre_reelle"
     },
@@ -1538,8 +1538,8 @@
       "ref": "783",
       "rgb": [
         255,
-        146,
-        108
+        130,
+        96
       ],
       "source": "encre_reelle"
     },
@@ -1547,8 +1547,8 @@
       "ref": "782",
       "rgb": [
         255,
-        116,
-        96
+        99,
+        82
       ],
       "source": "encre_reelle"
     },
@@ -1556,8 +1556,8 @@
       "ref": "632",
       "rgb": [
         255,
-        136,
-        108
+        123,
+        97
       ],
       "source": "encre_reelle"
     },
@@ -1565,8 +1565,8 @@
       "ref": "784",
       "rgb": [
         255,
-        106,
-        92
+        99,
+        86
       ],
       "source": "encre_reelle"
     },
@@ -1574,8 +1574,8 @@
       "ref": "630",
       "rgb": [
         255,
-        255,
-        247
+        236,
+        225
       ],
       "source": "encre_reelle"
     },
@@ -1583,8 +1583,8 @@
       "ref": "754",
       "rgb": [
         255,
-        252,
-        244
+        231,
+        224
       ],
       "source": "encre_reelle"
     },
@@ -1592,8 +1592,8 @@
       "ref": "755",
       "rgb": [
         255,
-        216,
-        201
+        200,
+        186
       ],
       "source": "encre_reelle"
     },
@@ -1601,8 +1601,8 @@
       "ref": "756",
       "rgb": [
         255,
-        207,
-        204
+        203,
+        201
       ],
       "source": "encre_reelle"
     },
@@ -1610,8 +1610,8 @@
       "ref": "619",
       "rgb": [
         255,
-        190,
-        193
+        176,
+        179
       ],
       "source": "encre_reelle"
     },
@@ -1627,9 +1627,9 @@
     {
       "ref": "672",
       "rgb": [
-        194,
-        105,
-        95
+        193,
+        103,
+        94
       ],
       "source": "encre_reelle"
     },
@@ -1674,7 +1674,7 @@
       "rgb": [
         223,
         127,
-        162
+        159
       ],
       "source": "encre_reelle"
     },
@@ -1682,8 +1682,8 @@
       "ref": "738",
       "rgb": [
         255,
-        255,
-        255
+        248,
+        244
       ],
       "source": "encre_reelle"
     },
@@ -1691,8 +1691,8 @@
       "ref": "752",
       "rgb": [
         255,
-        255,
-        255
+        246,
+        251
       ],
       "source": "encre_reelle"
     },
@@ -1700,8 +1700,8 @@
       "ref": "771",
       "rgb": [
         255,
-        255,
-        255
+        246,
+        251
       ],
       "source": "encre_reelle"
     },
@@ -1726,18 +1726,18 @@
     {
       "ref": "779",
       "rgb": [
-        125,
-        73,
-        82
+        133,
+        78,
+        89
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "808",
       "rgb": [
-        87,
-        65,
-        75
+        91,
+        63,
+        72
       ],
       "source": "encre_reelle"
     },
@@ -1754,8 +1754,8 @@
       "ref": "717",
       "rgb": [
         255,
-        216,
-        169
+        215,
+        168
       ],
       "source": "encre_reelle"
     },
@@ -1763,8 +1763,8 @@
       "ref": "654",
       "rgb": [
         255,
-        220,
-        191
+        216,
+        187
       ],
       "source": "encre_reelle"
     },
@@ -1836,7 +1836,7 @@
       "rgb": [
         255,
         255,
-        255
+        243
       ],
       "source": "encre_reelle"
     },
@@ -1924,9 +1924,9 @@
     {
       "ref": "633",
       "rgb": [
-        198,
-        241,
-        255
+        194,
+        237,
+        252
       ],
       "source": "encre_reelle"
     },
@@ -1978,18 +1978,18 @@
     {
       "ref": "600",
       "rgb": [
-        237,
-        234,
-        233
+        235,
+        231,
+        230
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "801",
       "rgb": [
-        227,
+        224,
         223,
-        221
+        217
       ],
       "source": "encre_reelle"
     },
@@ -2023,8 +2023,8 @@
     {
       "ref": "686",
       "rgb": [
-        255,
-        255,
+        245,
+        252,
         255
       ],
       "source": "encre_reelle"
@@ -2032,9 +2032,9 @@
     {
       "ref": "610",
       "rgb": [
-        255,
-        255,
-        255
+        212,
+        234,
+        241
       ],
       "source": "encre_reelle"
     },
@@ -2050,36 +2050,36 @@
     {
       "ref": "680",
       "rgb": [
-        255,
-        255,
-        255
+        121,
+        129,
+        128
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "807",
       "rgb": [
-        47,
-        47,
-        43
+        58,
+        54,
+        51
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "611",
       "rgb": [
-        223,
-        220,
-        223
+        54,
+        55,
+        54
       ],
       "source": "encre_reelle"
     },
     {
       "ref": "855",
       "rgb": [
-        220,
-        216,
-        217
+        232,
+        215,
+        143
       ],
       "source": "encre_reelle"
     },
@@ -2095,9 +2095,9 @@
     {
       "ref": "662",
       "rgb": [
-        220,
-        222,
-        223
+        123,
+        224,
+        128
       ],
       "source": "encre_reelle"
     },
@@ -2105,8 +2105,8 @@
       "ref": "859",
       "rgb": [
         255,
-        183,
-        152
+        173,
+        144
       ],
       "source": "encre_reelle"
     },
@@ -2114,8 +2114,8 @@
       "ref": "661",
       "rgb": [
         255,
-        147,
-        125
+        135,
+        114
       ],
       "source": "encre_reelle"
     },
@@ -2123,8 +2123,8 @@
       "ref": "854",
       "rgb": [
         255,
-        200,
-        196
+        175,
+        172
       ],
       "source": "encre_reelle"
     },
@@ -2132,8 +2132,8 @@
       "ref": "712",
       "rgb": [
         255,
-        255,
-        255
+        162,
+        206
       ],
       "source": "encre_reelle"
     },
@@ -2141,8 +2141,8 @@
       "ref": "762",
       "rgb": [
         255,
-        255,
-        255
+        199,
+        217
       ],
       "source": "encre_reelle"
     },
@@ -2150,8 +2150,8 @@
       "ref": "660",
       "rgb": [
         255,
-        255,
-        255
+        172,
+        202
       ],
       "source": "encre_reelle"
     },
@@ -2159,8 +2159,8 @@
       "ref": "765",
       "rgb": [
         255,
-        255,
-        173
+        248,
+        144
       ],
       "source": "encre_reelle"
     }

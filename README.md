@@ -69,6 +69,15 @@ sur un serveur.
 
 ## Historique des versions
 
+- **v1.7** : correction majeure de l'extraction du nuancier réel. Deux bugs
+  identifiés : (1) la grille de positions dérivait sur certaines lignes,
+  faisant échantillonner le fond blanc au lieu du cercle (ex : toute la
+  ligne des violets ressortait blanche) — corrigé par une détection locale
+  du centre de chaque pastille (différence au fond local) plutôt qu'une
+  grille figée ; (2) la correction de balance des blancs écrasait les
+  couleurs pastel en blanc pur en écrêtant chaque canal RGB indépendamment
+  — corrigé en préservant les proportions (donc la teinte) lors de
+  l'écrêtage. 240/240 codes désormais correctement mesurés.
 - **v1.6** : retrait du code "110" (erroné, propre au chart digital du
   fabricant — confirmé absent du set physique réel par l'utilisateur).
   "607" est désormais confirmé plutôt que marqué incertain. La base
