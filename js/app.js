@@ -23,7 +23,8 @@ const App = (() => {
   };
   const navButtons = $$('.nav-btn');
 
-  const fileInput = $('#file-input');
+  const fileInputCamera = $('#file-input-camera');
+  const fileInputGallery = $('#file-input-gallery');
   const canvas = $('#capture-canvas');
   const ctx = canvas.getContext('2d', { willReadFrequently: true });
   const emptyState = $('#scanner-empty');
@@ -255,9 +256,17 @@ const App = (() => {
   // ==================================================
   // Scanner — capture + sélection des pastilles
   // ==================================================
-  $('#btn-take-photo').addEventListener('click', () => fileInput.click());
+  $('#btn-take-photo').addEventListener('click', () => fileInputCamera.click());
+  $('#btn-choose-file').addEventListener('click', () => fileInputGallery.click());
 
-  fileInput.addEventListener('change', (e) => {
+  fileInputCamera.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    loadImageFile(file);
+    e.target.value = '';
+  });
+
+  fileInputGallery.addEventListener('change', (e) => {
     const file = e.target.files[0];
     if (!file) return;
     loadImageFile(file);

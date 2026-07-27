@@ -148,6 +148,14 @@ button:disabled { opacity: 0.45; cursor: default; }
 }
 .empty-state p { color: var(--ink-muted); margin-bottom: 18px; }
 
+.capture-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 320px;
+  margin: 0 auto;
+}
+
 .hint {
   font-size: 0.85rem;
   color: var(--ink-muted);

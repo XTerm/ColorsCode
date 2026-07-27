@@ -33,8 +33,12 @@
     <div id="scanner-empty" class="empty-state">
       <p class="empty-illustration" aria-hidden="true">⬡</p>
       <p>Prends en photo (ou importe) la légende numérotée de ton coloriage mystère.</p>
-      <button id="btn-take-photo" class="btn-primary">Photo / Importer une image</button>
-      <input type="file" id="file-input" accept="image/*" capture="environment" hidden>
+      <div class="capture-buttons">
+        <button id="btn-take-photo" class="btn-primary">📷 Prendre une photo</button>
+        <button id="btn-choose-file" class="btn-secondary">🖼️ Choisir un fichier (galerie, Téléchargements…)</button>
+      </div>
+      <input type="file" id="file-input-camera" accept="image/*" capture="environment" hidden>
+      <input type="file" id="file-input-gallery" accept="image/*" hidden>
     </div>
 
     <div id="canvas-wrap" hidden>

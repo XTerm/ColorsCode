@@ -69,6 +69,10 @@ sur un serveur.
 
 ## Historique des versions
 
+- **v1.5** : bouton "Prendre une photo" et bouton "Choisir un fichier"
+  séparés. L'attribut `capture` forçait l'ouverture directe de l'appareil
+  photo sur Android et empêchait de choisir une image déjà existante
+  (galerie, Téléchargements, Drive…).
 - **v1.4** : correction du code 774 (confirmé manuellement par l'utilisateur
   sur le nuancier physique — la confusion d'écriture 2/4 était sur l'autre
   occurrence que celle supposée en v1.3). Il ne reste plus qu'un seul code

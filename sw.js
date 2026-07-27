@@ -3,7 +3,7 @@
  * Stratégie : cache-first pour les fichiers de l'app, avec repli réseau.
  */
 
-const CACHE_NAME = 'colorscode-v5'; // incrémenté : correction de l'assignation 774/772
+const CACHE_NAME = 'colorscode-v6'; // incrémenté : import depuis un fichier (galerie/téléchargements) séparé de la prise de photo
 const APP_SHELL = [
   './',
   './index.html',
