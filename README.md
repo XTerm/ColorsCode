@@ -69,6 +69,16 @@ sur un serveur.
 
 ## Historique des versions
 
+- **v1.13** : correction d'une régression introduite en v1.12. La modale
+  `<dialog>` du numéro de pastille se positionnait par rapport à la page
+  entière, pas par rapport à la zone où l'utilisateur était zoomé (pinch-
+  zoom) — obligeant à dézoomer pour l'atteindre, contrairement à l'ancien
+  `prompt()` qui échappait à ce problème (fenêtre système). Remplacé par
+  une bulle de saisie légère, positionnée en `absolute` directement au
+  point tapé dans le conteneur du canvas : elle zoome/scrolle avec le
+  contenu au lieu de rester figée sur la page. Les autres modales (sauver
+  un scan, nouveau jeu) restent inchangées, ce cas ne les concernant pas.
+
 - **v1.12** : quatre améliorations rapides. (1) Modifier une couleur
   existante dans un jeu de feutres (toucher une ligne pour la charger dans
   le formulaire, au lieu de devoir supprimer/recréer). (2) Recherche par

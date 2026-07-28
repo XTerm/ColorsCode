@@ -3,7 +3,7 @@
  * Stratégie : cache-first pour les fichiers de l'app, avec repli réseau.
  */
 
-const CACHE_NAME = 'colorscode-v13'; // incrémenté : édition/recherche de feutres, modales soignées, retour haptique
+const CACHE_NAME = 'colorscode-v14'; // incrémenté : bulle de saisie du numéro ancrée au tap (corrige la régression de zoom)
 const APP_SHELL = [
   './',
   './index.html',

@@ -277,6 +277,7 @@ button:disabled { opacity: 0.45; cursor: default; }
   border: 1px solid var(--hairline);
   background: #fff;
   margin-bottom: 10px;
+  position: relative;
 }
 #capture-canvas {
   display: block;
@@ -286,6 +287,38 @@ button:disabled { opacity: 0.45; cursor: default; }
 }
 .canvas-controls { display: flex; gap: 8px; }
 .canvas-controls .btn-secondary { flex: 1; }
+
+.numero-popup {
+  position: absolute;
+  z-index: 15;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--ink);
+  padding: 6px;
+  border-radius: 24px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.3);
+}
+.numero-popup input {
+  width: 64px;
+  padding: 8px 10px;
+  border-radius: 18px;
+  border: none;
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  text-align: center;
+}
+.numero-popup-ok {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: none;
+  background: var(--accent);
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
 
 /* ---------- Résultats ---------- */
 .results-header {
