@@ -570,7 +570,13 @@ const App = (() => {
     }
     if (currentPoints.length && !confirm('La détection automatique remplace les pastilles déjà pointées. Continuer ?')) return;
 
-    toast('Détection en cours…');
+    const originalLabel = btnDetect.textContent;
+    btnDetect.disabled = true;
+    btnDetect.textContent = '⏳ Analyse en cours… (peut prendre plusieurs secondes)';
+
+    // setTimeout laisse le navigateur repeindre le bouton avant de bloquer
+    // le thread avec le calcul (sinon le texte "Analyse en cours" n'apparaît
+    // jamais à l'écran avant que ça se termine ou plante).
     setTimeout(() => {
       let found;
       try {
@@ -578,8 +584,13 @@ const App = (() => {
       } catch (err) {
         console.error('Erreur détection', err);
         alert('La détection a échoué : ' + (err && err.message ? err.message : err));
+        btnDetect.disabled = false;
+        btnDetect.textContent = originalLabel;
         return;
       }
+      btnDetect.disabled = false;
+      btnDetect.textContent = originalLabel;
+
       if (!found || found.length === 0) {
         toast('Aucune pastille détectée — essaie le repérage manuel.');
         return;
@@ -591,7 +602,7 @@ const App = (() => {
       renderCanvas();
       renderResults();
       toast(`${found.length} pastille(s) détectée(s) — vérifie les numéros.`);
-    }, 30);
+    }, 50);
   });
 
   /**
@@ -603,17 +614,28 @@ const App = (() => {
    * à corriger si besoin dans les résultats.
    */
   function detectSwatches() {
-    const w = originalImageData.width, h = originalImageData.height;
+    const fullW = originalImageData.width, fullH = originalImageData.height;
     const data = originalImageData.data;
+
+    // Travaille sur une grille sous-échantillonnée (1 pixel sur 2 dans
+    // chaque direction, soit 4x moins de calcul) : les pastilles font
+    // largement plus de 2px, donc ça ne change rien à la détection, mais
+    // ça change beaucoup la vitesse sur un téléphone modeste.
+    const step = 2;
+    const w = Math.ceil(fullW / step);
+    const h = Math.ceil(fullH / step);
     const n = w * h;
 
     const score = new Uint8Array(n);
-    for (let i = 0, p = 0; i < data.length; i += 4, p++) {
-      const r = data[i], g = data[i + 1], b = data[i + 2];
-      const maxc = Math.max(r, g, b), minc = Math.min(r, g, b);
-      const sat = maxc > 0 ? (maxc - minc) / maxc : 0;
-      const dark = 1 - maxc / 255;
-      score[p] = (sat > 0.22 || dark > 0.45) ? 1 : 0;
+    for (let y = 0; y < h; y++) {
+      for (let x = 0; x < w; x++) {
+        const srcIdx = ((y * step) * fullW + (x * step)) * 4;
+        const r = data[srcIdx], g = data[srcIdx + 1], b = data[srcIdx + 2];
+        const maxc = Math.max(r, g, b), minc = Math.min(r, g, b);
+        const sat = maxc > 0 ? (maxc - minc) / maxc : 0;
+        const dark = 1 - maxc / 255;
+        score[y * w + x] = (sat > 0.22 || dark > 0.45) ? 1 : 0;
+      }
     }
 
     const labels = new Int32Array(n);
@@ -671,7 +693,8 @@ const App = (() => {
     });
 
     return ordered.map((c, i) => {
-      const cx = Math.round(c.cx), cy = Math.round(c.cy);
+      // remise à l'échelle vers les coordonnées de l'image pleine résolution
+      const cx = Math.round(c.cx * step), cy = Math.round(c.cy * step);
       const rawRgb = sampleColor(cx, cy);
       return { numero: String(i + 1), x: cx, y: cy, rawRgb };
     });

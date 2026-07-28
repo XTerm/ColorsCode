@@ -69,6 +69,17 @@ sur un serveur.
 
 ## Historique des versions
 
+- **v1.18** : "Détection en cours…" restait affiché sans jamais aboutir —
+  probablement un calcul bien plus lent sur téléphone que dans mes tests
+  (faits sur un serveur), avec un toast éphémère (2.2s) qui disparaissait
+  avant la fin, donnant l'impression que rien ne se passait. Deux
+  corrections : (1) l'analyse tourne maintenant sur une grille
+  sous-échantillonnée (1 pixel sur 2 dans chaque sens), divisant le volume
+  de calcul par 4 sans perte de précision sur les pastilles (bien plus
+  grandes que 2px) ; (2) le bouton affiche "⏳ Analyse en cours…" et reste
+  désactivé jusqu'à la fin réelle du calcul, au lieu d'un toast qui
+  disparaît tout seul.
+
 - **v1.17** : retour définitif au `prompt()` natif du système pour le
   numéro de pastille (fiable à 100% quel que soit le zoom, contrairement
   à mes deux tentatives de bulle personnalisée qui cassaient toujours un
