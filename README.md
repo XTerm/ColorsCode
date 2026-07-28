@@ -69,6 +69,11 @@ sur un serveur.
 
 ## Historique des versions
 
+- **v1.14** : le champ de saisie du numéro de pastille n'imposait qu'un
+  clavier numérique — or les légendes peuvent utiliser des lettres (ex :
+  1-9, 0, A-F, voire au-delà selon les livres). Passé à un clavier
+  standard, avec majuscule automatique pour les lettres.
+
 - **v1.13** : correction d'une régression introduite en v1.12. La modale
   `<dialog>` du numéro de pastille se positionnait par rapport à la page
   entière, pas par rapport à la zone où l'utilisateur était zoomé (pinch-
