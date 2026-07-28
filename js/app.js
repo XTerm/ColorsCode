@@ -162,6 +162,7 @@ const App = (() => {
 
       header.querySelector('[data-action="delete"]').addEventListener('click', () => {
         if (confirm(`Supprimer le jeu "${set.nom}" ?`)) {
+          vibrate();
           DB.deleteSet(set.id);
           renderSets();
           refreshSetSelect();
@@ -194,12 +195,14 @@ const App = (() => {
   });
 
   // Création manuelle d'un jeu vide, à compléter feutre par feutre
-  $('#btn-new-set').addEventListener('click', () => {
-    const nom = prompt('Nom du nouveau jeu de feutres (ex : Staedtler 48)');
-    if (!nom) return;
+  $('#btn-new-set').addEventListener('click', async () => {
+    const result = await askInput('Nouveau jeu de feutres', [
+      { id: 'nom', label: 'Nom du jeu', placeholder: 'ex : Staedtler 48' }
+    ]);
+    if (!result || !result.nom) return;
     const set = {
       id: 'custom-' + DB.uid(),
-      nom,
+      nom: result.nom,
       source: 'Créé manuellement',
       feutres: []
     };
@@ -210,33 +213,80 @@ const App = (() => {
     refreshSetSelect();
   });
 
+  let editorEditingIndex = null; // index en cours d'édition dans le jeu ouvert, ou null
+  let editorSearchTerm = '';
+
   function openSetEditor(setId) {
     const set = DB.getSet(setId);
     if (!set) return;
     $('#editor-set-name').textContent = set.nom;
+    editorEditingIndex = null;
+    editorSearchTerm = '';
+    $('#editor-search').value = '';
+    exitEditMode();
     renderEditorList(set);
     $('#set-editor-dialog').showModal();
   }
 
+  $('#editor-search').addEventListener('input', () => {
+    editorSearchTerm = $('#editor-search').value.trim().toLowerCase();
+    const set = DB.getSet(DB.getActiveSetId());
+    if (set) renderEditorList(set);
+  });
+
   function renderEditorList(set) {
     const list = $('#editor-feutres-list');
     list.innerHTML = '';
+    const term = editorSearchTerm;
     set.feutres.forEach((f, i) => {
+      if (term && !f.ref.toLowerCase().includes(term)) return;
       const row = document.createElement('div');
-      row.className = 'editor-row';
+      row.className = 'editor-row' + (i === editorEditingIndex ? ' editing' : '');
       row.innerHTML = `
         <span class="hex-chip small" style="background:${ColorMath.rgbToHex(f.rgb)}"></span>
-        <span class="mono">${escapeHtml(f.ref)}</span>
-        <button class="icon-btn danger" data-i="${i}">✕</button>
+        <span class="mono editor-row-ref">${escapeHtml(f.ref)}</span>
+        <button class="icon-btn danger" data-i="${i}" title="Supprimer">✕</button>
       `;
-      row.querySelector('button').addEventListener('click', () => {
+      row.querySelector('.editor-row-ref').addEventListener('click', () => enterEditMode(set, i));
+      row.querySelector('.hex-chip').addEventListener('click', () => enterEditMode(set, i));
+      row.querySelector('button').addEventListener('click', (ev) => {
+        ev.stopPropagation();
         set.feutres.splice(i, 1);
         DB.saveSet(set);
+        if (editorEditingIndex === i) exitEditMode();
         renderEditorList(set);
       });
       list.appendChild(row);
     });
+    if (list.children.length === 0) {
+      list.innerHTML = `<p class="muted small">Aucun résultat${term ? ` pour "${escapeHtml(term)}"` : ''}.</p>`;
+    }
   }
+
+  function enterEditMode(set, index) {
+    const f = set.feutres[index];
+    editorEditingIndex = index;
+    $('#editor-ref-input').value = f.ref;
+    $('#editor-color-input').value = ColorMath.rgbToHex(f.rgb);
+    $('#editor-add-feutre').textContent = 'Enregistrer';
+    $('#editor-cancel-edit').hidden = false;
+    $('#editor-ref-input').focus();
+    renderEditorList(set);
+  }
+
+  function exitEditMode() {
+    editorEditingIndex = null;
+    $('#editor-ref-input').value = '';
+    $('#editor-color-input').value = '#e4543f';
+    $('#editor-add-feutre').textContent = 'Ajouter';
+    $('#editor-cancel-edit').hidden = true;
+  }
+
+  $('#editor-cancel-edit').addEventListener('click', () => {
+    const set = DB.getSet(DB.getActiveSetId());
+    exitEditMode();
+    if (set) renderEditorList(set);
+  });
 
   $('#editor-add-feutre').addEventListener('click', () => {
     const setId = DB.getActiveSetId();
@@ -246,14 +296,20 @@ const App = (() => {
     const color = $('#editor-color-input').value; // #rrggbb
     if (!ref) { alert('Indique une référence.'); return; }
     const rgb = hexToRgb(color);
-    set.feutres.push({ ref, rgb });
+
+    if (editorEditingIndex !== null) {
+      set.feutres[editorEditingIndex] = { ref, rgb };
+      toast(`Feutre "${ref}" modifié.`);
+    } else {
+      set.feutres.push({ ref, rgb });
+    }
     DB.saveSet(set);
+    exitEditMode();
     renderEditorList(set);
-    $('#editor-ref-input').value = '';
-    $('#editor-ref-input').focus();
   });
 
   $('#editor-close').addEventListener('click', () => {
+    exitEditMode();
     $('#set-editor-dialog').close();
     renderSets();
     refreshSetSelect();
@@ -358,7 +414,7 @@ const App = (() => {
       : 'Pas encore étalonné';
   }
 
-  canvas.addEventListener('click', (e) => {
+  canvas.addEventListener('click', async (e) => {
     const activeSet = DB.getSet(DB.getActiveSetId());
     if (!activeSet || activeSet.feutres.length === 0) {
       alert('Choisis d’abord un jeu de feutres actif (onglet Feutres).');
@@ -370,6 +426,7 @@ const App = (() => {
     const rawRgb = sampleColor(x, y);
 
     if (calibrating) {
+      vibrate();
       calibrateFromSample(rawRgb);
       calibrating = false;
       fineTunePanel.hidden = false;
@@ -381,9 +438,12 @@ const App = (() => {
       return;
     }
 
-    const numeroInput = prompt('Numéro de la légende pour cette pastille :', String(nextNumero));
-    if (numeroInput === null) return; // annulé
-    const numero = numeroInput.trim() || String(nextNumero);
+    vibrate();
+    const result = await askInput('Nouvelle pastille', [
+      { id: 'numero', label: 'Numéro de la légende', value: nextNumero }
+    ]);
+    if (!result) return; // annulé
+    const numero = result.numero || String(nextNumero);
 
     currentPoints.push({ numero, x, y, rawRgb });
     nextNumero = (parseInt(numero, 10) || nextNumero) + 1;
@@ -488,6 +548,7 @@ const App = (() => {
     if (!activeSet) return;
     const entry = point.ranked.find(c => c.feutre.ref === feutreRef);
     if (!entry) return;
+    vibrate();
     point.match = { feutre: entry.feutre, distance: entry.distance };
     point.manualOverride = true;
     point.wasAlternative = false;
@@ -667,9 +728,14 @@ const App = (() => {
     return { cls: 'low', text: 'Approximatif' };
   }
 
-  btnSaveScan.addEventListener('click', () => {
-    const livre = prompt('Titre du livre :', '') || '';
-    const page = prompt('Numéro de page :', '') || '';
+  btnSaveScan.addEventListener('click', async () => {
+    const result = await askInput('Enregistrer ce scan', [
+      { id: 'livre', label: 'Titre du livre', placeholder: 'ex : Chats & Félins' },
+      { id: 'page', label: 'Numéro de page', placeholder: 'ex : 28' }
+    ]);
+    if (!result) return; // annulé
+    const { livre, page } = result;
+    vibrate();
     const scan = {
       id: DB.uid(),
       livre, page,
@@ -759,6 +825,7 @@ const App = (() => {
     const deleteBtn = $('#detail-delete');
     deleteBtn.onclick = () => {
       if (confirm('Supprimer ce scan de l’historique ?')) {
+        vibrate();
         DB.deleteScan(scan.id);
         $('#scan-detail-dialog').close();
         renderHistory();
@@ -794,6 +861,68 @@ const App = (() => {
     el.classList.add('show');
     clearTimeout(toastTimeout);
     toastTimeout = setTimeout(() => el.classList.remove('show'), 2200);
+  }
+
+  /** Retour haptique léger — silencieux si le navigateur ne le supporte pas. */
+  function vibrate(ms = 12) {
+    if (navigator.vibrate) { try { navigator.vibrate(ms); } catch (e) {} }
+  }
+
+  /**
+   * Modale de saisie générique, remplace window.prompt() par un composant
+   * cohérent avec le reste de l'app. Retourne une Promise résolue avec un
+   * objet {id: valeur} pour chaque champ, ou null si annulé.
+   * fields: [{id, label, value, placeholder, type}]
+   */
+  function askInput(title, fields) {
+    return new Promise(resolve => {
+      const dialog = $('#input-dialog');
+      $('#input-dialog-title').textContent = title;
+      const container = $('#input-dialog-fields');
+      container.innerHTML = '';
+      fields.forEach(f => {
+        const wrap = document.createElement('div');
+        wrap.className = 'input-field-row';
+        wrap.innerHTML = `
+          <label for="field-${f.id}">${escapeHtml(f.label)}</label>
+          <input type="${f.type || 'text'}" id="field-${f.id}"
+                 value="${escapeHtml(f.value != null ? String(f.value) : '')}"
+                 placeholder="${escapeHtml(f.placeholder || '')}">
+        `;
+        container.appendChild(wrap);
+      });
+
+      const okBtn = $('#input-dialog-ok');
+      const cancelBtn = $('#input-dialog-cancel');
+      let done = false;
+
+      function finish(result) {
+        if (done) return;
+        done = true;
+        dialog.close();
+        okBtn.removeEventListener('click', onOk);
+        cancelBtn.removeEventListener('click', onCancel);
+        dialog.removeEventListener('cancel', onCancel);
+        resolve(result);
+      }
+      function onOk() {
+        const result = {};
+        fields.forEach(f => { result[f.id] = $(`#field-${f.id}`).value.trim(); });
+        finish(result);
+      }
+      function onCancel() { finish(null); }
+
+      okBtn.addEventListener('click', onOk);
+      cancelBtn.addEventListener('click', onCancel);
+      dialog.addEventListener('cancel', onCancel);
+      dialog.showModal();
+
+      const firstInput = container.querySelector('input');
+      if (firstInput) { firstInput.focus(); firstInput.select(); }
+      container.querySelectorAll('input').forEach(inp => {
+        inp.addEventListener('keydown', e => { if (e.key === 'Enter') onOk(); });
+      });
+    });
   }
 
   // ==================================================

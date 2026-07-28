@@ -126,6 +126,8 @@
     <input type="text" id="editor-ref-input" placeholder="Référence (ex : 730)">
     <button id="editor-add-feutre" class="btn-primary">Ajouter</button>
   </div>
+  <button id="editor-cancel-edit" class="btn-ghost small-btn" hidden>Annuler la modification</button>
+  <input type="text" id="editor-search" class="editor-search" placeholder="🔍 Rechercher un code…">
   <div id="editor-feutres-list" class="editor-list"></div>
   <button id="editor-close" class="btn-secondary">Fermer</button>
 </dialog>
@@ -138,6 +140,16 @@
   <div class="dialog-actions">
     <button id="detail-delete" class="btn-ghost danger-text">Supprimer ce scan</button>
     <button id="detail-close" class="btn-secondary">Fermer</button>
+  </div>
+</dialog>
+
+<!-- Modale de saisie générique (remplace prompt()) -->
+<dialog id="input-dialog">
+  <h2 id="input-dialog-title">Titre</h2>
+  <div id="input-dialog-fields" class="input-dialog-fields"></div>
+  <div class="dialog-actions">
+    <button id="input-dialog-cancel" class="btn-ghost">Annuler</button>
+    <button id="input-dialog-ok" class="btn-primary">Valider</button>
   </div>
 </dialog>
 

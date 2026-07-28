@@ -3,7 +3,7 @@
  * Stratégie : cache-first pour les fichiers de l'app, avec repli réseau.
  */
 
-const CACHE_NAME = 'colorscode-v12'; // incrémenté : jeu Languo 126 intégré à l'app (disponible sans import manuel)
+const CACHE_NAME = 'colorscode-v13'; // incrémenté : édition/recherche de feutres, modales soignées, retour haptique
 const APP_SHELL = [
   './',
   './index.html',

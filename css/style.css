@@ -485,10 +485,57 @@ dialog#scan-detail-dialog {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 6px 2px;
+  padding: 8px 4px;
   border-bottom: 1px solid var(--hairline);
+  cursor: pointer;
+  border-radius: 6px;
 }
+.editor-row:hover { background: var(--surface); }
+.editor-row.editing { background: var(--medium-bg); }
 .editor-row .mono { flex: 1; }
+.editor-row-ref { cursor: pointer; }
+
+.editor-search {
+  width: 100%;
+  padding: 9px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--hairline);
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  margin-bottom: 10px;
+}
+
+/* ---------- Modale de saisie générique ---------- */
+dialog#input-dialog {
+  border: none;
+  border-radius: var(--radius);
+  padding: 20px;
+  width: min(90vw, 380px);
+  font-family: var(--font-body);
+}
+dialog#input-dialog h2 { font-size: 1.05rem; margin-bottom: 14px; }
+.input-dialog-fields { display: flex; flex-direction: column; gap: 12px; }
+.input-field-row label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--ink-muted);
+  margin-bottom: 4px;
+}
+.input-field-row input {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--hairline);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+}
+dialog#input-dialog .dialog-actions {
+  margin-top: 18px;
+  padding-top: 0;
+  border-top: none;
+}
+dialog#input-dialog .dialog-actions button { flex: 1; }
 
 /* ---------- Toast ---------- */
 .toast {

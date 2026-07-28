@@ -69,6 +69,15 @@ sur un serveur.
 
 ## Historique des versions
 
+- **v1.12** : quatre améliorations rapides. (1) Modifier une couleur
+  existante dans un jeu de feutres (toucher une ligne pour la charger dans
+  le formulaire, au lieu de devoir supprimer/recréer). (2) Recherche par
+  code dans la liste des feutres d'un jeu. (3) Les `prompt()` natifs du
+  navigateur (numéro de pastille, titre/page du scan, nom d'un nouveau
+  jeu) sont remplacés par une modale cohérente avec le design de l'app.
+  (4) Retour haptique léger sur les interactions clés (ajout d'une
+  pastille, étalonnage, choix d'une alternative, suppression).
+
 - **v1.11** : le jeu "Languo 126 Couleurs" est désormais intégré à l'app au
   même titre que GuangNa 240 — disponible automatiquement au premier
   lancement après mise à jour, sans avoir à l'importer manuellement en
