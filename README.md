@@ -69,6 +69,19 @@ sur un serveur.
 
 ## Historique des versions
 
+- **v1.20** : deux corrections suite à un test sur une légende à 20
+  pastilles rondes et pâles (thème pastel), qui n'était pas détectée du
+  tout. (1) **Bug de fond trouvé** : le seuil de taille minimale était
+  calculé en pourcentage de l'image totale — or plus une légende a de
+  pastilles, plus chacune est petite, donc ce pourcentage fixe ratait les
+  légendes à nombreuses pastilles. Passé à des seuils en pixels absolus.
+  (2) Seuil de couleur légèrement assoupli (0.14/0.28 contre 0.22/0.45)
+  pour capter les teintes pastel, validé pour ne pas fusionner avec les
+  traits de l'illustration (testé : 10/10 et 19/20 sur deux légendes
+  réelles, contre 9/10 et 0/20 avant). (3) OCR : teste maintenant 3
+  orientations (0°, 90°, -90°) par pastille et garde la meilleure
+  confiance, comme suggéré — plus lent mais plus robuste.
+
 - **v1.19** : trois ajouts. (1) **Auto-refresh** : la page se recharge
   automatiquement dès qu'une nouvelle version du service worker prend le
   contrôle, au lieu de continuer à tourner avec l'ancien JS en mémoire

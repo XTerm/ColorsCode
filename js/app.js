@@ -650,7 +650,10 @@ const App = (() => {
         const maxc = Math.max(r, g, b), minc = Math.min(r, g, b);
         const sat = maxc > 0 ? (maxc - minc) / maxc : 0;
         const dark = 1 - maxc / 255;
-        score[y * w + x] = (sat > 0.22 || dark > 0.45) ? 1 : 0;
+        // Seuils assouplis (0.14 / 0.28, contre 0.22 / 0.45 initialement)
+        // pour capter les pastilles pâles/pastel, sans les relâcher au
+        // point de fusionner avec les traits fins de l'illustration.
+        score[y * w + x] = (sat > 0.14 || dark > 0.28) ? 1 : 0;
       }
     }
 
@@ -680,8 +683,13 @@ const App = (() => {
       nextLabel++;
     }
 
-    const minArea = n * 0.0012;
-    const maxArea = n * 0.035;
+    // Seuils de taille en pixels absolus plutôt qu'en pourcentage de
+    // l'image totale : une légende à 20 pastilles a des pastilles bien
+    // plus petites qu'une légende à 10, un pourcentage fixe rate donc
+    // les petites légendes. Divisés par 4 (step²) car mesurés sur la
+    // grille sous-échantillonnée.
+    const minArea = 300 / (step * step);
+    const maxArea = 20000 / (step * step);
     let candidates = components.filter(c => {
       if (c.area < minArea || c.area > maxArea) return false;
       const bw = c.maxX - c.minX + 1, bh = c.maxY - c.minY + 1;
@@ -747,6 +755,25 @@ const App = (() => {
    * gras sur fond de couleur uni) : bien plus favorable. Reste
    * expérimental, non validé en conditions réelles.
    */
+  /** Rogne puis fait pivoter une zone du canvas source vers un nouveau canvas. */
+  function cropRotated(srcCanvas, sx, sy, sw, sh, scale, angleDeg) {
+    const out = document.createElement('canvas');
+    const rad = angleDeg * Math.PI / 180;
+    if (angleDeg === 90 || angleDeg === -90 || angleDeg === 270) {
+      out.width = sh * scale;
+      out.height = sw * scale;
+    } else {
+      out.width = sw * scale;
+      out.height = sh * scale;
+    }
+    const octx = out.getContext('2d');
+    octx.imageSmoothingEnabled = true;
+    octx.translate(out.width / 2, out.height / 2);
+    octx.rotate(rad);
+    octx.drawImage(srcCanvas, sx, sy, sw, sh, -sw * scale / 2, -sh * scale / 2, sw * scale, sh * scale);
+    return out;
+  }
+
   async function ocrDetectedNumbers(points) {
     const Tesseract = await loadTesseract();
     const worker = await Tesseract.createWorker('eng');
@@ -760,19 +787,23 @@ const App = (() => {
       try {
         const pad = 4;
         const bw = p.bbox.x1 - p.bbox.x0 + 1, bh = p.bbox.y1 - p.bbox.y0 + 1;
-        const crop = document.createElement('canvas');
-        const scale = 4;
-        crop.width = bw * scale;
-        crop.height = bh * scale;
-        const cctx = crop.getContext('2d');
-        cctx.imageSmoothingEnabled = true;
-        cctx.drawImage(canvas,
-          Math.max(0, p.bbox.x0 - pad), Math.max(0, p.bbox.y0 - pad), bw + pad*2, bh + pad*2,
-          0, 0, crop.width, crop.height);
-        const { data } = await worker.recognize(crop);
-        const cleaned = (data.text || '').trim().replace(/[^0-9A-Za-z]/g, '');
-        if (cleaned && data.confidence > 55) {
-          p.numero = cleaned.length <= 3 ? cleaned : cleaned.slice(0, 3);
+        const sx = Math.max(0, p.bbox.x0 - pad), sy = Math.max(0, p.bbox.y0 - pad);
+        const sw = bw + pad * 2, sh = bh + pad * 2;
+
+        // Essaie plusieurs orientations et garde la meilleure confiance —
+        // Tesseract peut lire un même caractère très différemment selon
+        // l'angle, même pour un caractère isolé.
+        let best = null;
+        for (const angle of [0, 90, -90]) {
+          const crop = cropRotated(canvas, sx, sy, sw, sh, 4, angle);
+          const { data } = await worker.recognize(crop);
+          const cleaned = (data.text || '').trim().replace(/[^0-9A-Za-z]/g, '');
+          if (cleaned && (!best || data.confidence > best.confidence)) {
+            best = { cleaned, confidence: data.confidence };
+          }
+        }
+        if (best && best.confidence > 55) {
+          p.numero = best.cleaned.length <= 3 ? best.cleaned : best.cleaned.slice(0, 3);
           successCount++;
         }
       } catch (e) {
