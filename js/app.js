@@ -40,6 +40,7 @@ const App = (() => {
   const btnUndo = $('#btn-undo');
   const btnReset = $('#btn-reset');
   const btnDetect = $('#btn-detect');
+  const ocrToggle = $('#ocr-toggle-input');
   const btnSaveScan = $('#btn-save-scan');
   const btnCalibrate = $('#btn-calibrate');
   const calibrationStatus = $('#calibration-status');
@@ -561,7 +562,7 @@ const App = (() => {
     renderResults();
   }
 
-  btnDetect.addEventListener('click', () => {
+  btnDetect.addEventListener('click', async () => {
     if (!originalImageData) { alert('Charge d’abord une photo.'); return; }
     const activeSet = DB.getSet(DB.getActiveSetId());
     if (!activeSet || activeSet.feutres.length === 0) {
@@ -570,6 +571,7 @@ const App = (() => {
     }
     if (currentPoints.length && !confirm('La détection automatique remplace les pastilles déjà pointées. Continuer ?')) return;
 
+    const wantOcr = ocrToggle.checked;
     const originalLabel = btnDetect.textContent;
     btnDetect.disabled = true;
     btnDetect.textContent = '⏳ Analyse en cours… (peut prendre plusieurs secondes)';
@@ -577,7 +579,7 @@ const App = (() => {
     // setTimeout laisse le navigateur repeindre le bouton avant de bloquer
     // le thread avec le calcul (sinon le texte "Analyse en cours" n'apparaît
     // jamais à l'écran avant que ça se termine ou plante).
-    setTimeout(() => {
+    setTimeout(async () => {
       let found;
       try {
         found = detectSwatches();
@@ -588,20 +590,34 @@ const App = (() => {
         btnDetect.textContent = originalLabel;
         return;
       }
-      btnDetect.disabled = false;
-      btnDetect.textContent = originalLabel;
 
       if (!found || found.length === 0) {
+        btnDetect.disabled = false;
+        btnDetect.textContent = originalLabel;
         toast('Aucune pastille détectée — essaie le repérage manuel.');
         return;
       }
+
+      if (wantOcr) {
+        btnDetect.textContent = '⏳ Lecture des numéros (OCR)…';
+        try {
+          const n = await ocrDetectedNumbers(found);
+          toast(n > 0 ? `${n} numéro(s) lu(s) automatiquement — vérifie le reste.` : 'OCR : aucun numéro lu avec confiance, vérifie manuellement.');
+        } catch (err) {
+          console.error('OCR indisponible', err);
+          alert('OCR indisponible : ' + (err && err.message ? err.message : err) + '\nLa détection continue avec une numérotation séquentielle à corriger.');
+        }
+      }
+
+      btnDetect.disabled = false;
+      btnDetect.textContent = originalLabel;
       vibrate();
       currentPoints = found;
       nextNumero = found.length + 1;
       recomputeAllMatches();
       renderCanvas();
       renderResults();
-      toast(`${found.length} pastille(s) détectée(s) — vérifie les numéros.`);
+      if (!wantOcr) toast(`${found.length} pastille(s) détectée(s) — vérifie les numéros.`);
     }, 50);
   });
 
@@ -696,8 +712,75 @@ const App = (() => {
       // remise à l'échelle vers les coordonnées de l'image pleine résolution
       const cx = Math.round(c.cx * step), cy = Math.round(c.cy * step);
       const rawRgb = sampleColor(cx, cy);
-      return { numero: String(i + 1), x: cx, y: cy, rawRgb };
+      return {
+        numero: String(i + 1), x: cx, y: cy, rawRgb,
+        bbox: {
+          x0: Math.round(c.minX * step), y0: Math.round(c.minY * step),
+          x1: Math.round(c.maxX * step), y1: Math.round(c.maxY * step)
+        }
+      };
     });
+  }
+
+  // ==================================================
+  // OCR optionnel des numéros (expérimental)
+  // ==================================================
+  let tesseractLoadPromise = null;
+  function loadTesseract() {
+    if (tesseractLoadPromise) return tesseractLoadPromise;
+    tesseractLoadPromise = new Promise((resolve, reject) => {
+      if (window.Tesseract) return resolve(window.Tesseract);
+      const script = document.createElement('script');
+      script.src = 'https://cdn.jsdelivr.net/npm/tesseract.js@5.0.4/dist/tesseract.min.js';
+      script.onload = () => resolve(window.Tesseract);
+      script.onerror = () => reject(new Error('Moteur OCR indisponible (connexion internet requise pour le premier usage)'));
+      document.head.appendChild(script);
+    });
+    return tesseractLoadPromise;
+  }
+
+  /**
+   * Tente de lire le numéro imprimé sur chaque pastille détectée, pour
+   * remplacer la numérotation séquentielle par défaut. Contrairement à
+   * l'OCR sur un dessin complet (abandonné — chiffres minuscules et peu
+   * fiables), ici les chiffres de légende sont grands et nets (texte en
+   * gras sur fond de couleur uni) : bien plus favorable. Reste
+   * expérimental, non validé en conditions réelles.
+   */
+  async function ocrDetectedNumbers(points) {
+    const Tesseract = await loadTesseract();
+    const worker = await Tesseract.createWorker('eng');
+    await worker.setParameters({
+      tessedit_char_whitelist: '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ',
+      tessedit_pageseg_mode: '10' // caractère/bloc unique
+    });
+    let successCount = 0;
+    for (const p of points) {
+      if (!p.bbox) continue;
+      try {
+        const pad = 4;
+        const bw = p.bbox.x1 - p.bbox.x0 + 1, bh = p.bbox.y1 - p.bbox.y0 + 1;
+        const crop = document.createElement('canvas');
+        const scale = 4;
+        crop.width = bw * scale;
+        crop.height = bh * scale;
+        const cctx = crop.getContext('2d');
+        cctx.imageSmoothingEnabled = true;
+        cctx.drawImage(canvas,
+          Math.max(0, p.bbox.x0 - pad), Math.max(0, p.bbox.y0 - pad), bw + pad*2, bh + pad*2,
+          0, 0, crop.width, crop.height);
+        const { data } = await worker.recognize(crop);
+        const cleaned = (data.text || '').trim().replace(/[^0-9A-Za-z]/g, '');
+        if (cleaned && data.confidence > 55) {
+          p.numero = cleaned.length <= 3 ? cleaned : cleaned.slice(0, 3);
+          successCount++;
+        }
+      } catch (e) {
+        console.error('OCR pastille échoué', e);
+      }
+    }
+    await worker.terminate();
+    return successCount;
   }
 
   function sampleColor(x, y) {
@@ -819,7 +902,7 @@ const App = (() => {
       const main = document.createElement('div');
       main.className = 'result-row';
       main.innerHTML = `
-        <span class="numero-badge">${escapeHtml(p.numero)}</span>
+        <button class="numero-badge" title="Toucher pour modifier le numéro">${escapeHtml(p.numero)}</button>
         <span class="hex-chip" style="background:${ColorMath.rgbToHex(correctedRgb)}" title="Couleur lue"></span>
         <span class="arrow">→</span>
         <span class="hex-chip" style="background:${ColorMath.rgbToHex(p.match.feutre.rgb)}" title="Feutre proposé"></span>
@@ -827,6 +910,7 @@ const App = (() => {
         ${altTag}${manualTag}
         <span class="confidence ${distanceLabel.cls}">${distanceLabel.text}</span>
         <button class="alt-toggle" title="Voir d'autres correspondances proches">▾</button>
+        <button class="row-delete" title="Supprimer cette pastille">✕</button>
       `;
       row.appendChild(main);
 
@@ -853,6 +937,26 @@ const App = (() => {
       if (p.manualOverride) {
         main.querySelector('.manual-tag').addEventListener('click', () => resetToAutomatic(p));
       }
+
+      main.querySelector('.numero-badge').addEventListener('click', () => {
+        const input = prompt('Modifier le numéro de cette pastille :', p.numero);
+        if (input === null) return;
+        const newNumero = input.trim();
+        if (!newNumero) return;
+        vibrate();
+        p.numero = newNumero;
+        renderResults();
+      });
+
+      main.querySelector('.row-delete').addEventListener('click', () => {
+        if (!confirm(`Supprimer la pastille n°${p.numero} ?`)) return;
+        vibrate();
+        const idx = currentPoints.indexOf(p);
+        if (idx !== -1) currentPoints.splice(idx, 1);
+        recomputeAllMatches();
+        renderCanvas();
+        renderResults();
+      });
 
       resultsList.appendChild(row);
     });
@@ -1072,6 +1176,17 @@ const App = (() => {
 
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('sw.js').catch(() => {});
+      // Sans ça, la page déjà ouverte continue de tourner avec l'ancien
+      // JS en mémoire après une mise à jour en arrière-plan, jusqu'à
+      // fermeture manuelle — source de confusion ("j'ai l'impression
+      // d'utiliser une vieille version"). On recharge une seule fois dès
+      // qu'un nouveau service worker prend le contrôle.
+      let refreshedOnce = false;
+      navigator.serviceWorker.addEventListener('controllerchange', () => {
+        if (refreshedOnce) return;
+        refreshedOnce = true;
+        window.location.reload();
+      });
     }
   }
 

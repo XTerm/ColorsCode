@@ -288,6 +288,17 @@ button:disabled { opacity: 0.45; cursor: default; }
 .canvas-controls { display: flex; gap: 8px; }
 .canvas-controls .btn-secondary { flex: 1; }
 
+.ocr-toggle {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 0.78rem;
+  color: var(--ink-muted);
+  margin-bottom: 10px;
+  line-height: 1.4;
+}
+.ocr-toggle input { margin-top: 2px; flex-shrink: 0; }
+
 /* ---------- Résultats ---------- */
 .results-header {
   display: flex;
@@ -319,10 +330,25 @@ button:disabled { opacity: 0.45; cursor: default; }
   background: var(--ink);
   color: #fff;
   border-radius: 50%;
+  border: none;
+  padding: 0;
   font-size: 0.78rem;
   font-weight: 600;
   font-family: var(--font-mono);
+  cursor: pointer;
+  flex-shrink: 0;
 }
+.numero-badge:active { transform: scale(0.92); }
+.row-delete {
+  background: transparent;
+  border: none;
+  color: var(--ink-muted);
+  font-size: 0.85rem;
+  padding: 2px 4px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.row-delete:active { color: var(--low); }
 .arrow { color: var(--ink-muted); }
 .feutre-ref { font-weight: 600; font-size: 1rem; }
 .confidence {

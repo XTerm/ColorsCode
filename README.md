@@ -69,6 +69,22 @@ sur un serveur.
 
 ## Historique des versions
 
+- **v1.19** : trois ajouts. (1) **Auto-refresh** : la page se recharge
+  automatiquement dès qu'une nouvelle version du service worker prend le
+  contrôle, au lieu de continuer à tourner avec l'ancien JS en mémoire
+  jusqu'à fermeture manuelle — probable cause de l'impression d'utiliser
+  une "vieille version". (2) **Édition/suppression individuelle** : le
+  numéro de n'importe quelle pastille (pas seulement la dernière) se
+  modifie en touchant son badge, et chaque ligne a son propre bouton de
+  suppression — plus besoin d'annuler en cascade pour corriger une seule
+  erreur. (3) **OCR expérimental** (case à cocher lors de la détection) :
+  tente de lire automatiquement le numéro imprimé sur chaque pastille via
+  Tesseract.js chargé à la demande (nécessite internet au premier usage,
+  plus lent). Contrairement à l'OCR sur un dessin complet (abandonné),
+  les chiffres de légende sont grands et nets — mais cette fonctionnalité
+  n'a pas pu être testée en conditions réelles avant livraison, à valider
+  à l'usage.
+
 - **v1.18** : "Détection en cours…" restait affiché sans jamais aboutir —
   probablement un calcul bien plus lent sur téléphone que dans mes tests
   (faits sur un serveur), avec un toast éphémère (2.2s) qui disparaissait
