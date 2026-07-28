@@ -69,6 +69,18 @@ sur un serveur.
 
 ## Historique des versions
 
+- **v1.21** : suite à des tests réels, trois ajustements. (1) Filtre
+  anti-isolement dans la détection : un candidat sans autre pastille
+  proche (typiquement le numéro de page) est exclu — une vraie pastille
+  de légende a toujours des voisines proches, peu importe l'orientation.
+  (2) OCR requalifié "peu fiable en pratique" suite à deux échecs de test
+  (dont un résultat quasi uniforme suspect, probablement lié à la
+  tentative de rotation à 90°/-90° qui a dû introduire des faux positifs
+  à haute confiance) — reste disponible en option mais désactivé par
+  défaut, sans garantie. (3) Conseil ajouté : cadrer la photo sur la
+  légende uniquement (évite le numéro de page et le dessin), plus rapide
+  et plus fiable que de tout laisser dans le cadre.
+
 - **v1.20** : deux corrections suite à un test sur une légende à 20
   pastilles rondes et pâles (thème pastel), qui n'était pas détectée du
   tout. (1) **Bug de fond trouvé** : le seuil de taille minimale était

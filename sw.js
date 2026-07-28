@@ -3,7 +3,7 @@
  * Stratégie : cache-first pour les fichiers de l'app, avec repli réseau.
  */
 
-const CACHE_NAME = 'colorscode-v21'; // incrémenté : détection corrigée pour pastilles pâles/petites + OCR multi-orientation
+const CACHE_NAME = 'colorscode-v22'; // incrémenté : filtre anti-numéro de page, OCR désactivé par défaut (peu fiable), conseil de cadrage
 const APP_SHELL = [
   './',
   './index.html',

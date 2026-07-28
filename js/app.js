@@ -699,9 +699,29 @@ const App = (() => {
     });
 
     if (candidates.length === 0) return [];
+    candidates.forEach(c => { c.cx = (c.minX+c.maxX)/2; c.cy = (c.minY+c.maxY)/2; });
+
+    // Exclut les éléments isolés du reste du groupe (typiquement le numéro
+    // de page, imprimé loin de la légende) : une vraie pastille de légende
+    // a toujours d'autres pastilles proches, peu importe l'orientation
+    // (ligne, colonne...), alors qu'un numéro de page est un point isolé.
+    if (candidates.length >= 4) {
+      candidates.forEach(c => {
+        let minDist = Infinity;
+        candidates.forEach(o => {
+          if (o === c) return;
+          const d = Math.hypot(c.cx - o.cx, c.cy - o.cy);
+          if (d < minDist) minDist = d;
+        });
+        c.nnDist = minDist;
+      });
+      const dists = candidates.map(c => c.nnDist).sort((a,b) => a-b);
+      const medianDist = dists[Math.floor(dists.length/2)];
+      candidates = candidates.filter(c => c.nnDist <= medianDist * 3);
+    }
+
     const heights = candidates.map(c => c.maxY - c.minY + 1).sort((a,b)=>a-b);
     const medianH = heights[Math.floor(heights.length/2)];
-    candidates.forEach(c => { c.cx = (c.minX+c.maxX)/2; c.cy = (c.minY+c.maxY)/2; });
     candidates.sort((a,b) => a.cy - b.cy);
     const rows = [];
     candidates.forEach(c => {
