@@ -3,7 +3,7 @@
  * Stratégie : cache-first pour les fichiers de l'app, avec repli réseau.
  */
 
-const CACHE_NAME = 'colorscode-v17'; // incrémenté : détection automatique des pastilles + retour au positionnement précédent de la bulle
+const CACHE_NAME = 'colorscode-v18'; // incrémenté : retour au prompt() natif (fiabilité > esthétique) + diagnostic d'erreur sur la détection
 const APP_SHELL = [
   './',
   './index.html',

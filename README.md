@@ -69,6 +69,17 @@ sur un serveur.
 
 ## Historique des versions
 
+- **v1.17** : retour définitif au `prompt()` natif du système pour le
+  numéro de pastille (fiable à 100% quel que soit le zoom, contrairement
+  à mes deux tentatives de bulle personnalisée qui cassaient toujours un
+  cas de figure). Code de la bulle abandonnée entièrement retiré. Ajout
+  d'une vraie remontée d'erreur sur le bouton de détection automatique
+  (try/catch + alert du message précis) : si elle échoue à nouveau,
+  l'erreur exacte s'affichera au lieu d'un échec silencieux — nécessaire
+  pour diagnostiquer le rapport "la détection ne fonctionne pas", que je
+  n'ai pas réussi à reproduire en rejouant l'algorithme exact sur l'image
+  de test fournie (9/9 détectées côté test).
+
 - **v1.16** : retour au positionnement précédent de la bulle du numéro
   (décalage haut-droite du point tapé) — la version centrée au-dessus
   (v1.15) corrigeait la disposition horizontale mais cassait la

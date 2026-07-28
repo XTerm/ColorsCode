@@ -33,10 +33,6 @@ const App = (() => {
   const ctx = canvas.getContext('2d', { willReadFrequently: true });
   const emptyState = $('#scanner-empty');
   const canvasWrap = $('#canvas-wrap');
-  const canvasScroll = $('.canvas-scroll');
-  const numeroPopup = $('#numero-popup');
-  const numeroPopupInput = $('#numero-popup-input');
-  const numeroPopupOk = $('#numero-popup-ok');
   const resultsList = $('#results-list');
   const resultsSection = $('#results-section');
   const setSelect = $('#active-set-select');
@@ -444,8 +440,9 @@ const App = (() => {
     }
 
     vibrate();
-    const numero = await askNumeroAt(e.clientX, e.clientY, nextNumero);
-    if (numero === null) return; // annulé
+    const numeroInput = prompt('Numéro de la légende pour cette pastille :', String(nextNumero));
+    if (numeroInput === null) return; // annulé
+    const numero = numeroInput.trim() || String(nextNumero);
 
     currentPoints.push({ numero, x, y, rawRgb });
     nextNumero = (parseInt(numero, 10) || nextNumero) + 1;
@@ -565,7 +562,7 @@ const App = (() => {
   }
 
   btnDetect.addEventListener('click', () => {
-    if (!originalImageData) return;
+    if (!originalImageData) { alert('Charge d’abord une photo.'); return; }
     const activeSet = DB.getSet(DB.getActiveSetId());
     if (!activeSet || activeSet.feutres.length === 0) {
       alert('Choisis d’abord un jeu de feutres actif (onglet Feutres).');
@@ -574,10 +571,16 @@ const App = (() => {
     if (currentPoints.length && !confirm('La détection automatique remplace les pastilles déjà pointées. Continuer ?')) return;
 
     toast('Détection en cours…');
-    // Laisse le temps au toast de s'afficher avant le calcul (bloquant, ~qq centaines de ms)
     setTimeout(() => {
-      const found = detectSwatches();
-      if (found.length === 0) {
+      let found;
+      try {
+        found = detectSwatches();
+      } catch (err) {
+        console.error('Erreur détection', err);
+        alert('La détection a échoué : ' + (err && err.message ? err.message : err));
+        return;
+      }
+      if (!found || found.length === 0) {
         toast('Aucune pastille détectée — essaie le repérage manuel.');
         return;
       }
@@ -966,50 +969,6 @@ const App = (() => {
     ];
   }
 
-  /**
-   * Bulle de saisie du numéro, ancrée au point tapé sur le canvas plutôt
-   * qu'une modale centrée sur la page. Contrairement à <dialog>, un élément
-   * positionné en absolute dans le contenu zoome/scrolle avec la page —
-   * donc reste visible même en pinch-zoom sans avoir à dézoomer.
-   */
-  function askNumeroAt(clientX, clientY, defaultValue) {
-    return new Promise(resolve => {
-      const wrapRect = canvasScroll.getBoundingClientRect();
-      let left = clientX - wrapRect.left + canvasScroll.scrollLeft + 16;
-      let top = clientY - wrapRect.top + canvasScroll.scrollTop - 20;
-      left = Math.max(4, Math.min(left, canvasScroll.scrollLeft + canvasScroll.clientWidth - 150));
-      top = Math.max(canvasScroll.scrollTop + 4, top);
-
-      numeroPopup.style.left = left + 'px';
-      numeroPopup.style.top = top + 'px';
-      numeroPopupInput.value = String(defaultValue);
-      numeroPopup.hidden = false;
-      numeroPopupInput.focus();
-      numeroPopupInput.select();
-
-      let done = false;
-      function finish(value) {
-        if (done) return;
-        done = true;
-        numeroPopup.hidden = true;
-        numeroPopupOk.removeEventListener('click', onOk);
-        numeroPopupInput.removeEventListener('keydown', onKey);
-        document.removeEventListener('pointerdown', onOutside, true);
-        resolve(value);
-      }
-      function onOk() { finish(numeroPopupInput.value.trim() || String(defaultValue)); }
-      function onKey(e) {
-        if (e.key === 'Enter') onOk();
-        if (e.key === 'Escape') finish(null);
-      }
-      function onOutside(e) {
-        if (!numeroPopup.contains(e.target)) finish(null);
-      }
-      numeroPopupOk.addEventListener('click', onOk);
-      numeroPopupInput.addEventListener('keydown', onKey);
-      setTimeout(() => document.addEventListener('pointerdown', onOutside, true), 50);
-    });
-  }
   function toast(msg) {
     const el = $('#toast');
     el.textContent = msg;
