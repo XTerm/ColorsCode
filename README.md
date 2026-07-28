@@ -69,6 +69,18 @@ sur un serveur.
 
 ## Historique des versions
 
+- **v1.16** : retour au positionnement précédent de la bulle du numéro
+  (décalage haut-droite du point tapé) — la version centrée au-dessus
+  (v1.15) corrigeait la disposition horizontale mais cassait la
+  disposition verticale. **Nouvelle fonctionnalité : détection
+  automatique des pastilles** (bouton "🔎 Détecter les pastilles"). Repère
+  les blocs de couleur compacts et remplis de l'image (contrairement aux
+  traits fins de l'illustration) sans zone à sélectionner à la main, les
+  numérote dans l'ordre de lecture (haut→bas, gauche→droite), et laisse
+  l'utilisateur corriger les numéros ou ajouter à la main les pastilles
+  manquées. Limite connue : les couleurs très pâles/peu saturées (proches
+  du blanc de la page) peuvent échapper à la détection automatique.
+
 - **v1.15** : la bulle de saisie du numéro s'ouvrait décalée vers la
   droite du point tapé, ce qui la plaçait exactement sur la pastille
   suivante quand plusieurs pastilles sont alignées horizontalement (le

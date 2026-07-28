@@ -3,7 +3,7 @@
  * Stratégie : cache-first pour les fichiers de l'app, avec repli réseau.
  */
 
-const CACHE_NAME = 'colorscode-v16'; // incrémenté : bulle repositionnée au-dessus du tap (ne gêne plus les pastilles horizontales voisines)
+const CACHE_NAME = 'colorscode-v17'; // incrémenté : détection automatique des pastilles + retour au positionnement précédent de la bulle
 const APP_SHELL = [
   './',
   './index.html',

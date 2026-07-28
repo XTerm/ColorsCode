@@ -43,6 +43,7 @@ const App = (() => {
   const setWarning = $('#set-warning');
   const btnUndo = $('#btn-undo');
   const btnReset = $('#btn-reset');
+  const btnDetect = $('#btn-detect');
   const btnSaveScan = $('#btn-save-scan');
   const btnCalibrate = $('#btn-calibrate');
   const calibrationStatus = $('#calibration-status');
@@ -563,6 +564,116 @@ const App = (() => {
     renderResults();
   }
 
+  btnDetect.addEventListener('click', () => {
+    if (!originalImageData) return;
+    const activeSet = DB.getSet(DB.getActiveSetId());
+    if (!activeSet || activeSet.feutres.length === 0) {
+      alert('Choisis d’abord un jeu de feutres actif (onglet Feutres).');
+      return;
+    }
+    if (currentPoints.length && !confirm('La détection automatique remplace les pastilles déjà pointées. Continuer ?')) return;
+
+    toast('Détection en cours…');
+    // Laisse le temps au toast de s'afficher avant le calcul (bloquant, ~qq centaines de ms)
+    setTimeout(() => {
+      const found = detectSwatches();
+      if (found.length === 0) {
+        toast('Aucune pastille détectée — essaie le repérage manuel.');
+        return;
+      }
+      vibrate();
+      currentPoints = found;
+      nextNumero = found.length + 1;
+      recomputeAllMatches();
+      renderCanvas();
+      renderResults();
+      toast(`${found.length} pastille(s) détectée(s) — vérifie les numéros.`);
+    }, 30);
+  });
+
+  /**
+   * Repère automatiquement les pastilles de couleur dans l'image : détecte
+   * les blocs compacts et remplis (contrairement aux traits fins de
+   * l'illustration, qui ont un ratio de remplissage bien plus faible dans
+   * leur boîte englobante), sans zone à sélectionner à la main.
+   * Numérotées par défaut dans l'ordre de lecture (haut→bas, gauche→droite) ;
+   * à corriger si besoin dans les résultats.
+   */
+  function detectSwatches() {
+    const w = originalImageData.width, h = originalImageData.height;
+    const data = originalImageData.data;
+    const n = w * h;
+
+    const score = new Uint8Array(n);
+    for (let i = 0, p = 0; i < data.length; i += 4, p++) {
+      const r = data[i], g = data[i + 1], b = data[i + 2];
+      const maxc = Math.max(r, g, b), minc = Math.min(r, g, b);
+      const sat = maxc > 0 ? (maxc - minc) / maxc : 0;
+      const dark = 1 - maxc / 255;
+      score[p] = (sat > 0.22 || dark > 0.45) ? 1 : 0;
+    }
+
+    const labels = new Int32Array(n);
+    const stack = new Int32Array(n);
+    let nextLabel = 1;
+    const components = [];
+
+    for (let start = 0; start < n; start++) {
+      if (score[start] !== 1 || labels[start] !== 0) continue;
+      let sp = 0;
+      stack[sp++] = start;
+      labels[start] = nextLabel;
+      let minX = w, minY = h, maxX = 0, maxY = 0, area = 0;
+      while (sp > 0) {
+        const idx = stack[--sp];
+        const x = idx % w, y = (idx / w) | 0;
+        area++;
+        if (x < minX) minX = x; if (x > maxX) maxX = x;
+        if (y < minY) minY = y; if (y > maxY) maxY = y;
+        if (x > 0)   { const nb = idx - 1; if (score[nb] === 1 && labels[nb] === 0) { labels[nb] = nextLabel; stack[sp++] = nb; } }
+        if (x < w-1) { const nb = idx + 1; if (score[nb] === 1 && labels[nb] === 0) { labels[nb] = nextLabel; stack[sp++] = nb; } }
+        if (y > 0)   { const nb = idx - w; if (score[nb] === 1 && labels[nb] === 0) { labels[nb] = nextLabel; stack[sp++] = nb; } }
+        if (y < h-1) { const nb = idx + w; if (score[nb] === 1 && labels[nb] === 0) { labels[nb] = nextLabel; stack[sp++] = nb; } }
+      }
+      components.push({ minX, minY, maxX, maxY, area });
+      nextLabel++;
+    }
+
+    const minArea = n * 0.0012;
+    const maxArea = n * 0.035;
+    let candidates = components.filter(c => {
+      if (c.area < minArea || c.area > maxArea) return false;
+      const bw = c.maxX - c.minX + 1, bh = c.maxY - c.minY + 1;
+      const fillRatio = c.area / (bw * bh);
+      const aspect = bw / bh;
+      return fillRatio > 0.45 && aspect > 0.4 && aspect < 2.5;
+    });
+
+    if (candidates.length === 0) return [];
+    const heights = candidates.map(c => c.maxY - c.minY + 1).sort((a,b)=>a-b);
+    const medianH = heights[Math.floor(heights.length/2)];
+    candidates.forEach(c => { c.cx = (c.minX+c.maxX)/2; c.cy = (c.minY+c.maxY)/2; });
+    candidates.sort((a,b) => a.cy - b.cy);
+    const rows = [];
+    candidates.forEach(c => {
+      let row = rows.find(r => Math.abs(r.y - c.cy) < medianH * 0.6);
+      if (!row) { row = { y: c.cy, items: [] }; rows.push(row); }
+      row.items.push(c);
+    });
+    rows.sort((a,b) => a.y - b.y);
+    const ordered = [];
+    rows.forEach(r => {
+      r.items.sort((a,b) => a.cx - b.cx);
+      ordered.push(...r.items);
+    });
+
+    return ordered.map((c, i) => {
+      const cx = Math.round(c.cx), cy = Math.round(c.cy);
+      const rawRgb = sampleColor(cx, cy);
+      return { numero: String(i + 1), x: cx, y: cy, rawRgb };
+    });
+  }
+
   function sampleColor(x, y) {
     // Moyenne sur une petite zone pour limiter le bruit / compression JPEG,
     // en excluant les pixels quasi blancs ou quasi noirs (contour et chiffre
@@ -864,27 +975,10 @@ const App = (() => {
   function askNumeroAt(clientX, clientY, defaultValue) {
     return new Promise(resolve => {
       const wrapRect = canvasScroll.getBoundingClientRect();
-      const popupW = 140, popupH = 50, gap = 16;
-
-      const viewLeft = canvasScroll.scrollLeft;
-      const viewTop = canvasScroll.scrollTop;
-      const viewRight = viewLeft + canvasScroll.clientWidth;
-      const viewBottom = viewTop + canvasScroll.clientHeight;
-
-      const tapX = clientX - wrapRect.left + canvasScroll.scrollLeft;
-      const tapY = clientY - wrapRect.top + canvasScroll.scrollTop;
-
-      // Centrée au-dessus du point tapé par défaut — jamais sur le côté,
-      // pour ne pas recouvrir la pastille suivante quand elles sont
-      // alignées horizontalement (le cas le plus fréquent).
-      let left = tapX - popupW / 2;
-      let top = tapY - popupH - gap;
-
-      if (top < viewTop + 4) {
-        top = tapY + gap; // pas de place au-dessus -> bascule en dessous
-      }
-      left = Math.max(viewLeft + 4, Math.min(left, viewRight - popupW - 4));
-      top = Math.max(viewTop + 4, Math.min(top, viewBottom - popupH - 4));
+      let left = clientX - wrapRect.left + canvasScroll.scrollLeft + 16;
+      let top = clientY - wrapRect.top + canvasScroll.scrollTop - 20;
+      left = Math.max(4, Math.min(left, canvasScroll.scrollLeft + canvasScroll.clientWidth - 150));
+      top = Math.max(canvasScroll.scrollTop + 4, top);
 
       numeroPopup.style.left = left + 'px';
       numeroPopup.style.top = top + 'px';
@@ -913,7 +1007,6 @@ const App = (() => {
       }
       numeroPopupOk.addEventListener('click', onOk);
       numeroPopupInput.addEventListener('keydown', onKey);
-      // léger délai pour ne pas capter le tap qui vient d'ouvrir la bulle
       setTimeout(() => document.addEventListener('pointerdown', onOutside, true), 50);
     });
   }
