@@ -69,6 +69,13 @@ sur un serveur.
 
 ## Historique des versions
 
+- **v1.15** : la bulle de saisie du numéro s'ouvrait décalée vers la
+  droite du point tapé, ce qui la plaçait exactement sur la pastille
+  suivante quand plusieurs pastilles sont alignées horizontalement (le
+  cas le plus courant) — empêchant de la toucher. Repositionnée
+  au-dessus du point tapé et centrée horizontalement, avec bascule
+  automatique en dessous si pas assez de place (bord haut de l'écran).
+
 - **v1.14** : le champ de saisie du numéro de pastille n'imposait qu'un
   clavier numérique — or les légendes peuvent utiliser des lettres (ex :
   1-9, 0, A-F, voire au-delà selon les livres). Passé à un clavier

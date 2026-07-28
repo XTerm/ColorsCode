@@ -3,7 +3,7 @@
  * Stratégie : cache-first pour les fichiers de l'app, avec repli réseau.
  */
 
-const CACHE_NAME = 'colorscode-v15'; // incrémenté : clavier standard (pas seulement numérique) pour le numéro de pastille
+const CACHE_NAME = 'colorscode-v16'; // incrémenté : bulle repositionnée au-dessus du tap (ne gêne plus les pastilles horizontales voisines)
 const APP_SHELL = [
   './',
   './index.html',

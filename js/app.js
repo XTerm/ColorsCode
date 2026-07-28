@@ -864,11 +864,27 @@ const App = (() => {
   function askNumeroAt(clientX, clientY, defaultValue) {
     return new Promise(resolve => {
       const wrapRect = canvasScroll.getBoundingClientRect();
-      let left = clientX - wrapRect.left + canvasScroll.scrollLeft + 16;
-      let top = clientY - wrapRect.top + canvasScroll.scrollTop - 20;
-      // reste dans les limites visibles du conteneur
-      left = Math.max(4, Math.min(left, canvasScroll.clientWidth - 130));
-      top = Math.max(4, top);
+      const popupW = 140, popupH = 50, gap = 16;
+
+      const viewLeft = canvasScroll.scrollLeft;
+      const viewTop = canvasScroll.scrollTop;
+      const viewRight = viewLeft + canvasScroll.clientWidth;
+      const viewBottom = viewTop + canvasScroll.clientHeight;
+
+      const tapX = clientX - wrapRect.left + canvasScroll.scrollLeft;
+      const tapY = clientY - wrapRect.top + canvasScroll.scrollTop;
+
+      // Centrée au-dessus du point tapé par défaut — jamais sur le côté,
+      // pour ne pas recouvrir la pastille suivante quand elles sont
+      // alignées horizontalement (le cas le plus fréquent).
+      let left = tapX - popupW / 2;
+      let top = tapY - popupH - gap;
+
+      if (top < viewTop + 4) {
+        top = tapY + gap; // pas de place au-dessus -> bascule en dessous
+      }
+      left = Math.max(viewLeft + 4, Math.min(left, viewRight - popupW - 4));
+      top = Math.max(viewTop + 4, Math.min(top, viewBottom - popupH - 4));
 
       numeroPopup.style.left = left + 'px';
       numeroPopup.style.top = top + 'px';
