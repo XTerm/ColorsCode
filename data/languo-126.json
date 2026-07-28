@@ -1,0 +1,1142 @@
+{
+  "id": "languo-126",
+  "nom": "Languo 126 Couleurs",
+  "version": 1,
+  "source": "Extrait du chart officiel Languo 240 (image produit), filtré sur les 14 séries de 9 feutres composant le pack 126.",
+  "feutres": [
+    {
+      "ref": "RY-01",
+      "rgb": [
+        255,
+        249,
+        187
+      ],
+      "serie": "RED/YELLOW SERIES"
+    },
+    {
+      "ref": "RY-02",
+      "rgb": [
+        255,
+        238,
+        1
+      ],
+      "serie": "RED/YELLOW SERIES"
+    },
+    {
+      "ref": "RY-03",
+      "rgb": [
+        248,
+        192,
+        88
+      ],
+      "serie": "RED/YELLOW SERIES"
+    },
+    {
+      "ref": "RY-04",
+      "rgb": [
+        243,
+        148,
+        103
+      ],
+      "serie": "RED/YELLOW SERIES"
+    },
+    {
+      "ref": "RY-05",
+      "rgb": [
+        233,
+        84,
+        48
+      ],
+      "serie": "RED/YELLOW SERIES"
+    },
+    {
+      "ref": "RY-06",
+      "rgb": [
+        231,
+        24,
+        24
+      ],
+      "serie": "RED/YELLOW SERIES"
+    },
+    {
+      "ref": "RY-07",
+      "rgb": [
+        156,
+        33,
+        36
+      ],
+      "serie": "RED/YELLOW SERIES"
+    },
+    {
+      "ref": "RY-08",
+      "rgb": [
+        125,
+        45,
+        33
+      ],
+      "serie": "RED/YELLOW SERIES"
+    },
+    {
+      "ref": "RY-09",
+      "rgb": [
+        154,
+        93,
+        75
+      ],
+      "serie": "RED/YELLOW SERIES"
+    },
+    {
+      "ref": "GR-101",
+      "rgb": [
+        231,
+        242,
+        229
+      ],
+      "serie": "GREEN SERIES"
+    },
+    {
+      "ref": "GR-102",
+      "rgb": [
+        219,
+        235,
+        216
+      ],
+      "serie": "GREEN SERIES"
+    },
+    {
+      "ref": "GR-103",
+      "rgb": [
+        173,
+        213,
+        179
+      ],
+      "serie": "GREEN SERIES"
+    },
+    {
+      "ref": "GR-104",
+      "rgb": [
+        216,
+        228,
+        128
+      ],
+      "serie": "GREEN SERIES"
+    },
+    {
+      "ref": "GR-105",
+      "rgb": [
+        161,
+        191,
+        117
+      ],
+      "serie": "GREEN SERIES"
+    },
+    {
+      "ref": "GR-106",
+      "rgb": [
+        120,
+        184,
+        115
+      ],
+      "serie": "GREEN SERIES"
+    },
+    {
+      "ref": "GR-107",
+      "rgb": [
+        84,
+        152,
+        100
+      ],
+      "serie": "GREEN SERIES"
+    },
+    {
+      "ref": "GR-108",
+      "rgb": [
+        8,
+        137,
+        114
+      ],
+      "serie": "GREEN SERIES"
+    },
+    {
+      "ref": "GR-109",
+      "rgb": [
+        59,
+        113,
+        88
+      ],
+      "serie": "GREEN SERIES"
+    },
+    {
+      "ref": "BL-201",
+      "rgb": [
+        217,
+        236,
+        229
+      ],
+      "serie": "BLUE SERIES"
+    },
+    {
+      "ref": "BL-202",
+      "rgb": [
+        146,
+        209,
+        215
+      ],
+      "serie": "BLUE SERIES"
+    },
+    {
+      "ref": "BL-203",
+      "rgb": [
+        103,
+        197,
+        204
+      ],
+      "serie": "BLUE SERIES"
+    },
+    {
+      "ref": "BL-204",
+      "rgb": [
+        198,
+        232,
+        246
+      ],
+      "serie": "BLUE SERIES"
+    },
+    {
+      "ref": "BL-205",
+      "rgb": [
+        130,
+        207,
+        238
+      ],
+      "serie": "BLUE SERIES"
+    },
+    {
+      "ref": "BL-206",
+      "rgb": [
+        85,
+        165,
+        206
+      ],
+      "serie": "BLUE SERIES"
+    },
+    {
+      "ref": "BL-207",
+      "rgb": [
+        29,
+        77,
+        131
+      ],
+      "serie": "BLUE SERIES"
+    },
+    {
+      "ref": "BL-208",
+      "rgb": [
+        67,
+        111,
+        164
+      ],
+      "serie": "BLUE SERIES"
+    },
+    {
+      "ref": "BL-209",
+      "rgb": [
+        60,
+        71,
+        142
+      ],
+      "serie": "BLUE SERIES"
+    },
+    {
+      "ref": "PU-301",
+      "rgb": [
+        232,
+        221,
+        236
+      ],
+      "serie": "PURPLE SERIES"
+    },
+    {
+      "ref": "PU-302",
+      "rgb": [
+        205,
+        175,
+        208
+      ],
+      "serie": "PURPLE SERIES"
+    },
+    {
+      "ref": "PU-303",
+      "rgb": [
+        167,
+        129,
+        183
+      ],
+      "serie": "PURPLE SERIES"
+    },
+    {
+      "ref": "PU-304",
+      "rgb": [
+        109,
+        102,
+        172
+      ],
+      "serie": "PURPLE SERIES"
+    },
+    {
+      "ref": "PU-305",
+      "rgb": [
+        83,
+        62,
+        135
+      ],
+      "serie": "PURPLE SERIES"
+    },
+    {
+      "ref": "PU-306",
+      "rgb": [
+        148,
+        68,
+        152
+      ],
+      "serie": "PURPLE SERIES"
+    },
+    {
+      "ref": "PU-307",
+      "rgb": [
+        193,
+        77,
+        150
+      ],
+      "serie": "PURPLE SERIES"
+    },
+    {
+      "ref": "PU-308",
+      "rgb": [
+        234,
+        96,
+        158
+      ],
+      "serie": "PURPLE SERIES"
+    },
+    {
+      "ref": "PU-309",
+      "rgb": [
+        246,
+        185,
+        210
+      ],
+      "serie": "PURPLE SERIES"
+    },
+    {
+      "ref": "GB-401",
+      "rgb": [
+        255,
+        255,
+        255
+      ],
+      "serie": "GREY BROWN SERIES"
+    },
+    {
+      "ref": "GB-402",
+      "rgb": [
+        221,
+        221,
+        221
+      ],
+      "serie": "GREY BROWN SERIES"
+    },
+    {
+      "ref": "GB-403",
+      "rgb": [
+        186,
+        186,
+        186
+      ],
+      "serie": "GREY BROWN SERIES"
+    },
+    {
+      "ref": "GB-404",
+      "rgb": [
+        137,
+        137,
+        137
+      ],
+      "serie": "GREY BROWN SERIES"
+    },
+    {
+      "ref": "GB-405",
+      "rgb": [
+        35,
+        23,
+        23
+      ],
+      "serie": "GREY BROWN SERIES"
+    },
+    {
+      "ref": "GB-406",
+      "rgb": [
+        130,
+        113,
+        110
+      ],
+      "serie": "GREY BROWN SERIES"
+    },
+    {
+      "ref": "GB-407",
+      "rgb": [
+        170,
+        164,
+        157
+      ],
+      "serie": "GREY BROWN SERIES"
+    },
+    {
+      "ref": "GB-408",
+      "rgb": [
+        217,
+        210,
+        199
+      ],
+      "serie": "GREY BROWN SERIES"
+    },
+    {
+      "ref": "GB-409",
+      "rgb": [
+        237,
+        229,
+        220
+      ],
+      "serie": "GREY BROWN SERIES"
+    },
+    {
+      "ref": "CS-501",
+      "rgb": [
+        254,
+        245,
+        246
+      ],
+      "serie": "COLOUR OF SKIN SERIES"
+    },
+    {
+      "ref": "CS-502",
+      "rgb": [
+        253,
+        233,
+        233
+      ],
+      "serie": "COLOUR OF SKIN SERIES"
+    },
+    {
+      "ref": "CS-503",
+      "rgb": [
+        253,
+        244,
+        226
+      ],
+      "serie": "COLOUR OF SKIN SERIES"
+    },
+    {
+      "ref": "CS-504",
+      "rgb": [
+        252,
+        225,
+        195
+      ],
+      "serie": "COLOUR OF SKIN SERIES"
+    },
+    {
+      "ref": "CS-505",
+      "rgb": [
+        252,
+        234,
+        219
+      ],
+      "serie": "COLOUR OF SKIN SERIES"
+    },
+    {
+      "ref": "CS-506",
+      "rgb": [
+        250,
+        218,
+        202
+      ],
+      "serie": "COLOUR OF SKIN SERIES"
+    },
+    {
+      "ref": "CS-507",
+      "rgb": [
+        244,
+        177,
+        156
+      ],
+      "serie": "COLOUR OF SKIN SERIES"
+    },
+    {
+      "ref": "CS-508",
+      "rgb": [
+        241,
+        171,
+        183
+      ],
+      "serie": "COLOUR OF SKIN SERIES"
+    },
+    {
+      "ref": "CS-509",
+      "rgb": [
+        223,
+        175,
+        157
+      ],
+      "serie": "COLOUR OF SKIN SERIES"
+    },
+    {
+      "ref": "BR-701",
+      "rgb": [
+        255,
+        240,
+        218
+      ],
+      "serie": "MAILLARD SERIES"
+    },
+    {
+      "ref": "BR-702",
+      "rgb": [
+        232,
+        223,
+        207
+      ],
+      "serie": "MAILLARD SERIES"
+    },
+    {
+      "ref": "BR-703",
+      "rgb": [
+        217,
+        200,
+        180
+      ],
+      "serie": "MAILLARD SERIES"
+    },
+    {
+      "ref": "BR-704",
+      "rgb": [
+        229,
+        189,
+        152
+      ],
+      "serie": "MAILLARD SERIES"
+    },
+    {
+      "ref": "BR-705",
+      "rgb": [
+        186,
+        150,
+        117
+      ],
+      "serie": "MAILLARD SERIES"
+    },
+    {
+      "ref": "BR-706",
+      "rgb": [
+        179,
+        149,
+        125
+      ],
+      "serie": "MAILLARD SERIES"
+    },
+    {
+      "ref": "BR-707",
+      "rgb": [
+        145,
+        89,
+        71
+      ],
+      "serie": "MAILLARD SERIES"
+    },
+    {
+      "ref": "BR-708",
+      "rgb": [
+        111,
+        87,
+        66
+      ],
+      "serie": "MAILLARD SERIES"
+    },
+    {
+      "ref": "BR-709",
+      "rgb": [
+        98,
+        66,
+        56
+      ],
+      "serie": "MAILLARD SERIES"
+    },
+    {
+      "ref": "HC-601",
+      "rgb": [
+        248,
+        204,
+        210
+      ],
+      "serie": "DOPAMINE SERIES"
+    },
+    {
+      "ref": "HC-602",
+      "rgb": [
+        247,
+        240,
+        101
+      ],
+      "serie": "DOPAMINE SERIES"
+    },
+    {
+      "ref": "HC-603",
+      "rgb": [
+        192,
+        216,
+        99
+      ],
+      "serie": "DOPAMINE SERIES"
+    },
+    {
+      "ref": "HC-604",
+      "rgb": [
+        112,
+        191,
+        235
+      ],
+      "serie": "DOPAMINE SERIES"
+    },
+    {
+      "ref": "HC-605",
+      "rgb": [
+        152,
+        153,
+        203
+      ],
+      "serie": "DOPAMINE SERIES"
+    },
+    {
+      "ref": "HC-606",
+      "rgb": [
+        246,
+        175,
+        106
+      ],
+      "serie": "DOPAMINE SERIES"
+    },
+    {
+      "ref": "HC-607",
+      "rgb": [
+        244,
+        173,
+        176
+      ],
+      "serie": "DOPAMINE SERIES"
+    },
+    {
+      "ref": "HC-608",
+      "rgb": [
+        220,
+        196,
+        122
+      ],
+      "serie": "DOPAMINE SERIES"
+    },
+    {
+      "ref": "HC-609",
+      "rgb": [
+        203,
+        203,
+        203
+      ],
+      "serie": "DOPAMINE SERIES"
+    },
+    {
+      "ref": "PC-801",
+      "rgb": [
+        254,
+        229,
+        228
+      ],
+      "serie": "SWEET PINK SERIES"
+    },
+    {
+      "ref": "PC-802",
+      "rgb": [
+        246,
+        190,
+        216
+      ],
+      "serie": "SWEET PINK SERIES"
+    },
+    {
+      "ref": "PC-803",
+      "rgb": [
+        243,
+        169,
+        189
+      ],
+      "serie": "SWEET PINK SERIES"
+    },
+    {
+      "ref": "PC-804",
+      "rgb": [
+        238,
+        139,
+        170
+      ],
+      "serie": "SWEET PINK SERIES"
+    },
+    {
+      "ref": "PC-805",
+      "rgb": [
+        201,
+        84,
+        144
+      ],
+      "serie": "SWEET PINK SERIES"
+    },
+    {
+      "ref": "PC-806",
+      "rgb": [
+        225,
+        79,
+        126
+      ],
+      "serie": "SWEET PINK SERIES"
+    },
+    {
+      "ref": "PC-807",
+      "rgb": [
+        200,
+        80,
+        107
+      ],
+      "serie": "SWEET PINK SERIES"
+    },
+    {
+      "ref": "PC-808",
+      "rgb": [
+        174,
+        75,
+        106
+      ],
+      "serie": "SWEET PINK SERIES"
+    },
+    {
+      "ref": "PC-809",
+      "rgb": [
+        132,
+        52,
+        81
+      ],
+      "serie": "SWEET PINK SERIES"
+    },
+    {
+      "ref": "CB-901",
+      "rgb": [
+        39,
+        98,
+        96
+      ],
+      "serie": "COLORFUL BLACK SERIES"
+    },
+    {
+      "ref": "CB-902",
+      "rgb": [
+        22,
+        75,
+        89
+      ],
+      "serie": "COLORFUL BLACK SERIES"
+    },
+    {
+      "ref": "CB-903",
+      "rgb": [
+        79,
+        87,
+        69
+      ],
+      "serie": "COLORFUL BLACK SERIES"
+    },
+    {
+      "ref": "CB-904",
+      "rgb": [
+        89,
+        69,
+        94
+      ],
+      "serie": "COLORFUL BLACK SERIES"
+    },
+    {
+      "ref": "CB-905",
+      "rgb": [
+        111,
+        81,
+        96
+      ],
+      "serie": "COLORFUL BLACK SERIES"
+    },
+    {
+      "ref": "CB-906",
+      "rgb": [
+        103,
+        63,
+        56
+      ],
+      "serie": "COLORFUL BLACK SERIES"
+    },
+    {
+      "ref": "CB-907",
+      "rgb": [
+        75,
+        63,
+        53
+      ],
+      "serie": "COLORFUL BLACK SERIES"
+    },
+    {
+      "ref": "CB-908",
+      "rgb": [
+        56,
+        67,
+        100
+      ],
+      "serie": "COLORFUL BLACK SERIES"
+    },
+    {
+      "ref": "CB-909",
+      "rgb": [
+        82,
+        89,
+        112
+      ],
+      "serie": "COLORFUL BLACK SERIES"
+    },
+    {
+      "ref": "LC-111",
+      "rgb": [
+        249,
+        198,
+        188
+      ],
+      "serie": "LIP GLOSS RED SERIES"
+    },
+    {
+      "ref": "LC-112",
+      "rgb": [
+        241,
+        149,
+        125
+      ],
+      "serie": "LIP GLOSS RED SERIES"
+    },
+    {
+      "ref": "LC-113",
+      "rgb": [
+        233,
+        87,
+        73
+      ],
+      "serie": "LIP GLOSS RED SERIES"
+    },
+    {
+      "ref": "LC-114",
+      "rgb": [
+        218,
+        10,
+        30
+      ],
+      "serie": "LIP GLOSS RED SERIES"
+    },
+    {
+      "ref": "LC-115",
+      "rgb": [
+        243,
+        169,
+        189
+      ],
+      "serie": "LIP GLOSS RED SERIES"
+    },
+    {
+      "ref": "LC-116",
+      "rgb": [
+        237,
+        113,
+        144
+      ],
+      "serie": "LIP GLOSS RED SERIES"
+    },
+    {
+      "ref": "LC-117",
+      "rgb": [
+        217,
+        132,
+        140
+      ],
+      "serie": "LIP GLOSS RED SERIES"
+    },
+    {
+      "ref": "LC-118",
+      "rgb": [
+        215,
+        117,
+        102
+      ],
+      "serie": "LIP GLOSS RED SERIES"
+    },
+    {
+      "ref": "LC-119",
+      "rgb": [
+        184,
+        79,
+        94
+      ],
+      "serie": "LIP GLOSS RED SERIES"
+    },
+    {
+      "ref": "YE-121",
+      "rgb": [
+        253,
+        248,
+        165
+      ],
+      "serie": "WARM YELLOW SERIES"
+    },
+    {
+      "ref": "YE-122",
+      "rgb": [
+        244,
+        238,
+        106
+      ],
+      "serie": "WARM YELLOW SERIES"
+    },
+    {
+      "ref": "YE-123",
+      "rgb": [
+        255,
+        224,
+        36
+      ],
+      "serie": "WARM YELLOW SERIES"
+    },
+    {
+      "ref": "YE-124",
+      "rgb": [
+        251,
+        201,
+        2
+      ],
+      "serie": "WARM YELLOW SERIES"
+    },
+    {
+      "ref": "YE-125",
+      "rgb": [
+        247,
+        176,
+        0
+      ],
+      "serie": "WARM YELLOW SERIES"
+    },
+    {
+      "ref": "YE-126",
+      "rgb": [
+        238,
+        127,
+        37
+      ],
+      "serie": "WARM YELLOW SERIES"
+    },
+    {
+      "ref": "YE-127",
+      "rgb": [
+        212,
+        169,
+        67
+      ],
+      "serie": "WARM YELLOW SERIES"
+    },
+    {
+      "ref": "YE-128",
+      "rgb": [
+        210,
+        187,
+        99
+      ],
+      "serie": "WARM YELLOW SERIES"
+    },
+    {
+      "ref": "YE-129",
+      "rgb": [
+        240,
+        213,
+        113
+      ],
+      "serie": "WARM YELLOW SERIES"
+    },
+    {
+      "ref": "HC-131",
+      "rgb": [
+        131,
+        203,
+        193
+      ],
+      "serie": "2.0 DOPAMINE SERIES"
+    },
+    {
+      "ref": "HC-132",
+      "rgb": [
+        171,
+        208,
+        95
+      ],
+      "serie": "2.0 DOPAMINE SERIES"
+    },
+    {
+      "ref": "HC-133",
+      "rgb": [
+        230,
+        234,
+        114
+      ],
+      "serie": "2.0 DOPAMINE SERIES"
+    },
+    {
+      "ref": "HC-134",
+      "rgb": [
+        251,
+        237,
+        12
+      ],
+      "serie": "2.0 DOPAMINE SERIES"
+    },
+    {
+      "ref": "HC-135",
+      "rgb": [
+        245,
+        162,
+        13
+      ],
+      "serie": "2.0 DOPAMINE SERIES"
+    },
+    {
+      "ref": "HC-136",
+      "rgb": [
+        239,
+        151,
+        190
+      ],
+      "serie": "2.0 DOPAMINE SERIES"
+    },
+    {
+      "ref": "HC-137",
+      "rgb": [
+        198,
+        155,
+        197
+      ],
+      "serie": "2.0 DOPAMINE SERIES"
+    },
+    {
+      "ref": "HC-138",
+      "rgb": [
+        134,
+        208,
+        244
+      ],
+      "serie": "2.0 DOPAMINE SERIES"
+    },
+    {
+      "ref": "HC-139",
+      "rgb": [
+        236,
+        120,
+        160
+      ],
+      "serie": "2.0 DOPAMINE SERIES"
+    },
+    {
+      "ref": "CS-141",
+      "rgb": [
+        255,
+        251,
+        236
+      ],
+      "serie": "2.0 COULOUR OF SKIN SERIES"
+    },
+    {
+      "ref": "CS-142",
+      "rgb": [
+        255,
+        242,
+        212
+      ],
+      "serie": "2.0 COULOUR OF SKIN SERIES"
+    },
+    {
+      "ref": "CS-143",
+      "rgb": [
+        250,
+        207,
+        192
+      ],
+      "serie": "2.0 COULOUR OF SKIN SERIES"
+    },
+    {
+      "ref": "CS-144",
+      "rgb": [
+        250,
+        233,
+        225
+      ],
+      "serie": "2.0 COULOUR OF SKIN SERIES"
+    },
+    {
+      "ref": "CS-145",
+      "rgb": [
+        248,
+        225,
+        183
+      ],
+      "serie": "2.0 COULOUR OF SKIN SERIES"
+    },
+    {
+      "ref": "CS-146",
+      "rgb": [
+        249,
+        208,
+        208
+      ],
+      "serie": "2.0 COULOUR OF SKIN SERIES"
+    },
+    {
+      "ref": "CS-147",
+      "rgb": [
+        237,
+        191,
+        184
+      ],
+      "serie": "2.0 COULOUR OF SKIN SERIES"
+    },
+    {
+      "ref": "CS-148",
+      "rgb": [
+        201,
+        166,
+        158
+      ],
+      "serie": "2.0 COULOUR OF SKIN SERIES"
+    },
+    {
+      "ref": "CS-149",
+      "rgb": [
+        189,
+        132,
+        120
+      ],
+      "serie": "2.0 COULOUR OF SKIN SERIES"
+    }
+  ]
+}
