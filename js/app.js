@@ -71,21 +71,25 @@ const App = (() => {
   // ==================================================
   // Jeux de feutres — chargement / bibliothèque
   // ==================================================
+  const BUNDLED_SETS = ['data/guangna-240.json', 'data/languo-126.json'];
+
   async function ensureDefaultSet() {
-    try {
-      const res = await fetch('data/guangna-240.json');
-      const bundled = await res.json();
-      const existing = DB.getSet(bundled.id);
-      // Met à jour le jeu par défaut si absent ou si une nouvelle version est disponible
-      // (ex : passage du chart digital du fabricant aux couleurs réelles mesurées à
-      // partir d'un nuancier physiquement colorié). Les autres jeux créés par
-      // l'utilisateur ne sont jamais touchés.
-      if (!existing || existing.version !== bundled.version) {
-        DB.saveSet(bundled);
-        if (existing) toast('Base de couleurs GuangNa 240 mise à jour.');
+    for (const path of BUNDLED_SETS) {
+      try {
+        const res = await fetch(path);
+        const bundled = await res.json();
+        const existing = DB.getSet(bundled.id);
+        // Met à jour un jeu intégré si absent ou si une nouvelle version est disponible
+        // (ex : passage du chart digital du fabricant aux couleurs réelles mesurées à
+        // partir d'un nuancier physiquement colorié). Les jeux créés par
+        // l'utilisateur ne sont jamais touchés.
+        if (!existing || existing.version !== bundled.version) {
+          DB.saveSet(bundled);
+          if (existing) toast(`Jeu "${bundled.nom}" mis à jour.`);
+        }
+      } catch (e) {
+        console.error('Impossible de charger/mettre à jour', path, e);
       }
-    } catch (e) {
-      console.error('Impossible de charger/mettre à jour le jeu par défaut', e);
     }
     if (!DB.getActiveSetId()) {
       const sets = DB.getSets();

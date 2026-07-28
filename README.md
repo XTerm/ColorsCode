@@ -69,6 +69,13 @@ sur un serveur.
 
 ## Historique des versions
 
+- **v1.11** : le jeu "Languo 126 Couleurs" est désormais intégré à l'app au
+  même titre que GuangNa 240 — disponible automatiquement au premier
+  lancement après mise à jour, sans avoir à l'importer manuellement en
+  JSON. Le mécanisme de jeux "intégrés" est généralisé pour en supporter
+  plusieurs (`BUNDLED_SETS` dans `app.js`), chacun avec sa propre gestion
+  de version pour les mises à jour futures.
+
 - **v1.10** : deux corrections importantes sur l'étalonnage. (1) L'image
   affichée dans le scanner est désormais réellement recolorée en direct
   quand on bouge les curseurs Luminosité/Température (avant, seuls les

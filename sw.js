@@ -3,7 +3,7 @@
  * Stratégie : cache-first pour les fichiers de l'app, avec repli réseau.
  */
 
-const CACHE_NAME = 'colorscode-v11'; // incrémenté : aperçu visuel réel de la correction + échantillonnage robuste au chiffre
+const CACHE_NAME = 'colorscode-v12'; // incrémenté : jeu Languo 126 intégré à l'app (disponible sans import manuel)
 const APP_SHELL = [
   './',
   './index.html',
@@ -13,6 +13,7 @@ const APP_SHELL = [
   './js/db.js',
   './js/app.js',
   './data/guangna-240.json',
+  './data/languo-126.json',
   './icons/icon-192.png',
   './icons/icon-512.png'
 ];
