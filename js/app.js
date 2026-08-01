@@ -955,6 +955,34 @@ const App = (() => {
     return comps;
   }
 
+  /** Fusionne les blobs de chiffres adjacents (même hauteur, faible écart horizontal)
+   *  pour reconstituer les nombres à 2 chiffres (10, 11, 14...) avant OCR. */
+  function mergeDigitBlobs(comps) {
+    const sorted = comps.slice().sort((a, b) => a.cy - b.cy || a.cx - b.cx);
+    const used = new Array(sorted.length).fill(false);
+    const merged = [];
+    for (let i = 0; i < sorted.length; i++) {
+      if (used[i]) continue;
+      const group = [sorted[i]];
+      used[i] = true;
+      let lastX1 = sorted[i].maxX;
+      for (let j = i + 1; j < sorted.length; j++) {
+        if (used[j]) continue;
+        const o = sorted[j];
+        const gap = o.minX - lastX1;
+        if (Math.abs(o.cy - sorted[i].cy) < sorted[i].bh * 0.5 && gap > -3 && gap < sorted[i].bw * 0.9) {
+          group.push(o); used[j] = true; lastX1 = o.maxX;
+        }
+      }
+      const minX = Math.min(...group.map(g => g.minX));
+      const maxX = Math.max(...group.map(g => g.maxX));
+      const minY = Math.min(...group.map(g => g.minY));
+      const maxY = Math.max(...group.map(g => g.maxY));
+      merged.push({ minX, minY, maxX, maxY, cx: (minX+maxX)/2, cy: (minY+maxY)/2, bw: maxX-minX+1, bh: maxY-minY+1, n: group.length });
+    }
+    return merged;
+  }
+
   function zoneAt(seg, cx, cy) {
     const x = Math.round(cx), y = Math.round(cy);
     if (x<0||x>=seg.w||y<0||y>=seg.h) return null;
@@ -1020,7 +1048,7 @@ const App = (() => {
       seg = segmentZones(imgData);
       setFullcolorProgress('Détection des numéros…', 0.15);
       await nextFrame();
-      digitBlobs = detectDigitBlobs(imgData);
+      digitBlobs = mergeDigitBlobs(detectDigitBlobs(imgData));
     } catch (e) {
       fullcolorProgress.hidden = true;
       alert('Erreur pendant l’analyse : ' + (e && e.message ? e.message : e));
@@ -1038,7 +1066,7 @@ const App = (() => {
     try {
       const Tesseract = await loadTesseract();
       worker = await Tesseract.createWorker('eng');
-      await worker.setParameters({ tessedit_char_whitelist: '0123456789', tessedit_pageseg_mode: '10' });
+      await worker.setParameters({ tessedit_char_whitelist: '0123456789', tessedit_pageseg_mode: '7' });
     } catch (e) {
       fullcolorProgress.hidden = true;
       alert('Moteur OCR indisponible : ' + (e && e.message ? e.message : e) + '\n(connexion internet requise au premier usage)');

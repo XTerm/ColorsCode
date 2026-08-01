@@ -3,7 +3,7 @@
  * Stratégie : cache-first pour les fichiers de l'app, avec repli réseau.
  */
 
-const CACHE_NAME = 'colorscode-v24'; // incrémenté : coloriage automatique expérimental d'une page complète (OCR + segmentation)
+const CACHE_NAME = 'colorscode-v25'; // incrémenté : fusion des chiffres adjacents (nombres à 2 chiffres 10/11/14) + OCR multi-caractères
 const APP_SHELL = [
   './',
   './index.html',
