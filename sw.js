@@ -3,7 +3,7 @@
  * Stratégie : cache-first pour les fichiers de l'app, avec repli réseau.
  */
 
-const CACHE_NAME = 'colorscode-v22'; // incrémenté : filtre anti-numéro de page, OCR désactivé par défaut (peu fiable), conseil de cadrage
+const CACHE_NAME = 'colorscode-v23'; // incrémenté : échantillonnage par moyenne + rejet d'aberrants (gère la trame d'impression et le chiffre imprimé)
 const APP_SHELL = [
   './',
   './index.html',

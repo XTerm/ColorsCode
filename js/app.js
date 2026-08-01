@@ -835,39 +835,49 @@ const App = (() => {
   }
 
   function sampleColor(x, y) {
-    // Moyenne sur une petite zone pour limiter le bruit / compression JPEG,
-    // en excluant les pixels quasi blancs ou quasi noirs (contour et chiffre
-    // imprimés au centre de la pastille) pour ne garder que le vrai remplissage.
-    const radius = 7;
+    // La médiane seule ne suffit pas : sur une trame d'impression résolue par
+    // la photo (deux tons qui alternent pixel à pixel), la médiane retombe
+    // sur l'un des deux tons au lieu de leur mélange perçu. On calcule donc
+    // une médiane robuste d'abord (pour situer le "centre"), on écarte les
+    // pixels trop éloignés (le chiffre imprimé, très contrasté), puis on
+    // prend la VRAIE MOYENNE du reste — qui moyenne correctement la trame
+    // tout en excluant le chiffre, sans avoir besoin de le détecter par OCR.
+    const radius = 9;
     const x0 = Math.max(0, x - radius), y0 = Math.max(0, y - radius);
     const w = Math.min(originalImageData.width - x0, radius * 2);
     const h = Math.min(originalImageData.height - y0, radius * 2);
     const data = getOriginalPixels(x0, y0, w, h);
 
-    const kept = [];
+    const pixels = [];
     for (let i = 0; i < data.length; i += 4) {
-      const r = data[i], g = data[i + 1], b = data[i + 2];
-      const isExtreme = (r > 235 && g > 235 && b > 235) || (r < 40 && g < 40 && b < 40);
-      if (!isExtreme) kept.push([r, g, b]);
+      pixels.push([data[i], data[i + 1], data[i + 2]]);
     }
-    const pool = kept.length >= 6 ? kept : (() => {
-      // repli : si presque tout a été exclu (pastille très claire ou très
-      // sombre), on revient à l'ensemble complet plutôt que de renvoyer du bruit
-      const all = [];
-      for (let i = 0; i < data.length; i += 4) all.push([data[i], data[i+1], data[i+2]]);
-      return all;
-    })();
+    if (pixels.length === 0) return [128, 128, 128];
 
-    // Médiane par canal : robuste face à une minorité de pixels aberrants
     const median = arr => {
-      const s = arr.slice().sort((a,b)=>a-b);
-      return s[Math.floor(s.length/2)];
+      const s = arr.slice().sort((a, b) => a - b);
+      return s[Math.floor(s.length / 2)];
     };
-    return [
-      median(pool.map(p=>p[0])),
-      median(pool.map(p=>p[1])),
-      median(pool.map(p=>p[2]))
+    const centerEstimate = [
+      median(pixels.map(p => p[0])),
+      median(pixels.map(p => p[1])),
+      median(pixels.map(p => p[2]))
     ];
+
+    const dist = p => Math.sqrt(
+      (p[0] - centerEstimate[0]) ** 2 +
+      (p[1] - centerEstimate[1]) ** 2 +
+      (p[2] - centerEstimate[2]) ** 2
+    );
+    const distances = pixels.map(dist).sort((a, b) => a - b);
+    const threshold = distances[Math.floor(distances.length * 0.85)]; // garde les 85% les plus proches
+
+    const inliers = pixels.filter(p => dist(p) <= threshold);
+    const pool = inliers.length >= 6 ? inliers : pixels; // repli si presque tout exclu
+
+    const avg = [0, 0, 0];
+    pool.forEach(p => { avg[0] += p[0]; avg[1] += p[1]; avg[2] += p[2]; });
+    return avg.map(v => Math.round(v / pool.length));
   }
 
   function getOriginalPixels(x0, y0, w, h) {
