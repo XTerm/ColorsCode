@@ -1074,16 +1074,23 @@ const App = (() => {
     }
 
     const zoneColor = {};
-    let done = 0, success = 0;
+    let done = 0, success = 0, rejected = 0;
     for (const zid of zoneIds) {
       const b = zoneDigit[zid];
       try {
         const crop = cropDigitCanvas(fullcolorCanvas, b);
         const { data } = await worker.recognize(crop);
         const text = (data.text || '').trim().replace(/[^0-9]/g, '');
-        if (text && numeroToColor[text]) {
+        // Les nombres à 2 chiffres (10, 11, 14...) restent plus fragiles même
+        // fusionnés : on exige une confiance nettement plus élevée pour eux,
+        // quitte à laisser la zone blanche plutôt que risquer une couleur
+        // fausse — une zone vide se voit, une couleur fausse ne se voit pas.
+        const minConfidence = text.length >= 2 ? 70 : 45;
+        if (text && numeroToColor[text] && data.confidence >= minConfidence) {
           zoneColor[zid] = numeroToColor[text];
           success++;
+        } else if (text) {
+          rejected++;
         }
       } catch (e) { /* zone laissée non-coloriée */ }
       done++;
@@ -1112,7 +1119,7 @@ const App = (() => {
 
     fullcolorProgress.hidden = true;
     fullcolorCanvasWrap.hidden = false;
-    fullcolorSummary.textContent = `${success} zone(s) coloriée(s) automatiquement sur ${zoneIds.length} numéro(s) détecté(s) (${digitBlobs.length} candidats analysés). Le reste est laissé tel quel — à compléter à la main.`;
+    fullcolorSummary.textContent = `${success} zone(s) coloriée(s) automatiquement sur ${zoneIds.length} numéro(s) détecté(s) (${digitBlobs.length} candidats analysés, ${rejected} rejeté(s) par manque de confiance). Le reste est laissé tel quel — à compléter à la main.`;
   }
 
   function sampleColor(x, y) {
