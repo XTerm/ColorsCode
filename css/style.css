@@ -299,6 +299,29 @@ button:disabled { opacity: 0.45; cursor: default; }
 }
 .ocr-toggle input { margin-top: 2px; flex-shrink: 0; }
 
+.fullcolor-progress {
+  margin-top: 10px;
+  padding: 12px 14px;
+  background: var(--surface);
+  border-radius: 10px;
+  font-size: 0.85rem;
+  color: var(--ink-muted);
+}
+.fullcolor-progress .bar {
+  height: 6px;
+  background: var(--hairline);
+  border-radius: 4px;
+  margin-top: 8px;
+  overflow: hidden;
+}
+.fullcolor-progress .bar-fill {
+  height: 100%;
+  background: var(--accent);
+  transition: width .2s ease;
+}
+#fullcolor-canvas-wrap { margin-top: 12px; }
+#fullcolor-canvas { display: block; max-width: 100%; }
+
 /* ---------- Résultats ---------- */
 .results-header {
   display: flex;

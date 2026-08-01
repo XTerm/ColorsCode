@@ -86,6 +86,20 @@
       <div id="results-list"></div>
     </section>
 
+    <section id="fullcolor-section" hidden>
+      <div class="results-header">
+        <h2>🎨 Aperçu colorié (scan complet, expérimental)</h2>
+      </div>
+      <p class="hint">Nécessite d'avoir déjà scanné la légende ci-dessus (numéro → feutre connu). Fonctionne mieux sur un <strong>scan</strong> (imprimante/scanner à plat) que sur une photo — chiffres plus nets. Peut prendre plusieurs minutes sur une page complexe.</p>
+      <button id="btn-fullcolor" class="btn-secondary">📄 Choisir le scan complet à colorier</button>
+      <input type="file" id="fullcolor-file-input" accept="image/*" hidden>
+      <div id="fullcolor-progress" class="fullcolor-progress" hidden></div>
+      <div id="fullcolor-canvas-wrap" hidden>
+        <div class="canvas-scroll"><canvas id="fullcolor-canvas"></canvas></div>
+        <p id="fullcolor-summary" class="hint"></p>
+      </div>
+    </section>
+
   </section>
 
   <!-- ============ VUE FEUTRES ============ -->

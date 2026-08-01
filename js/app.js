@@ -35,6 +35,13 @@ const App = (() => {
   const canvasWrap = $('#canvas-wrap');
   const resultsList = $('#results-list');
   const resultsSection = $('#results-section');
+  const fullcolorSection = $('#fullcolor-section');
+  const btnFullcolor = $('#btn-fullcolor');
+  const fullcolorFileInput = $('#fullcolor-file-input');
+  const fullcolorProgress = $('#fullcolor-progress');
+  const fullcolorCanvasWrap = $('#fullcolor-canvas-wrap');
+  const fullcolorCanvas = $('#fullcolor-canvas');
+  const fullcolorSummary = $('#fullcolor-summary');
   const setSelect = $('#active-set-select');
   const setWarning = $('#set-warning');
   const btnUndo = $('#btn-undo');
@@ -356,6 +363,7 @@ const App = (() => {
         emptyState.hidden = true;
         canvasWrap.hidden = false;
         resultsSection.hidden = false;
+        fullcolorSection.hidden = false;
         renderCanvas();
       };
       img.src = ev.target.result;
@@ -832,6 +840,251 @@ const App = (() => {
     }
     await worker.terminate();
     return successCount;
+  }
+
+  // ==================================================
+  // Coloriage automatique d'une page complète (expérimental)
+  // ==================================================
+  btnFullcolor.addEventListener('click', () => fullcolorFileInput.click());
+  fullcolorFileInput.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (file) processFullColorPage(file);
+    e.target.value = '';
+  });
+
+  function nextFrame() {
+    return new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
+  }
+  function setFullcolorProgress(text, frac) {
+    fullcolorProgress.hidden = false;
+    fullcolorProgress.innerHTML = `<div>${escapeHtml(text)}</div><div class="bar"><div class="bar-fill" style="width:${Math.round(frac*100)}%"></div></div>`;
+  }
+  function loadImageFromFile(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = e => {
+        const img = new Image();
+        img.onload = () => resolve(img);
+        img.onerror = reject;
+        img.src = e.target.result;
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  function dilateBinary(mask, w, h, iterations) {
+    let cur = mask;
+    for (let it = 0; it < iterations; it++) {
+      const next = new Uint8Array(cur.length);
+      for (let y = 0; y < h; y++) {
+        for (let x = 0; x < w; x++) {
+          const idx = y * w + x;
+          if (cur[idx]) { next[idx] = 1; continue; }
+          if ((x > 0 && cur[idx-1]) || (x < w-1 && cur[idx+1]) ||
+              (y > 0 && cur[idx-w]) || (y < h-1 && cur[idx+w])) next[idx] = 1;
+        }
+      }
+      cur = next;
+    }
+    return cur;
+  }
+
+  /** Segmente les zones fermées de l'illustration (fond entre les traits, dilatés pour combler les micro-coupures). */
+  function segmentZones(imgData) {
+    const w = imgData.width, h = imgData.height, data = imgData.data, n = w * h;
+    const ink = new Uint8Array(n);
+    for (let i = 0, p = 0; i < data.length; i += 4, p++) {
+      ink[p] = (data[i] + data[i+1] + data[i+2]) / 3 < 200 ? 1 : 0;
+    }
+    const dilated = dilateBinary(ink, w, h, 2);
+    const background = new Uint8Array(n);
+    for (let i = 0; i < n; i++) background[i] = dilated[i] ? 0 : 1;
+
+    const labels = new Int32Array(n);
+    const stack = new Int32Array(n);
+    let nextLabel = 1;
+    const areas = {};
+    for (let start = 0; start < n; start++) {
+      if (background[start] !== 1 || labels[start] !== 0) continue;
+      let sp = 0; stack[sp++] = start; labels[start] = nextLabel;
+      let area = 0;
+      while (sp > 0) {
+        const idx = stack[--sp]; const x = idx % w, y = (idx / w) | 0; area++;
+        if (x > 0)   { const nb = idx-1; if (background[nb]===1 && labels[nb]===0) { labels[nb]=nextLabel; stack[sp++]=nb; } }
+        if (x < w-1) { const nb = idx+1; if (background[nb]===1 && labels[nb]===0) { labels[nb]=nextLabel; stack[sp++]=nb; } }
+        if (y > 0)   { const nb = idx-w; if (background[nb]===1 && labels[nb]===0) { labels[nb]=nextLabel; stack[sp++]=nb; } }
+        if (y < h-1) { const nb = idx+w; if (background[nb]===1 && labels[nb]===0) { labels[nb]=nextLabel; stack[sp++]=nb; } }
+      }
+      areas[nextLabel] = area;
+      nextLabel++;
+    }
+    return { labels, w, h, areas, n };
+  }
+
+  /** Repère les petits blocs compacts (chiffres) dans le masque d'encre non dilaté. */
+  function detectDigitBlobs(imgData) {
+    const w = imgData.width, h = imgData.height, data = imgData.data, n = w * h;
+    const inkLoose = new Uint8Array(n);
+    for (let i = 0, p = 0; i < data.length; i += 4, p++) {
+      inkLoose[p] = (data[i] + data[i+1] + data[i+2]) / 3 < 235 ? 1 : 0;
+    }
+    const dilated = dilateBinary(inkLoose, w, h, 1);
+    const labels = new Int32Array(n);
+    const stack = new Int32Array(n);
+    let nextLabel = 1;
+    const comps = [];
+    for (let start = 0; start < n; start++) {
+      if (dilated[start] !== 1 || labels[start] !== 0) continue;
+      let sp = 0; stack[sp++] = start; labels[start] = nextLabel;
+      let minX=w, minY=h, maxX=0, maxY=0, area=0;
+      while (sp > 0) {
+        const idx = stack[--sp]; const x = idx % w, y = (idx / w) | 0; area++;
+        if (x<minX) minX=x; if (x>maxX) maxX=x; if (y<minY) minY=y; if (y>maxY) maxY=y;
+        if (x > 0)   { const nb = idx-1; if (dilated[nb]===1 && labels[nb]===0) { labels[nb]=nextLabel; stack[sp++]=nb; } }
+        if (x < w-1) { const nb = idx+1; if (dilated[nb]===1 && labels[nb]===0) { labels[nb]=nextLabel; stack[sp++]=nb; } }
+        if (y > 0)   { const nb = idx-w; if (dilated[nb]===1 && labels[nb]===0) { labels[nb]=nextLabel; stack[sp++]=nb; } }
+        if (y < h-1) { const nb = idx+w; if (dilated[nb]===1 && labels[nb]===0) { labels[nb]=nextLabel; stack[sp++]=nb; } }
+      }
+      const bw = maxX-minX+1, bh = maxY-minY+1;
+      if (bh>=8 && bh<=45 && bw>=5 && bw<=40 && area>=15 && area/(bw*bh)>0.18) {
+        comps.push({ minX, minY, maxX, maxY, cx:(minX+maxX)/2, cy:(minY+maxY)/2, bw, bh });
+      }
+      nextLabel++;
+    }
+    return comps;
+  }
+
+  function zoneAt(seg, cx, cy) {
+    const x = Math.round(cx), y = Math.round(cy);
+    if (x<0||x>=seg.w||y<0||y>=seg.h) return null;
+    const direct = seg.labels[y*seg.w+x];
+    if (direct) return direct;
+    for (let r = 1; r <= 6; r++) {
+      for (let dy = -r; dy <= r; dy++) {
+        for (let dx = -r; dx <= r; dx++) {
+          const xx = x+dx, yy = y+dy;
+          if (xx<0||xx>=seg.w||yy<0||yy>=seg.h) continue;
+          const id = seg.labels[yy*seg.w+xx];
+          if (id) return id;
+        }
+      }
+    }
+    return null;
+  }
+
+  function cropDigitCanvas(sourceCanvas, b) {
+    const pad = 4, scale = 5;
+    const bw = (b.maxX-b.minX+1) + pad*2, bh = (b.maxY-b.minY+1) + pad*2;
+    const out = document.createElement('canvas');
+    out.width = Math.max(1, bw*scale); out.height = Math.max(1, bh*scale);
+    const octx = out.getContext('2d');
+    octx.imageSmoothingEnabled = true;
+    octx.drawImage(sourceCanvas, Math.max(0,b.minX-pad), Math.max(0,b.minY-pad), bw, bh, 0, 0, out.width, out.height);
+    return out;
+  }
+
+  async function processFullColorPage(file) {
+    if (currentPoints.length === 0) {
+      alert('Scanne d’abord la légende ci-dessus : il faut connaître la correspondance numéro → feutre avant de colorier une page.');
+      return;
+    }
+    const numeroToColor = {};
+    currentPoints.forEach(p => { numeroToColor[p.numero] = p.match.feutre.rgb; });
+
+    fullcolorCanvasWrap.hidden = true;
+    setFullcolorProgress('Chargement de l’image…', 0);
+    await nextFrame();
+
+    let img;
+    try {
+      img = await loadImageFromFile(file);
+    } catch (e) {
+      fullcolorProgress.hidden = true;
+      alert('Impossible de charger cette image.');
+      return;
+    }
+
+    const maxW = 1600; // résolution plus fine que le scanner de légende : les chiffres sont petits
+    const scale = Math.min(1, maxW / img.width);
+    const w = Math.round(img.width * scale), h = Math.round(img.height * scale);
+    fullcolorCanvas.width = w; fullcolorCanvas.height = h;
+    const fctx = fullcolorCanvas.getContext('2d', { willReadFrequently: true });
+    fctx.drawImage(img, 0, 0, w, h);
+    const imgData = fctx.getImageData(0, 0, w, h);
+
+    setFullcolorProgress('Segmentation des zones du dessin…', 0.05);
+    await nextFrame();
+    let seg, digitBlobs;
+    try {
+      seg = segmentZones(imgData);
+      setFullcolorProgress('Détection des numéros…', 0.15);
+      await nextFrame();
+      digitBlobs = detectDigitBlobs(imgData);
+    } catch (e) {
+      fullcolorProgress.hidden = true;
+      alert('Erreur pendant l’analyse : ' + (e && e.message ? e.message : e));
+      return;
+    }
+
+    const zoneDigit = {};
+    digitBlobs.forEach(b => {
+      const zid = zoneAt(seg, b.cx, b.cy);
+      if (zid && !zoneDigit[zid]) zoneDigit[zid] = b; // un seul chiffre attendu par zone
+    });
+    const zoneIds = Object.keys(zoneDigit);
+
+    let worker;
+    try {
+      const Tesseract = await loadTesseract();
+      worker = await Tesseract.createWorker('eng');
+      await worker.setParameters({ tessedit_char_whitelist: '0123456789', tessedit_pageseg_mode: '10' });
+    } catch (e) {
+      fullcolorProgress.hidden = true;
+      alert('Moteur OCR indisponible : ' + (e && e.message ? e.message : e) + '\n(connexion internet requise au premier usage)');
+      return;
+    }
+
+    const zoneColor = {};
+    let done = 0, success = 0;
+    for (const zid of zoneIds) {
+      const b = zoneDigit[zid];
+      try {
+        const crop = cropDigitCanvas(fullcolorCanvas, b);
+        const { data } = await worker.recognize(crop);
+        const text = (data.text || '').trim().replace(/[^0-9]/g, '');
+        if (text && numeroToColor[text]) {
+          zoneColor[zid] = numeroToColor[text];
+          success++;
+        }
+      } catch (e) { /* zone laissée non-coloriée */ }
+      done++;
+      if (done % 5 === 0 || done === zoneIds.length) {
+        setFullcolorProgress(`Lecture des numéros… ${done}/${zoneIds.length} (${success} reconnus)`, 0.15 + 0.75*(done/zoneIds.length));
+        await nextFrame();
+      }
+    }
+    await worker.terminate();
+
+    setFullcolorProgress('Coloriage…', 0.95);
+    await nextFrame();
+    const out = fctx.createImageData(w, h);
+    const src = imgData.data, dst = out.data;
+    for (let p = 0; p < seg.n; p++) {
+      const i = p * 4;
+      const zid = seg.labels[p];
+      const color = zid ? zoneColor[zid] : null;
+      if (color) {
+        dst[i]=color[0]; dst[i+1]=color[1]; dst[i+2]=color[2]; dst[i+3]=255;
+      } else {
+        dst[i]=src[i]; dst[i+1]=src[i+1]; dst[i+2]=src[i+2]; dst[i+3]=255;
+      }
+    }
+    fctx.putImageData(out, 0, 0);
+
+    fullcolorProgress.hidden = true;
+    fullcolorCanvasWrap.hidden = false;
+    fullcolorSummary.textContent = `${success} zone(s) coloriée(s) automatiquement sur ${zoneIds.length} numéro(s) détecté(s) (${digitBlobs.length} candidats analysés). Le reste est laissé tel quel — à compléter à la main.`;
   }
 
   function sampleColor(x, y) {
