@@ -1089,12 +1089,25 @@ const App = (() => {
       try {
         const crop = cropDigitCanvas(fullcolorCanvas, b);
         const { data } = await worker.recognize(crop);
-        const text = (data.text || '').trim().replace(/[^0-9]/g, '');
+        let text = (data.text || '').trim().replace(/[^0-9]/g, '');
+        let remapped44to11 = false;
+        // Confusion récurrente et spécifique constatée à l'usage : deux "1"
+        // fusionnés se lisent souvent "44". Les légendes de coloriages
+        // mystères ne dépassent quasiment jamais 10-12 (elles passent ensuite
+        // à des lettres), donc "44" n'est en pratique jamais un vrai code —
+        // on ne corrige que si "44" n'existe pas dans la légende mais "11" oui,
+        // pour ne jamais écraser un vrai code 44 si un livre en avait un jour un.
+        if (text === '44' && !numeroToColor['44'] && numeroToColor['11']) {
+          text = '11';
+          remapped44to11 = true;
+        }
         // Les nombres à 2 chiffres (10, 11, 14...) restent plus fragiles même
         // fusionnés : on exige une confiance nettement plus élevée pour eux,
         // quitte à laisser la zone blanche plutôt que risquer une couleur
         // fausse — une zone vide se voit, une couleur fausse ne se voit pas.
-        const minConfidence = text.length >= 2 ? 70 : 45;
+        // Exception : "44"->"11" repose sur une règle fiable, pas sur la
+        // confiance OCR brute du "44" lu (souvent basse) — seuil allégé.
+        const minConfidence = remapped44to11 ? 30 : (text.length >= 2 ? 70 : 45);
         if (text && numeroToColor[text] && data.confidence >= minConfidence) {
           zoneColor[zid] = numeroToColor[text];
           success++;

@@ -3,7 +3,7 @@
  * Stratégie : cache-first pour les fichiers de l'app, avec repli réseau.
  */
 
-const CACHE_NAME = 'colorscode-v27'; // incrémenté : recalcul au changement de jeu actif + recoloriage manuel des zones du coloriage complet
+const CACHE_NAME = 'colorscode-v28'; // incrémenté : correction ciblée de la confusion OCR "44" -> "11" (coloriage automatique)
 const APP_SHELL = [
   './',
   './index.html',
