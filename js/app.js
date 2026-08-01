@@ -42,6 +42,7 @@ const App = (() => {
   const fullcolorCanvasWrap = $('#fullcolor-canvas-wrap');
   const fullcolorCanvas = $('#fullcolor-canvas');
   const fullcolorSummary = $('#fullcolor-summary');
+  let fullcolorSeg = null, fullcolorImgData = null, fullcolorZoneColor = null, pendingRecolorZoneId = null;
   const setSelect = $('#active-set-select');
   const setWarning = $('#set-warning');
   const btnUndo = $('#btn-undo');
@@ -127,6 +128,14 @@ const App = (() => {
 
   setSelect.addEventListener('change', () => {
     DB.setActiveSetId(setSelect.value);
+    // Sans ça, changer de jeu après avoir déjà pointé des pastilles laissait
+    // les résultats affichés sur l'ancien jeu — recalcul immédiat nécessaire.
+    if (currentPoints.length) {
+      recomputeAllMatches();
+      renderCanvas();
+      renderResults();
+      toast('Correspondances recalculées avec le nouveau jeu.');
+    }
   });
 
   function renderSets() {
@@ -1103,7 +1112,23 @@ const App = (() => {
 
     setFullcolorProgress('Coloriage…', 0.95);
     await nextFrame();
-    const out = fctx.createImageData(w, h);
+
+    fullcolorImgData = imgData;
+    fullcolorSeg = seg;
+    fullcolorZoneColor = zoneColor;
+    renderFullcolorResult();
+
+    fullcolorProgress.hidden = true;
+    fullcolorCanvasWrap.hidden = false;
+    fullcolorSummary.textContent = `${success} zone(s) coloriée(s) automatiquement sur ${zoneIds.length} numéro(s) détecté(s) (${digitBlobs.length} candidats analysés, ${rejected} rejeté(s) par manque de confiance). Le reste est laissé tel quel — à compléter à la main, ou touche une zone déjà coloriée pour tester une autre couleur.`;
+  }
+
+  /** Redessine le canvas du coloriage complet à partir de l'état courant
+   *  (appelé après l'analyse initiale, et après chaque recoloriage manuel). */
+  function renderFullcolorResult() {
+    const fctx = fullcolorCanvas.getContext('2d', { willReadFrequently: true });
+    const seg = fullcolorSeg, imgData = fullcolorImgData, zoneColor = fullcolorZoneColor;
+    const out = fctx.createImageData(seg.w, seg.h);
     const src = imgData.data, dst = out.data;
     for (let p = 0; p < seg.n; p++) {
       const i = p * 4;
@@ -1116,11 +1141,68 @@ const App = (() => {
       }
     }
     fctx.putImageData(out, 0, 0);
-
-    fullcolorProgress.hidden = true;
-    fullcolorCanvasWrap.hidden = false;
-    fullcolorSummary.textContent = `${success} zone(s) coloriée(s) automatiquement sur ${zoneIds.length} numéro(s) détecté(s) (${digitBlobs.length} candidats analysés, ${rejected} rejeté(s) par manque de confiance). Le reste est laissé tel quel — à compléter à la main.`;
   }
+
+  /** Tap sur une zone déjà rendue : proposer de la recolorier avec une
+   *  couleur du jeu actif, pour évaluer si elle convient mieux. */
+  fullcolorCanvas.addEventListener('click', (e) => {
+    if (!fullcolorSeg) return;
+    const rect = fullcolorCanvas.getBoundingClientRect();
+    const x = Math.round((e.clientX - rect.left) * (fullcolorCanvas.width / rect.width));
+    const y = Math.round((e.clientY - rect.top) * (fullcolorCanvas.height / rect.height));
+    if (x < 0 || y < 0 || x >= fullcolorSeg.w || y >= fullcolorSeg.h) return;
+    const zid = fullcolorSeg.labels[y * fullcolorSeg.w + x];
+    if (!zid) return; // tap sur un trait, pas une zone
+    openZoneRecolorDialog(zid);
+  });
+
+  function openZoneRecolorDialog(zid) {
+    const activeSet = DB.getSet(DB.getActiveSetId());
+    if (!activeSet) return;
+    pendingRecolorZoneId = zid;
+    $('#recolor-search').value = '';
+    renderRecolorGrid(activeSet, '');
+    $('#zone-recolor-dialog').showModal();
+  }
+
+  function renderRecolorGrid(set, term) {
+    const grid = $('#recolor-grid');
+    grid.innerHTML = '';
+    const filtered = term ? set.feutres.filter(f => f.ref.toLowerCase().includes(term.toLowerCase())) : set.feutres;
+    filtered.forEach(f => {
+      const chip = document.createElement('button');
+      chip.className = 'recolor-chip';
+      chip.innerHTML = `<span class="hex-chip small" style="background:${ColorMath.rgbToHex(f.rgb)}"></span><span class="mono tiny">${escapeHtml(f.ref)}</span>`;
+      chip.addEventListener('click', () => {
+        if (pendingRecolorZoneId != null) {
+          fullcolorZoneColor[pendingRecolorZoneId] = f.rgb;
+          renderFullcolorResult();
+          vibrate();
+        }
+        $('#zone-recolor-dialog').close();
+      });
+      grid.appendChild(chip);
+    });
+    if (filtered.length === 0) {
+      grid.innerHTML = '<p class="muted small">Aucun résultat.</p>';
+    }
+  }
+
+  $('#recolor-search').addEventListener('input', () => {
+    const activeSet = DB.getSet(DB.getActiveSetId());
+    if (activeSet) renderRecolorGrid(activeSet, $('#recolor-search').value.trim());
+  });
+
+  $('#recolor-clear-zone').addEventListener('click', () => {
+    if (pendingRecolorZoneId != null) {
+      delete fullcolorZoneColor[pendingRecolorZoneId];
+      renderFullcolorResult();
+      vibrate();
+    }
+    $('#zone-recolor-dialog').close();
+  });
+
+  $('#recolor-close').addEventListener('click', () => $('#zone-recolor-dialog').close());
 
   function sampleColor(x, y) {
     // La médiane seule ne suffit pas : sur une trame d'impression résolue par

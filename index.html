@@ -175,6 +175,17 @@
   </div>
 </dialog>
 
+<!-- Recoloriage manuel d'une zone du coloriage complet -->
+<dialog id="zone-recolor-dialog">
+  <h2>Recolorier cette zone</h2>
+  <input type="text" id="recolor-search" class="editor-search" placeholder="🔍 Rechercher un code…">
+  <div id="recolor-grid" class="recolor-grid"></div>
+  <div class="dialog-actions">
+    <button id="recolor-clear-zone" class="btn-ghost danger-text">Vider cette zone</button>
+    <button id="recolor-close" class="btn-secondary">Fermer</button>
+  </div>
+</dialog>
+
 <div id="toast" class="toast"></div>
 
 <script src="js/colorMath.js"></script>

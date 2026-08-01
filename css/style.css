@@ -320,7 +320,38 @@ button:disabled { opacity: 0.45; cursor: default; }
   transition: width .2s ease;
 }
 #fullcolor-canvas-wrap { margin-top: 12px; }
-#fullcolor-canvas { display: block; max-width: 100%; }
+#fullcolor-canvas { display: block; max-width: 100%; cursor: pointer; }
+
+dialog#zone-recolor-dialog {
+  border: none;
+  border-radius: var(--radius);
+  padding: 18px;
+  width: min(92vw, 480px);
+  max-height: 80vh;
+  overflow-y: auto;
+  font-family: var(--font-body);
+}
+.recolor-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(64px, 1fr));
+  gap: 8px;
+  max-height: 340px;
+  overflow-y: auto;
+  margin: 10px 0 4px;
+}
+.recolor-chip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: 10px;
+  padding: 8px 4px;
+  cursor: pointer;
+}
+.recolor-chip:active { transform: scale(0.95); }
+.recolor-chip .tiny { font-size: 0.68rem; }
 
 /* ---------- Résultats ---------- */
 .results-header {
